@@ -45,6 +45,12 @@ public class Screen2Controller {
     private Text tfMinimumTemp;
 
     @FXML
+    private Text tfSunriseTime;
+
+    @FXML
+    private Text tfSunsetTime;
+
+    @FXML
     private Label tfcityname;
 
     @FXML
@@ -60,5 +66,4 @@ public class Screen2Controller {
         tfcityname.setText(cityName);
         // You can perform other initialization tasks with the city name here
     }
-
 }
