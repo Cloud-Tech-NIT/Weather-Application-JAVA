@@ -1,0 +1,4 @@
+This Folder will include all the Database/Data handling related Files/modules of SQL as well as JDBC connections and File handling.
+
+"//WeatherApp/Src/DatabaseStorage/DataHandlingInterface.java" includes the Main Interface having the functions common to all (The SQL and FileHandling)
+

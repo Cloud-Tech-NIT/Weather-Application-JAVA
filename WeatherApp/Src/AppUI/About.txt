@@ -1,0 +1,3 @@
+This Folder will have all the UI packages. In order to make sure we implement the SOLID principles there will be one main Java Interface and the terminal UI and Desktop UI will implement the Java interface functions.
+
+You can use any other modular approach of decomposing the files in a different way but try to make sure it follows the principles.
