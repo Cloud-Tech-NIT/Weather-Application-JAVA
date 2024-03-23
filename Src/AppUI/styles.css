@@ -1,0 +1,27 @@
+.anchor-pane {
+    -fx-background-image: url('bg2.jpg');
+    background-image: url('bg2.jpg'); /* Standard property for compatibility */
+    -fx-background-size: cover;
+    background-size: cover; /* Standard property for compatibility */
+    -fx-background-position: center;
+    background-position: center; /* Standard property for compatibility */
+}
+
+.LeftPane{
+    -fx-background-color: #87CEEB;
+    background-color: #87CEEB;
+    -fx-background-image: url('cloudicon.png');
+    background-image: url('cloudicon.png');
+    -fx-background-size: 40%; 
+    background-size: 40%; 
+    -fx-background-position: center top 100px;
+    background-position: center top 100px;
+   
+    -fx-background-repeat: no-repeat; 
+    background-repeat: no-repeat; 
+}
+.rightpane{
+    -fx-background-color: #416c7d;
+    background-color: #416c7d;
+}
+
