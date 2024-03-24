@@ -85,4 +85,47 @@ public class AirPollutionAPI implements InterfaceAPI {
     AirPollutionAPI AirPollution = new AirPollutionAPI();
     AirPollution.APIcall(34.56, 89.0);
   }
+    
+  /*Umair
+   * I have not changed anything just added function below
+   */
+  @Override
+public String getData(double latitude, double longitude) {
+    StringBuilder data = new StringBuilder();
+    try {
+        // Create URL with latitude, longitude, and API key
+        URL url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
+                "&lon=" + longitude + "&appid=" + APIkey + "&units=" + units);
+
+        // Open connection
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        // Set request method
+        connection.setRequestMethod("GET");
+
+        // Get response code
+        int responseCode = connection.getResponseCode();
+
+        // Read response
+        if (responseCode == HttpURLConnection.HTTP_OK) { // Success
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            // Append JSON data to StringBuilder
+            data.append(response.toString());
+
+        } else {
+            data.append("GET request not worked");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return data.toString();
+}
+
 }
