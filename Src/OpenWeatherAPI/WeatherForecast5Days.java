@@ -93,6 +93,49 @@ public class WeatherForecast5Days implements InterfaceAPI {
       e.printStackTrace();
     }
   }
+  /*umair
+   * i have not change anything except adding function below
+    */
+  @Override
+public String getData(double latitude, double longitude) {
+    StringBuilder data = new StringBuilder();
+    try {
+        String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude
+                + "&appid=" + APIkey + "&units=" + units;
+
+        // Create URL object
+        URL url = new URL(apiUrl);
+
+        // Create HttpURLConnection
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        // Get the response code
+        int responseCode = conn.getResponseCode();
+
+        if (responseCode == HttpURLConnection.HTTP_OK) { // Success
+            // Read response
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            // Append JSON data to StringBuilder
+            data.append(response.toString());
+
+        } else {
+            data.append("GET request not worked");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return data.toString();
+}
+
 
   // public static void main(String[] args) {
   // WeatherForecast5Days test = new WeatherForecast5Days();
