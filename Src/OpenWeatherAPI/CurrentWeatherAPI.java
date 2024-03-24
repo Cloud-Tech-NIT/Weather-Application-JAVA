@@ -134,8 +134,8 @@ public String getData(double latitude, double longitude) {
 }
 
 
-  // public static void main(String[] args) {
-  // CurrentWeatherAPI test = new CurrentWeatherAPI();
-  // test.APIcall(23.56, 89.23);
-  // }
+  public static void main(String[] args) {
+    CurrentWeatherAPI test = new CurrentWeatherAPI();
+    test.APIcall(23.56, 89.23);
+  }
 }

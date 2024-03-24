@@ -38,17 +38,17 @@ public class WeatherForecast5Days implements InterfaceAPI {
       }
     }
 
-    // FOR Loop for Printing the Data of Each of 5 Days
-    // int i = 1;
-    // for (double[] dayData : data) {
+    /// FOR Loop for Printing the Data of Each of 5 Days
+    int i = 1;
+    for (double[] dayData : data) {
 
-    // System.out.println("DAY " + i);
-    // for (double value : dayData) {
-    // System.out.print(value + " ");
-    // }
-    // i = i + 1;
-    // System.out.println();
-    // }
+      System.out.println("DAY " + i);
+      for (double value : dayData) {
+        System.out.print(value + " ");
+      }
+      i = i + 1;
+      System.out.println();
+    }
 
   }
 
@@ -137,8 +137,8 @@ public String getData(double latitude, double longitude) {
 }
 
 
-  // public static void main(String[] args) {
-  // WeatherForecast5Days test = new WeatherForecast5Days();
-  // test.APIcall(39.67, -78.98);
-  // }
+  public static void main(String[] args) {
+    WeatherForecast5Days test = new WeatherForecast5Days();
+    test.APIcall(39.67, -78.98);
+  }
 }
