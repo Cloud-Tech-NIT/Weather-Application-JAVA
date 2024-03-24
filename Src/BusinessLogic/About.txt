@@ -1,1 +1,0 @@
-This folder will include all the Business Logic (Back-end) code for the Application

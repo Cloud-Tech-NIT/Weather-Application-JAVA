@@ -1,1 +1,9 @@
-This Module is responsible for making the API calls integrated with the BusinessLogic 
+  This Module is responsible for making the API calls 
+
+1. The ApiJSON Folder has the json formats for Each of the returned API calls
+
+2. The InterfaceAPI has all the required modules for Calling the API and Parsing the JSON format
+
+CurrenWeatherAPI.java is the Class for calling the API for Current Weather Conditions
+
+WeatherForecast5Days.java is the Class for calling the API for 5 day Weather Forecast
