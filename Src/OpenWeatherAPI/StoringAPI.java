@@ -3,9 +3,10 @@ package Src.OpenWeatherAPI;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+
 /* 
- * storing api
- * class to implement getdata() and store in text file
+ * Storing API
+ * class to implement getData() and store in text files
  */
 public class StoringAPI {
     public static void main(String[] args) {
@@ -21,31 +22,27 @@ public class StoringAPI {
         String weatherForecastData = weatherForecast5Days.getData(latitude, longitude);
 
         // Store data in a text file
-        storeDataToFile(airPollutionData ,currentWeatherData ,weatherForecastData);
+        storeDataToFile("WeatherDataStorage/air_pollution_data.txt", "Air Pollution Data", airPollutionData);
+        storeDataToFile("WeatherDataStorage/current_weather_data.txt", "Current Weather Data", currentWeatherData);
+        storeDataToFile("WeatherDataStorage/weather_forecast_data.txt", "Weather Forecast Data", weatherForecastData);
     }
 
-    private static void storeDataToFile(String airPollutionData, String currentWeatherData, String weatherForecastData) {
+    private static void storeDataToFile(String fileName, String heading, String data) {
         try {
-            FileWriter fileWriter = new FileWriter("api_data.txt");
+            FileWriter fileWriter = new FileWriter(fileName);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-    
-            // Writing air pollution data
-            bufferedWriter.write("Air Pollution Data:\n");
-            bufferedWriter.write(airPollutionData + "\n\n");
-    
-            // Writing current weather data
-            bufferedWriter.write("Current Weather Data:\n");
-            bufferedWriter.write(currentWeatherData + "\n\n");
-    
-            // Writing weather forecast data
-            bufferedWriter.write("Weather Forecast Data:\n");
-            bufferedWriter.write(weatherForecastData + "\n\n");
-    
+
+            // Write heading
+            bufferedWriter.write(heading + ":\n");
+
+            // Write data
+            bufferedWriter.write(data);
+
             bufferedWriter.close();
-            System.out.println("Data stored successfully!");
+            System.out.println("Data stored successfully in " + fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
 }
+
