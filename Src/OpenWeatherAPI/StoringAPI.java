@@ -21,18 +21,31 @@ public class StoringAPI {
         String weatherForecastData = weatherForecast5Days.getData(latitude, longitude);
 
         // Store data in a text file
-        storeDataToFile(airPollutionData + currentWeatherData + weatherForecastData);
+        storeDataToFile(airPollutionData ,currentWeatherData ,weatherForecastData);
     }
 
-    private static void storeDataToFile(String data) {
+    private static void storeDataToFile(String airPollutionData, String currentWeatherData, String weatherForecastData) {
         try {
             FileWriter fileWriter = new FileWriter("api_data.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(data);
+    
+            // Writing air pollution data
+            bufferedWriter.write("Air Pollution Data:\n");
+            bufferedWriter.write(airPollutionData + "\n\n");
+    
+            // Writing current weather data
+            bufferedWriter.write("Current Weather Data:\n");
+            bufferedWriter.write(currentWeatherData + "\n\n");
+    
+            // Writing weather forecast data
+            bufferedWriter.write("Weather Forecast Data:\n");
+            bufferedWriter.write(weatherForecastData + "\n\n");
+    
             bufferedWriter.close();
             System.out.println("Data stored successfully!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
 }
