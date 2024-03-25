@@ -92,8 +92,8 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     }
   }
 
-  // public static void main(String[] args) {
-  // CurrentWeatherAPI test = new CurrentWeatherAPI();
-  // test.APIcall(23.56, 89.23);
-  // }
+  public static void main(String[] args) {
+    CurrentWeatherAPI test = new CurrentWeatherAPI();
+    test.APIcall(23.56, 89.23);
+  }
 }
