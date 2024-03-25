@@ -39,7 +39,7 @@
             <Font name="Arial Black" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="215.0" layoutY="345.0" mnemonicParsing="false" onAction="#onlatsearch" prefHeight="26.0" prefWidth="102.0" text="Search">
+      <Button layoutX="215.0" layoutY="345.0" mnemonicParsing="false" onAction="#onlatsearch" prefHeight="31.0" prefWidth="102.0" text="Search">
          <font>
             <Font size="13.0" />
          </font>
