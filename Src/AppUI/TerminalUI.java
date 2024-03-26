@@ -23,24 +23,15 @@ public class TerminalUI {
                     showCurrentWeather();
                     break;
                 case 3:
-                    showSunriseSunset();
-                    break;
-                case 4:
                     showWeatherForecast();
                     break;
-                case 5:
+                case 4:
                     showAirPollutionData();
                     break;
+                case 5:
+                    CheckNotifications();
+                    break;
                 case 6:
-                    showPollutingGasesData();
-                    break;
-                case 7:
-                    CheckWeatherNotifications();
-                    break;
-                case 8:
-                    CheckAirQualityNotifications();
-                    break;
-                case 9:
                     System.out.println("Exiting...");
                     System.exit(0);
                     break;
@@ -54,14 +45,10 @@ public class TerminalUI {
         System.out.println("\nWeather Application Menu:");
         System.out.println("1. Add Location");
         System.out.println("2. Show Current Weather");
-        System.out.println("3. Show Basic Information");
-        System.out.println("4. Show Sunrise and Sunset");
-        System.out.println("5. Show Weather Forecast");
-        System.out.println("6. Show Air Pollution Data");
-        System.out.println("7. Show Polluting Gases Data");
-        System.out.println("8. Generate Weather Notifications");
-        System.out.println("9. Generate Air Quality Notifications");
-        System.out.println("10. Exit");
+        System.out.println("3. Show Weather Forecast");
+        System.out.println("4. Show Air Pollution Data");
+        System.out.println("5. Check Notifications");
+        System.out.println("6. Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -82,11 +69,6 @@ public class TerminalUI {
         } catch (Exception e) {
             System.out.println("Error fetching current weather data: " + e.getMessage());
         }
-    }
-
-
-    private static void showSunriseSunset() {
-        System.out.println("Showing sunrise and sunset...");
     }
 
     private static void showWeatherForecast() {
@@ -134,11 +116,8 @@ public class TerminalUI {
         }
     }
 
-    private static void CheckWeatherNotifications() {
+    private static void CheckNotifications() {
         System.out.println("Generating weather notifications...");
     }
 
-    private static void CheckAirQualityNotifications() {
-        System.out.println("Generating air quality notifications...");
-    }
 }
