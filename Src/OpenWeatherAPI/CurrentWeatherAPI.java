@@ -134,36 +134,12 @@ public class CurrentWeatherAPI implements InterfaceAPI {
   public void APIcall(double latitude, double longitude) {
 
     try {
+       @SuppressWarnings("deprecation")
       // Create URL with latitude, longitude, and API key
       URL url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
           "&lon=" + longitude + "&appid=" + APIkey + "&units=" + units);
-
-      // Open connection
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-      // Set request method
-      connection.setRequestMethod("GET");
-
-      // Get response code
-      int responseCode = connection.getResponseCode();
-      System.out.println("Response Code: " + responseCode);
-
-      // Read response
-      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      String inputLine;
-      StringBuilder response = new StringBuilder();
-      while ((inputLine = in.readLine()) != null) {
-        response.append(inputLine);
-      }
-      in.close();
-
-      // Parse JSON response
-      Gson gson = new Gson();
-      JsonObject jsonObject = gson.fromJson(response.toString(), JsonObject.class);
-
-      parseJSON(jsonObject);
-      // Close connection
-      connection.disconnect();
+      performAPICall(url);
+     
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -210,6 +186,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
-    test.APIcall(23.56, 89.23);
+    test.APIcall("lahore");
   }
 }
