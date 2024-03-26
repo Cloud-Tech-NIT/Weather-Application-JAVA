@@ -17,7 +17,7 @@ public class CurrentWeatherAPI implements InterfaceAPI {
   @Override
   public void APIcall(double latitude, double longitude) {
     try {
-      String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" +
           latitude +
           "&lon=" +
           longitude +
