@@ -95,44 +95,61 @@ public class CurrentWeatherAPI implements InterfaceAPI {
    * I have not change anyhting just added function below
    */
   @Override
-public String getData(double latitude, double longitude) {
-    StringBuilder data = new StringBuilder();
-    try {
-        // Create URL with latitude, longitude, and API key
-        URL url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
-                "&lon=" + longitude + "&appid=" + APIkey + "&units=" + units);
-
-        // Open connection
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        // Set request method
-        connection.setRequestMethod("GET");
-
-        // Get response code
-        int responseCode = connection.getResponseCode();
-
-        // Read response
-        if (responseCode == HttpURLConnection.HTTP_OK) { // Success
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-
-            // Append JSON data to StringBuilder
-            data.append(response.toString());
-
-        } else {
-            data.append("GET request not worked");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return data.toString();
-}
-
+  public String getData(double latitude, double longitude) {
+      StringBuilder data = new StringBuilder();
+      try {
+          // Create URL with latitude, longitude, and API key
+          URL url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
+                  "&lon=" + longitude + "&appid=" + APIkey + "&units=" + units);
+  
+          // Open connection
+          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+  
+          // Set request method
+          connection.setRequestMethod("GET");
+  
+          // Get response code
+          int responseCode = connection.getResponseCode();
+  
+          // Read response
+          if (responseCode == HttpURLConnection.HTTP_OK) { // Success
+              BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+              String inputLine;
+              StringBuilder response = new StringBuilder();
+              while ((inputLine = in.readLine()) != null) {
+                  response.append(inputLine);
+              }
+              in.close();
+  
+              // Parse JSON data
+              Gson gson = new Gson();
+              JsonObject jsonObject = gson.fromJson(response.toString(), JsonObject.class);
+  
+              // Format data like SQL table
+              data.append("LocationID, Timestamp, Temperature, FeelsLike, MinTemp, MaxTemp, Humidity, Pressure, WindSpeed, WindDeg, Sunrise, Sunset, WeatherDescription\n");
+              data.append("1, "); // Assuming LocationID is 1
+              data.append(System.currentTimeMillis() + ", "); // Timestamp
+              data.append(jsonObject.getAsJsonObject("main").get("temp").getAsDouble() + ", "); // Temperature
+              data.append(jsonObject.getAsJsonObject("main").get("feels_like").getAsDouble() + ", "); // FeelsLike
+              data.append(jsonObject.getAsJsonObject("main").get("temp_min").getAsDouble() + ", "); // MinTemp
+              data.append(jsonObject.getAsJsonObject("main").get("temp_max").getAsDouble() + ", "); // MaxTemp
+              data.append(jsonObject.getAsJsonObject("main").get("humidity").getAsInt() + ", "); // Humidity
+              data.append(jsonObject.getAsJsonObject("main").get("pressure").getAsInt() + ", "); // Pressure
+              data.append(jsonObject.getAsJsonObject("wind").get("speed").getAsDouble() + ", "); // WindSpeed
+              data.append(jsonObject.getAsJsonObject("wind").get("deg").getAsInt() + ", "); // WindDeg
+              data.append(jsonObject.getAsJsonObject("sys").get("sunrise").getAsInt() + ", "); // Sunrise
+              data.append(jsonObject.getAsJsonObject("sys").get("sunset").getAsInt() + ", "); // Sunset
+              data.append(jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString()); // WeatherDescription
+  
+          } else {
+              data.append("GET request not worked");
+          }
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+      return data.toString();
+  }
+  
 
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
