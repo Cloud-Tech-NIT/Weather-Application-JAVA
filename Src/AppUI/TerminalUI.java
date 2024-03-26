@@ -2,6 +2,8 @@ package Src.AppUI;
 
 import java.util.Scanner;
 import Src.OpenWeatherAPI.AirPollutionAPI;
+import Src.OpenWeatherAPI.CurrentWeatherAPI;
+import Src.OpenWeatherAPI.WeatherForecast5Days;
 
 public class TerminalUI {
     private static Scanner scanner = new Scanner(System.in);
@@ -70,7 +72,18 @@ public class TerminalUI {
     }
 
     private static void showCurrentWeather() {
-        System.out.println("Showing current weather...");
+        try {
+            System.out.print("Enter latitude: ");
+            double latitude = scanner.nextDouble();
+            System.out.print("Enter longitude: ");
+            double longitude = scanner.nextDouble();
+    
+            CurrentWeatherAPI currentWeatherAPI = new CurrentWeatherAPI();
+            currentWeatherAPI.getData(latitude, longitude); // Call the API method
+    
+        } catch (Exception e) {
+            System.out.println("Error fetching current weather data: " + e.getMessage());
+        }
     }
 
     private static void showBasicInformation() {
@@ -82,7 +95,18 @@ public class TerminalUI {
     }
 
     private static void showWeatherForecast() {
-        System.out.println("Showing weather forecast...");
+         try {
+        System.out.print("Enter latitude: ");
+        double latitude = scanner.nextDouble();
+        System.out.print("Enter longitude: ");
+        double longitude = scanner.nextDouble();
+
+        WeatherForecast5Days weatherForecast5Days = new WeatherForecast5Days();
+        weatherForecast5Days.APIcall(latitude, longitude); // Call the API method
+
+    } catch (Exception e) {
+        System.out.println("Error fetching weather forecast: " + e.getMessage());
+    }
     }
 
     private static void showAirPollutionData() {
@@ -101,7 +125,18 @@ public class TerminalUI {
     }
 
     private static void showPollutingGasesData() {
-        System.out.println("Showing polluting gases data...");
+        try {
+            System.out.print("Enter latitude: ");
+            double latitude = scanner.nextDouble();
+            System.out.print("Enter longitude: ");
+            double longitude = scanner.nextDouble();
+      
+            AirPollutionAPI airPollutionAPI = new AirPollutionAPI();
+            airPollutionAPI.APIcall(latitude, longitude);
+      
+          } catch (Exception e) {
+            System.out.println("Error fetching air pollution data: " + e.getMessage());
+          }
     }
 
     private static void generateWeatherNotifications() {
