@@ -7,41 +7,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class CurrentWeatherAPI implements InterfaceAPI {
 
-//*<changed> added print functionality*//
-
-  @Override
-  public void APIcall(double latitude, double longitude) {
-    try {
-      String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" +
-          latitude +
-          "&lon=" +
-          longitude +
-          "&appid=" +
-          APIkey +
-          "&units=" +
-          units;
-
-      // Create URL object
-      @SuppressWarnings("deprecation")
-      URL url = new URL(apiUrl);
-
-      // Create HttpURLConnection
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-      conn.setRequestMethod("GET");
-
-      // Get the response code
-      int responseCode = conn.getResponseCode();
-      performAPICall(url);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  // <changed> added print functionality//
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
@@ -85,8 +58,7 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
 
-
-    //added the method to display//
+    // added the method to display//
     System.out.println("Current Weather Data:");
     System.out.println("Coordinates: " + lat + ", " + lon);
     System.out.println("Weather: " + weatherMain + ", " + weatherDescription);
@@ -107,6 +79,8 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     System.out.println("Timezone: " + timezone);
 
   }
+
+  // *i made another function to pass controller */
 
   public void parseJSON(JsonObject jsonObject, Screen2Controller controller) {
     try {
@@ -135,7 +109,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
       // Check if "rain" field exists
       JsonObject rain = jsonObject.getAsJsonObject("rain");
-
       double rainAmount = (rain != null && rain.has("1h")) ? rain.get("1h").getAsDouble() : 0.0;
 
       JsonObject clouds = jsonObject.getAsJsonObject("clouds");
@@ -150,20 +123,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
       int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
 
-
-      Screen2Controller.updateWeatherData(
-          controller,
-          temp,
-          feelsLike,
-          humidity,
-          tempMin,
-          tempMax,
-          pressure,
-          windSpeed,
-          sunrise,
-          sunset);
-    } catch (
-        NullPointerException | IllegalStateException | JsonSyntaxException e) {
       Screen2Controller.updateWeatherData(controller, temp, feelsLike, humidity, tempMin, tempMax, pressure,
           windSpeed, sunrise, sunset);
     } catch (NullPointerException | IllegalStateException | JsonSyntaxException e) {
@@ -206,11 +165,9 @@ public class CurrentWeatherAPI implements InterfaceAPI {
       // Close connection
       connection.disconnect();
     } catch (Exception e) {
-
       e.printStackTrace();
     }
   }
-
 
   public void APIcall(String cityName) {
     try {
@@ -247,11 +204,9 @@ public class CurrentWeatherAPI implements InterfaceAPI {
         JsonObject.class);
     parseJSON(jsonObject);
     System.out.println(jsonObject);
-
     connection.disconnect();
-  }
-=======
 
+  }
 
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();

@@ -64,14 +64,14 @@ public class UiController {
 
             // Fetch weather data using latitude and longitude
             CurrentWeatherAPI weatherAPI = new CurrentWeatherAPI();
-            String weatherData = weatherAPI.getData(latitude, longitude);
+            // String weatherData = weatherAPI.getData(latitude, longitude);
 
             // Parse JSON data with Gson
             Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(weatherData, JsonObject.class);
+            // JsonObject jsonObject = gson.fromJson(weatherData, JsonObject.class);
 
             // Update UI elements with parsed data
-            weatherAPI.parseJSON(jsonObject, controller);
+            // weatherAPI.parseJSON(jsonObject, controller);
 
             // Show the stage
             Stage stage = new Stage();
