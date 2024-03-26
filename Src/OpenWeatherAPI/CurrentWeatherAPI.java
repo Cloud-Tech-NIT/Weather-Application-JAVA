@@ -5,14 +5,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CurrentWeatherAPI implements InterfaceAPI {
+
+//*<changed> added print functionality*//
 
   @Override
   public void APIcall(double latitude, double longitude) {
@@ -44,6 +45,7 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
+
     // This module Parses the JSON string returned by the API
 
     JsonObject coord = jsonObject.getAsJsonObject("coord");
@@ -82,6 +84,28 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
 
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
+
+
+    //added the method to display//
+    System.out.println("Current Weather Data:");
+    System.out.println("Coordinates: " + lat + ", " + lon);
+    System.out.println("Weather: " + weatherMain + ", " + weatherDescription);
+    System.out.println("Temperature: " + temp + " K");
+    System.out.println("Feels Like: " + feelsLike + " K");
+    System.out.println("Min Temperature: " + tempMin + " K");
+    System.out.println("Max Temperature: " + tempMax + " K");
+    System.out.println("Pressure: " + pressure + " hPa");
+    System.out.println("Humidity: " + humidity + "%");
+    System.out.println("Visibility: " + visibility);
+    System.out.println("Wind Speed: " + windSpeed + " m/s");
+    System.out.println("Rainfall: " + rain + " mm");
+    System.out.println("Cloudiness: " + cloudsAll + "%");
+    System.out.println("Time of Data Calculation: " + dt);
+    System.out.println("Country: " + country);
+    System.out.println("Sunrise Time: " + sunrise);
+    System.out.println("Sunset Time: " + sunset);
+    System.out.println("Timezone: " + timezone);
+
   }
 
   public void parseJSON(JsonObject jsonObject, Screen2Controller controller) {
@@ -111,9 +135,8 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
       // Check if "rain" field exists
       JsonObject rain = jsonObject.getAsJsonObject("rain");
-      double rainAmount = (rain != null && rain.has("1h"))
-          ? rain.get("1h").getAsDouble()
-          : 0.0;
+
+      double rainAmount = (rain != null && rain.has("1h")) ? rain.get("1h").getAsDouble() : 0.0;
 
       JsonObject clouds = jsonObject.getAsJsonObject("clouds");
       int cloudsAll = clouds.get("all").getAsInt(); // Cloudiness
@@ -126,6 +149,7 @@ public class CurrentWeatherAPI implements InterfaceAPI {
       int sunset = sys.get("sunset").getAsInt(); // Sunset Time
 
       int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
+
 
       Screen2Controller.updateWeatherData(
           controller,
@@ -140,9 +164,53 @@ public class CurrentWeatherAPI implements InterfaceAPI {
           sunset);
     } catch (
         NullPointerException | IllegalStateException | JsonSyntaxException e) {
+      Screen2Controller.updateWeatherData(controller, temp, feelsLike, humidity, tempMin, tempMax, pressure,
+          windSpeed, sunrise, sunset);
+    } catch (NullPointerException | IllegalStateException | JsonSyntaxException e) {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void APIcall(double latitude, double longitude) {
+
+    try {
+      // Create URL with latitude, longitude, and API key
+      URL url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
+          "&lon=" + longitude + "&appid=" + APIkey + "&units=" + units);
+
+      // Open connection
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+      // Set request method
+      connection.setRequestMethod("GET");
+
+      // Get response code
+      int responseCode = connection.getResponseCode();
+      System.out.println("Response Code: " + responseCode);
+
+      // Read response
+      BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      String inputLine;
+      StringBuilder response = new StringBuilder();
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+      }
+      in.close();
+
+      // Parse JSON response
+      Gson gson = new Gson();
+      JsonObject jsonObject = gson.fromJson(response.toString(), JsonObject.class);
+
+      parseJSON(jsonObject);
+      // Close connection
+      connection.disconnect();
+    } catch (Exception e) {
+
+      e.printStackTrace();
+    }
+  }
+
 
   public void APIcall(String cityName) {
     try {
@@ -182,10 +250,11 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
     connection.disconnect();
   }
+=======
+
 
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
     test.APIcall(23.56, 89.23);
-    // test.APIcall("Lahore");
   }
 }
