@@ -1,6 +1,7 @@
 package Src.AppUI;
 
 import java.util.Scanner;
+
 import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
@@ -22,27 +23,24 @@ public class TerminalUI {
                     showCurrentWeather();
                     break;
                 case 3:
-                    showBasicInformation();
-                    break;
-                case 4:
                     showSunriseSunset();
                     break;
-                case 5:
+                case 4:
                     showWeatherForecast();
                     break;
-                case 6:
+                case 5:
                     showAirPollutionData();
                     break;
-                case 7:
+                case 6:
                     showPollutingGasesData();
                     break;
+                case 7:
+                    CheckWeatherNotifications();
+                    break;
                 case 8:
-                    generateWeatherNotifications();
+                    CheckAirQualityNotifications();
                     break;
                 case 9:
-                    generateAirQualityNotifications();
-                    break;
-                case 10:
                     System.out.println("Exiting...");
                     System.exit(0);
                     break;
@@ -79,34 +77,31 @@ public class TerminalUI {
             double longitude = scanner.nextDouble();
     
             CurrentWeatherAPI currentWeatherAPI = new CurrentWeatherAPI();
-            currentWeatherAPI.getData(latitude, longitude); // Call the API method
+            currentWeatherAPI.APIcall(latitude, longitude); // Call the API method
     
         } catch (Exception e) {
             System.out.println("Error fetching current weather data: " + e.getMessage());
         }
     }
 
-    private static void showBasicInformation() {
-        System.out.println("Showing basic information...");
-    }
 
     private static void showSunriseSunset() {
         System.out.println("Showing sunrise and sunset...");
     }
 
     private static void showWeatherForecast() {
-         try {
-        System.out.print("Enter latitude: ");
-        double latitude = scanner.nextDouble();
-        System.out.print("Enter longitude: ");
-        double longitude = scanner.nextDouble();
+        try {
+            System.out.print("Enter latitude: ");
+            double latitude = scanner.nextDouble();
+            System.out.print("Enter longitude: ");
+            double longitude = scanner.nextDouble();
 
-        WeatherForecast5Days weatherForecast5Days = new WeatherForecast5Days();
-        weatherForecast5Days.APIcall(latitude, longitude); // Call the API method
+            WeatherForecast5Days weatherForecast5Days = new WeatherForecast5Days();
+            weatherForecast5Days.APIcall(latitude, longitude); // Call the API method
 
-    } catch (Exception e) {
-        System.out.println("Error fetching weather forecast: " + e.getMessage());
-    }
+        } catch (Exception e) {
+            System.out.println("Error fetching weather forecast: " + e.getMessage());
+        }
     }
 
     private static void showAirPollutionData() {
@@ -130,20 +125,20 @@ public class TerminalUI {
             double latitude = scanner.nextDouble();
             System.out.print("Enter longitude: ");
             double longitude = scanner.nextDouble();
-      
+
             AirPollutionAPI airPollutionAPI = new AirPollutionAPI();
             airPollutionAPI.APIcall(latitude, longitude);
-      
-          } catch (Exception e) {
+
+        } catch (Exception e) {
             System.out.println("Error fetching air pollution data: " + e.getMessage());
-          }
+        }
     }
 
-    private static void generateWeatherNotifications() {
+    private static void CheckWeatherNotifications() {
         System.out.println("Generating weather notifications...");
     }
 
-    private static void generateAirQualityNotifications() {
+    private static void CheckAirQualityNotifications() {
         System.out.println("Generating air quality notifications...");
     }
 }

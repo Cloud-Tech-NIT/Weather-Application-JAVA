@@ -12,6 +12,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class CurrentWeatherAPI implements InterfaceAPI {
+
+//*<changed> added print functionality*//
+
   @Override
   public void parseJSON(JsonObject jsonObject) {
 
@@ -53,6 +56,27 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
 
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
+
+
+    //added the method to display//
+    System.out.println("Current Weather Data:");
+    System.out.println("Coordinates: " + lat + ", " + lon);
+    System.out.println("Weather: " + weatherMain + ", " + weatherDescription);
+    System.out.println("Temperature: " + temp + " K");
+    System.out.println("Feels Like: " + feelsLike + " K");
+    System.out.println("Min Temperature: " + tempMin + " K");
+    System.out.println("Max Temperature: " + tempMax + " K");
+    System.out.println("Pressure: " + pressure + " hPa");
+    System.out.println("Humidity: " + humidity + "%");
+    System.out.println("Visibility: " + visibility);
+    System.out.println("Wind Speed: " + windSpeed + " m/s");
+    System.out.println("Rainfall: " + rain + " mm");
+    System.out.println("Cloudiness: " + cloudsAll + "%");
+    System.out.println("Time of Data Calculation: " + dt);
+    System.out.println("Country: " + country);
+    System.out.println("Sunrise Time: " + sunrise);
+    System.out.println("Sunset Time: " + sunset);
+    System.out.println("Timezone: " + timezone);
 
   }
 
