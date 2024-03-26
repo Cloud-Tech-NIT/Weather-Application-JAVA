@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Src.AppUI.Screen2Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="716.0" prefWidth="967.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Src.AppUI.Screen2Controller">
    <children>
       <AnchorPane fx:id="LeftPane" layoutY="-4.8" prefHeight="568.0" prefWidth="246.0" styleClass="LeftPane" stylesheets="@styles.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-5.0">
          <children>
@@ -21,24 +21,24 @@
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Text fx:id="tfFeelsLike" fill="#131a79" layoutX="134.0" layoutY="336.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+            <Text fx:id="tfFeelsLike" fill="#131a79" layoutX="127.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
                <font>
-                  <Font name="System Bold" size="30.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Text>
-            <Label layoutX="33.0" layoutY="312.0" text="Feels like:" textFill="#0d2b8c">
+            <Label layoutX="27.0" layoutY="325.0" text="Feels like:" textFill="#0d2b8c">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="176.0" layoutY="306.0" text="°C" textFill="#0d2b8c">
+            <Label layoutX="166.0" layoutY="321.0" text="°C" textFill="#0d2b8c">
                <font>
-                  <Font name="System Bold" size="27.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Label>
-            <Text fx:id="tfMaximumTemp" fill="#131a79" layoutX="134.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+            <Text fx:id="tfMaximumTemp" fill="#131a79" layoutX="134.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
                <font>
-                  <Font name="System Bold" size="30.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Text>
             <Label layoutX="28.0" layoutY="401.0" text="Maximum:" textFill="#0d2b8c">
@@ -46,9 +46,9 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="181.0" layoutY="396.0" text="°C" textFill="#0d2b8c">
+            <Label layoutX="166.0" layoutY="396.0" text="°C" textFill="#0d2b8c">
                <font>
-                  <Font name="System Bold" size="27.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Label>
             <Label layoutX="30.0" layoutY="355.0" text="Minimum:" textFill="#0d2b8c">
@@ -56,79 +56,149 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="tfMinimumTemp" fill="#131a79" layoutX="134.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+            <Text fx:id="tfMinimumTemp" fill="#131a79" layoutX="134.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
                <font>
-                  <Font name="System Bold" size="30.0" />
+                  <Font name="System Bold" size="25.0" />
                </font>
             </Text>
-            <Label layoutX="181.0" layoutY="349.0" text="°C" textFill="#0d2b8c">
+            <Label layoutX="166.0" layoutY="351.0" text="°C" textFill="#0d2b8c">
                <font>
-                  <Font name="System Bold" size="27.0" />
+                  <Font name="System Bold" size="23.0" />
                </font>
             </Label>
+            <Label layoutX="28.0" layoutY="441.0" text="Sunrise:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="482.0" text="Sunset:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="tfSunsetTime" fill="#131a79" layoutX="119.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
+            <Text fx:id="tfSunriseTime" fill="#131a79" layoutX="120.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
+            <Label layoutX="30.0" layoutY="519.0" text="Pressure:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="31.0" layoutY="558.0" text="Humidity:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="30.0" layoutY="594.0" text="Windspeed:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="293.0" text="Condition:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="tfpressure" fill="#131a79" layoutX="127.0" layoutY="543.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
+            <Text fx:id="tfhumidity" fill="#131a79" layoutX="127.0" layoutY="582.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
+            <Text fx:id="tfwindspeed" fill="#131a79" layoutX="138.0" layoutY="618.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
+            <Text fx:id="tfWeatherconditon" fill="#131a79" layoutX="127.0" layoutY="317.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="rightpane" layoutX="244.0" prefHeight="562.0" prefWidth="544.0" styleClass="rightpane" stylesheets="@styles.css" AnchorPane.bottomAnchor="-0.39999999999997726" AnchorPane.leftAnchor="244.0" AnchorPane.rightAnchor="-7.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="rightpane" layoutX="244.0" prefHeight="641.0" prefWidth="729.0" styleClass="rightpane" stylesheets="@styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="244.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="tfcityname" layoutX="175.0" layoutY="35.0" text="Lahore, Pakistan" textFill="SKYBLUE">
+            <Label fx:id="tfcityname" layoutX="260.0" layoutY="31.0" text="Lahore, Pakistan" textFill="#131a79">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold Italic" size="30.0" />
                </font>
             </Label>
-            <Label layoutX="120.0" layoutY="107.0" text="Standard time:" textFill="SKYBLUE">
+            <Label layoutX="478.0" layoutY="116.0" text="Standard time:" textFill="#131a79">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="120.0" layoutY="134.0" text="Latitude:" textFill="SKYBLUE">
+            <Label layoutX="111.0" layoutY="102.0" text="Latitude:" textFill="#131a79">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="119.0" layoutY="161.0" text="Longitude:" textFill="SKYBLUE">
+            <Label layoutX="111.0" layoutY="135.0" text="Longitude:" textFill="#131a79">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="120.0" layoutY="80.0" text="Date:" textFill="SKYBLUE">
+            <Label layoutX="478.0" layoutY="89.0" text="Date:" textFill="#131a79">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="213.0" text="5 day forecast:" textFill="SKYBLUE">
+            <Label layoutX="25.0" layoutY="213.0" text="5 day forecast:" textFill="#131a79">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Text fx:id="tfdate" fill="#131a79" layoutX="185.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="22/03/24" wrappingWidth="150.13672065734863">
+            <Text fx:id="tfcurrentdate" fill="#131a79" layoutX="541.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="22/03/24" wrappingWidth="150.13672065734863">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Text>
-            <Text fx:id="tfFeelsLike3" fill="#131a79" layoutX="220.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+            <Text fx:id="tfcitylatitude" fill="#131a79" layoutX="214.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Text>
-            <Text fx:id="tfFeelsLike2" fill="#131a79" layoutX="228.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+            <Text fx:id="tfcitylongitude" fill="#131a79" layoutX="221.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
                <font>
-                  <Font name="System Bold" size="25.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Text>
-            <Text fx:id="tfstandardTime" fill="#131a79" layoutX="260.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+            <Text fx:id="tfstandardTime" fill="#131a79" layoutX="616.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+            <Label layoutX="111.0" layoutY="174.0" text="Weather description:" textFill="#0d2b8c">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="tfweatherdescription" fill="#131a79" layoutX="311.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="26" wrappingWidth="78.13672065734863">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <TableView layoutX="258.0" layoutY="252.0" prefHeight="200.0" prefWidth="515.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="7.399999999999977" AnchorPane.topAnchor="251.60000000000002">
+      <TableView layoutX="259.2" layoutY="252.0" prefHeight="237.0" prefWidth="701.0" AnchorPane.bottomAnchor="152.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="252.0">
         <columns>
-          <TableColumn fx:id="day1" prefWidth="103.199951171875" text="C1" />
-          <TableColumn fx:id="day2" prefWidth="88.00006103515625" text="C2" />
-          <TableColumn fx:id="day3" prefWidth="99.19998168945312" text="C3" />
-          <TableColumn fx:id="day4" prefWidth="99.199951171875" text="C4" />
-          <TableColumn fx:id="day5" prefWidth="127.199951171875" text="C5" />
+          <TableColumn fx:id="day1" prefWidth="130.39996641874313" text="C1" />
+          <TableColumn fx:id="day2" minWidth="0.0" prefWidth="117.60003662109375" text="C2" />
+          <TableColumn fx:id="day3" prefWidth="144.0000457763672" text="C3" />
+          <TableColumn fx:id="day4" prefWidth="154.39990234375" text="C4" />
+          <TableColumn fx:id="day5" prefWidth="156.7999267578125" text="C5" />
         </columns>
       </TableView>
    </children>

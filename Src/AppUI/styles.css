@@ -1,6 +1,6 @@
 .anchor-pane {
-    -fx-background-image: url('bg2.jpg');
-    background-image: url('bg2.jpg'); /* Standard property for compatibility */
+    -fx-background-image: url('bg3.jpg');
+    background-image: url('bg3.jpg'); /* Standard property for compatibility */
     -fx-background-size: cover;
     background-size: cover; /* Standard property for compatibility */
     -fx-background-position: center;
@@ -8,8 +8,8 @@
 }
 
 .LeftPane{
-    -fx-background-color: #87CEEB;
-    background-color: #87CEEB;
+    -fx-background-color: #6da4e7;
+    background-color: #6da4e7;
     -fx-background-image: url('cloudicon.png');
     background-image: url('cloudicon.png');
     -fx-background-size: 40%; 
@@ -21,7 +21,10 @@
     background-repeat: no-repeat; 
 }
 .rightpane{
-    -fx-background-color: #416c7d;
-    background-color: #416c7d;
+    -fx-background-image: url('bg3.jpg');
+    background-image: url('bg3.jpg'); 
 }
-
+.mainpane{
+    -fx-background-image: url('airqual_bg.jpg');
+    background-image: url('airqual_bg.jpg'); 
+}

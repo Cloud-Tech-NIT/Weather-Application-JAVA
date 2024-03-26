@@ -3,13 +3,13 @@ package Src.OpenWeatherAPI;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class AirPollutionAPI implements InterfaceAPI {
+
   @Override
   public void parseJSON(JsonObject jsonObject) {
     // Parse air pollution data
@@ -43,9 +43,15 @@ public class AirPollutionAPI implements InterfaceAPI {
   @Override
   public void APIcall(double latitude, double longitude) {
     try {
-
-      String apiUrl = "http://api.openweathermap.org/data/2.5/air_pollution?lat=" + latitude + "&lon=" + longitude
-          + "&appid=" + APIkey + "&units=" + units;
+      String apiUrl =
+        "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
+        latitude +
+        "&lon=" +
+        longitude +
+        "&appid=" +
+        APIkey +
+        "&units=" +
+        units;
 
       // Create URL object
       URL url = new URL(apiUrl);
@@ -59,7 +65,9 @@ public class AirPollutionAPI implements InterfaceAPI {
 
       if (responseCode == HttpURLConnection.HTTP_OK) { // Success
         // Read response
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        BufferedReader in = new BufferedReader(
+          new InputStreamReader(conn.getInputStream())
+        );
         String inputLine;
         StringBuilder response = new StringBuilder();
 
@@ -70,9 +78,10 @@ public class AirPollutionAPI implements InterfaceAPI {
 
         // Parse JSON using Gson
         JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(response.toString()).getAsJsonObject();
+        JsonObject jsonObject = parser
+          .parse(response.toString())
+          .getAsJsonObject();
         parseJSON(jsonObject);
-
       } else {
         System.out.println("GET request not worked");
       }
@@ -81,16 +90,27 @@ public class AirPollutionAPI implements InterfaceAPI {
     }
   }
 
+
+  public void APIcall(String city){
+     
+  }
+  
+
+
+
+
+
   public static void main(String[] args) {
     AirPollutionAPI AirPollution = new AirPollutionAPI();
     AirPollution.APIcall(34.56, 89.0);
   }
-    
+
   /*Umair
    * I have not changed anything just added function below
    */
   @Override
   public String getData(double latitude, double longitude) {
+
       StringBuilder data = new StringBuilder();
       try {
           String apiUrl = "http://api.openweathermap.org/data/2.5/air_pollution?lat=" + latitude + "&lon=" + longitude
@@ -150,5 +170,52 @@ public class AirPollutionAPI implements InterfaceAPI {
       return data.toString();
   }
   
+
+
+    StringBuilder data = new StringBuilder();
+    try {
+      // Create URL with latitude, longitude, and API key
+      URL url = new URL(
+        "https://api.openweathermap.org/data/2.5/weather?lat=" +
+        latitude +
+        "&lon=" +
+        longitude +
+        "&appid=" +
+        APIkey +
+        "&units=" +
+        units
+      );
+
+      // Open connection
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+      // Set request method
+      connection.setRequestMethod("GET");
+
+      // Get response code
+      int responseCode = connection.getResponseCode();
+
+      // Read response
+      if (responseCode == HttpURLConnection.HTTP_OK) { // Success
+        BufferedReader in = new BufferedReader(
+          new InputStreamReader(connection.getInputStream())
+        );
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+          response.append(inputLine);
+        }
+        in.close();
+
+        // Append JSON data to StringBuilder
+        data.append(response.toString());
+      } else {
+        data.append("GET request not worked");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return data.toString();
+  }
 
 }
