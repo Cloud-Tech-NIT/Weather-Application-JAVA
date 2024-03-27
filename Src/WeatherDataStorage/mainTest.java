@@ -9,9 +9,9 @@ import java.sql.SQLException;
 public class mainTest {
     String url = "jdbc:mysql://localhost:3306/weatherCache";
     // db credentials
-    String DB_URL = "weatherCache";
-    String DB_USER = "root";
-    String DB_PASSWORD = "abc_123";
+    static String DB_URL = "weatherCache";
+    static String DB_USER = "root";
+    static String DB_PASSWORD = "abc_123";
 
     public static void main(String[] args) {
         queryImplementSQL data = new queryImplementSQL();
