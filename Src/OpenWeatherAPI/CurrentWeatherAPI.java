@@ -5,20 +5,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javax.swing.JOptionPane;
 
-public class CurrentWeatherAPI implements InterfaceAPI {
+public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
   // <changed> added print functionality//
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
-
     // This module Parses the JSON string returned by the API
 
     JsonObject coord = jsonObject.getAsJsonObject("coord");
@@ -78,6 +77,9 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     System.out.println("Sunset Time: " + sunset);
     System.out.println("Timezone: " + timezone);
 
+    if (visibility > POOR_WEATHER_THRESHOLD) {
+      generateNotification(visibility);
+    }
   }
 
   // *i made another function to pass controller */
@@ -109,7 +111,9 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
       // Check if "rain" field exists
       JsonObject rain = jsonObject.getAsJsonObject("rain");
-      double rainAmount = (rain != null && rain.has("1h")) ? rain.get("1h").getAsDouble() : 0.0;
+      double rainAmount = (rain != null && rain.has("1h"))
+        ? rain.get("1h").getAsDouble()
+        : 0.0;
 
       JsonObject clouds = jsonObject.getAsJsonObject("clouds");
       int cloudsAll = clouds.get("all").getAsInt(); // Cloudiness
@@ -123,23 +127,41 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
       int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
 
-      Screen2Controller.updateWeatherData(controller, temp, feelsLike, humidity, tempMin, tempMax, pressure,
-          windSpeed, sunrise, sunset);
-    } catch (NullPointerException | IllegalStateException | JsonSyntaxException e) {
+      Screen2Controller.updateWeatherData(
+        controller,
+        temp,
+        feelsLike,
+        humidity,
+        tempMin,
+        tempMax,
+        pressure,
+        windSpeed,
+        sunrise,
+        sunset
+      );
+    } catch (
+      NullPointerException | IllegalStateException | JsonSyntaxException e
+    ) {
       e.printStackTrace();
     }
   }
 
   @Override
   public void APIcall(double latitude, double longitude) {
-
     try {
-       @SuppressWarnings("deprecation")
+      @SuppressWarnings("deprecation")
       // Create URL with latitude, longitude, and API key
-      URL url = new URL("https://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
-          "&lon=" + longitude + "&appid=" + APIkey + "&units=" + units);
+      URL url = new URL(
+        "https://api.openweathermap.org/data/2.5/weather?lat=" +
+        latitude +
+        "&lon=" +
+        longitude +
+        "&appid=" +
+        APIkey +
+        "&units=" +
+        units
+      );
       performAPICall(url);
-     
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -149,10 +171,11 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     try {
       @SuppressWarnings("deprecation")
       URL apiUrl = new URL(
-          "https://api.openweathermap.org/data/2.5/weather?q=" +
-              cityName +
-              "&appid=" +
-              APIkey);
+        "https://api.openweathermap.org/data/2.5/weather?q=" +
+        cityName +
+        "&appid=" +
+        APIkey
+      );
       performAPICall(apiUrl);
     } catch (Exception e) {
       e.printStackTrace();
@@ -166,7 +189,8 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     System.out.println("Response Code: " + responseCode);
 
     BufferedReader in = new BufferedReader(
-        new InputStreamReader(connection.getInputStream()));
+      new InputStreamReader(connection.getInputStream())
+    );
     String inputLine;
     StringBuilder response = new StringBuilder();
     while ((inputLine = in.readLine()) != null) {
@@ -176,12 +200,23 @@ public class CurrentWeatherAPI implements InterfaceAPI {
 
     Gson gson = new Gson();
     JsonObject jsonObject = gson.fromJson(
-        response.toString(),
-        JsonObject.class);
+      response.toString(),
+      JsonObject.class
+    );
     parseJSON(jsonObject);
     System.out.println(jsonObject);
     connection.disconnect();
+  }
 
+  // made notification interface function for poor weather quality
+  @Override
+  public void generateNotification(int visibility) {
+    JOptionPane.showMessageDialog(
+      null,
+      "There is poor weather poor condition in " +
+      " with visibility = " +
+      visibility
+    );
   }
 
   public static void main(String[] args) {
