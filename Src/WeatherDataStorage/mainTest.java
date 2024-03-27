@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class mainTest {
+    String url = "jdbc:mysql://localhost:3306/weatherCache";
+    // db credentials
+    String DB_URL = "weatherCache";
+    String DB_USER = "root";
+    String DB_PASSWORD = "abc_123";
 
     public static void main(String[] args) {
         queryImplementSQL data = new queryImplementSQL();
@@ -17,8 +22,8 @@ public class mainTest {
         data.insertData(); // insert data into dB
 
     }
-    // condition to check if weather from api or db
 
+    // condition to check if weather from api or db
     public static String getWeatherData(double lat, double lon) {
         String location = lat + "," + lon;
         String cachedData = getCachedWeatherData(location);
