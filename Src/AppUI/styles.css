@@ -21,10 +21,39 @@
     background-repeat: no-repeat; 
 }
 .rightpane{
-    -fx-background-image: url('bg3.jpg');
-    background-image: url('bg3.jpg'); 
+    /*-fx-background-image: url('bg3.jpg');*/
+    /*background-image: url('bg3.jpg'); */
 }
 .mainpane{
     -fx-background-image: url('airqual_bg.jpg');
     background-image: url('airqual_bg.jpg'); 
+}
+.daysbg{
+  -fx-background-color:#43709A;
+  background-color:#43709A;
+  -fx-background-radius:50;
+  background-radius:50;
+}
+.main{
+    -fx-background-image: url(simeon-muller-Io9VYJorLuc-unsplash.jpg);
+    background-image: url(simeon-muller-Io9VYJorLuc-unsplash.jpg); 
+    -fx-background-size: 100%; 
+    background-size: 100%; 
+    -fx-background-repeat: no-repeat; 
+    background-repeat: no-repeat; 
+   
+}
+/* Default style for the progress bar */
+.progress-bar {
+    -fx-accent: green; /* Default color */
+}
+
+/* Style for good AQI level */
+.progress-bar.good {
+    -fx-accent: green;
+}
+
+/* Style for warning AQI level */
+.progress-bar.warning {
+    -fx-accent: yellow;
 }

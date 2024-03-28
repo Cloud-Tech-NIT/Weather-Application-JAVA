@@ -7,12 +7,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javax.swing.JOptionPane;
 
-public class AirPollutionAPI implements InterfaceAPI {
+public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
     // Parse air pollution data
+    JsonObject coordObject = jsonObject.getAsJsonObject("coord");
+    double lat = coordObject.get("lat").getAsDouble();
+    double lon = coordObject.get("lon").getAsDouble();
+    System.out.println("coordinates: (" + lat + ", " + lon + ")");
     JsonArray listArray = jsonObject.getAsJsonArray("list");
     JsonObject firstItem = listArray.get(0).getAsJsonObject();
     long dt = firstItem.get("dt").getAsLong(); // date and time
@@ -38,6 +43,10 @@ public class AirPollutionAPI implements InterfaceAPI {
     System.out.println("PM2.5: " + pm2_5);
     System.out.println("PM10: " + pm10);
     System.out.println("NH3: " + nh3);
+
+    if (aqi > POOR_AIR_QUALITY_THRESHOLD) {
+      generateNotification(aqi);
+    }
   }
 
   @Override
@@ -89,7 +98,12 @@ public class AirPollutionAPI implements InterfaceAPI {
   }
 
   public void APIcall(String city) {
+    // to be decided
+  }
 
+  // notification interface function for poor weather quality
+  public void generateNotification(int aqi) {
+    JOptionPane.showMessageDialog(null, "The air quality for the region is not good with AQI = " + aqi);
   }
 
   public static void main(String[] args) {
