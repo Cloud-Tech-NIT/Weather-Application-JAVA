@@ -56,7 +56,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     String country = sys.get("country").getAsString(); // Country Codes (GB,JP etc)
     int sunrise = sys.get("sunrise").getAsInt(); // Sunrise Time
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
-    int LocationID = jsonObject.get("id").getAsInt();
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
