@@ -14,6 +14,10 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
   @Override
   public void parseJSON(JsonObject jsonObject) {
     // Parse air pollution data
+    JsonObject coordObject = jsonObject.getAsJsonObject("coord");
+    double lat = coordObject.get("lat").getAsDouble();
+    double lon = coordObject.get("lon").getAsDouble();
+    System.out.println("coordinates: (" + lat + ", " + lon + ")");
     JsonArray listArray = jsonObject.getAsJsonArray("list");
     JsonObject firstItem = listArray.get(0).getAsJsonObject();
     long dt = firstItem.get("dt").getAsLong(); // date and time
@@ -48,15 +52,14 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
   @Override
   public void APIcall(double latitude, double longitude) {
     try {
-      String apiUrl =
-        "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
-        latitude +
-        "&lon=" +
-        longitude +
-        "&appid=" +
-        APIkey +
-        "&units=" +
-        units;
+      String apiUrl = "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
+          latitude +
+          "&lon=" +
+          longitude +
+          "&appid=" +
+          APIkey +
+          "&units=" +
+          units;
 
       // Create URL object
       URL url = new URL(apiUrl);
@@ -71,8 +74,7 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
       if (responseCode == HttpURLConnection.HTTP_OK) { // Success
         // Read response
         BufferedReader in = new BufferedReader(
-          new InputStreamReader(conn.getInputStream())
-        );
+            new InputStreamReader(conn.getInputStream()));
         String inputLine;
         StringBuilder response = new StringBuilder();
 
@@ -84,8 +86,8 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
         // Parse JSON using Gson
         JsonParser parser = new JsonParser();
         JsonObject jsonObject = parser
-          .parse(response.toString())
-          .getAsJsonObject();
+            .parse(response.toString())
+            .getAsJsonObject();
         parseJSON(jsonObject);
       } else {
         System.out.println("GET request not worked");
@@ -101,8 +103,9 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
   // notification interface function for poor weather quality
   public void generateNotification(int aqi) {
-    JOptionPane.showMessageDialog(null, "The air quality for the region is not good with AQI = " +aqi);
+    JOptionPane.showMessageDialog(null, "The air quality for the region is not good with AQI = " + aqi);
   }
+
   public static void main(String[] args) {
     AirPollutionAPI AirPollution = new AirPollutionAPI();
     AirPollution.APIcall(34.56, 89.0);

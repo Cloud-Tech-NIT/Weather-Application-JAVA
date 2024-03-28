@@ -17,7 +17,6 @@ public class WeatherForecast5Days implements InterfaceAPI {
   @Override
   public void parseJSON(JsonObject jsonObject) {
     // Parsing values into variables
-    int cnt = jsonObject.get("cnt").getAsInt(); // timestamps returned
     JsonArray list = jsonObject.getAsJsonArray("list");
 
     // Store data of Each of 5 days in a 2D array
