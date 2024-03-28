@@ -1,4 +1,8 @@
 CREATE TABLE AirQualityData (
+     loc_id INT PRIMARY KEY,
+    city_name VARCHAR(255),
+    latitude FLOAT,
+    longitude FLOAT,
     dt BIGINT,
     aqi INT,
     co FLOAT,
