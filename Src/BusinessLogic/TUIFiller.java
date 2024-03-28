@@ -1,8 +1,16 @@
 package Src.BusinessLogic;
 
+import Src.AppUI.TerminalUI;
+
 public class TUIFiller {
-  // This is the class for implementation of Terminal UI
-  // Make the objects of your Terminal UI in this class
-  // Make functions to pass in the lat,long / city name along with the required
-  // data structure/variable to fill the UI
+  TerminalUI TerminalRunner;
+
+  public void RunTerminal() {
+    int choice;
+    TerminalRunner = new TerminalUI();
+    choice = TerminalRunner.RunF();
+
+  
+    
+  }  
 }
