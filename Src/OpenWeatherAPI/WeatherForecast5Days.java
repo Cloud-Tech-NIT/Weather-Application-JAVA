@@ -122,7 +122,7 @@ public class WeatherForecast5Days implements InterfaceAPI {
 
   public static void main(String[] args) {
     WeatherForecast5Days test = new WeatherForecast5Days();
-    test.APIcall(44.34, 10.99);
+    test.APIcall(34.56, 89.0);
   }
 
 }

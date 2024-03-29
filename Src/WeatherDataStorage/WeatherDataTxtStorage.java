@@ -63,9 +63,8 @@ public class WeatherDataTxtStorage {
         }
     }
 
-    
     public static void deleteOldData() {
-        String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt" };
+        String[] filesToDeleteFrom = {"AirPollutionCo.txt", "CurrentWeatherData.txt"};
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 
         for (String filePath : filesToDeleteFrom) {
@@ -75,23 +74,25 @@ public class WeatherDataTxtStorage {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-
-                    // For AirPollutionCo.txt
-                    String[] parts = line.split("_");
-                    if (parts.length >= 4) {
-                        String timestampString = "";
-                        if (filePath.equals("CurrentWeatherData.txt")) {
+                    
+                        String[] parts = line.split("_");
+                        if (parts.length >= 4) {
+                            String timestampString = "";
+                            if (filePath.equals("CurrentWeatherData.txt")) {
                             timestampString = parts[3] + "_" + parts[4];
-                        } else
+                            }
+                            else
+                            {
                             timestampString = parts[2] + "_" + parts[3];
-                        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                        Date timestamp = format.parse(timestampString);
-                        long difference = System.currentTimeMillis() - timestamp.getTime();
-                        if (difference < fiveHoursInMillis) {
-                            updatedContent.append(line).append("\n");
+                            }
+                            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                            Date timestamp = format.parse(timestampString);
+                            long difference = System.currentTimeMillis() - timestamp.getTime();
+                            if (difference < fiveHoursInMillis) {
+                                updatedContent.append(line).append("\n");
+                            }
                         }
-                    }
-
+                    
                 }
             } catch (IOException | ParseException e) {
                 e.printStackTrace();

@@ -35,9 +35,12 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     double pm10 = components.get("pm10").getAsDouble();
     double nh3 = components.get("nh3").getAsDouble();
 
-    WeatherDataTxtStorage.deleteOldData();
 
+    
+    WeatherDataTxtStorage.deleteOldData();
     WeatherDataTxtStorage.storeAirPollutionData(lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
+
+  
 
     System.out.println("DT: " + dt);
     System.out.println("AQI: " + aqi);

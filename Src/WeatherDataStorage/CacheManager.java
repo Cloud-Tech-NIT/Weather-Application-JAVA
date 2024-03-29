@@ -6,12 +6,12 @@ package Src.WeatherDataStorage;
  */
 public interface CacheManager {
 
-  public Boolean checkData(double latitude, double longitude);
+  public Boolean checkData(String filename,double latitude, double longitude);
 
-  public Boolean checkData(String cityName);
+  public Boolean checkData(String filename,String cityName);
 
-  public String FetchData(double latitude, double longitude);
+  public String FetchData(String filename,double latitude, double longitude);
 
-  public String FetchData(String cityName);
+  public String FetchData(String filename,String cityName);
 
 }
