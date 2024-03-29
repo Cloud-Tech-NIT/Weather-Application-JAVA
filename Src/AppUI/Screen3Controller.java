@@ -1,8 +1,8 @@
 package Src.AppUI;
 
+import Src.OpenWeatherAPI.AirPollutionAPI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
@@ -10,9 +10,6 @@ public class Screen3Controller {
 
     @FXML
     private AnchorPane mainpane;
-
-    @FXML
-    private Text tfAirQualityIndex;
 
     @FXML
     private Text tfCO;
@@ -39,38 +36,29 @@ public class Screen3Controller {
     private Text tfSO2;
 
     @FXML
-    private Label tfcityname;
+    private Label tfCityName;
 
-    @FXML
-    private Label tfcityname1;
+    private AirPollutionAPI airPollutionAPI;
 
-    @FXML
-    private Label tfcityname11;
-
-    @FXML
-    private Label tfcityname113;
-
-    @FXML
-    private Label tfcityname114;
-
-    @FXML
-    private Label tfcityname115;
-
-    @FXML
-    private Label tfcityname12;
-
-    @FXML
-    private Label tfcityname13;
-
-    @FXML
-    private Label tfcityname14;
-
-    @FXML
-    private Label tfcityname15;
-
-    @FXML
-    void aqiSlider(MouseEvent event) {
-
+    public Screen3Controller() {
+        this.airPollutionAPI = new AirPollutionAPI();
     }
 
+    public void initialize(double latitude, double longitude) {
+        airPollutionAPI.setController(this); // Set the reference to this controller
+        airPollutionAPI.APIcall(latitude, longitude); // Call the API
+    }
+
+    public void setAirPollutionData(double co, double nh3, double no, double no2, double o3, double pm10,
+            double pm2_5, double so2) {
+        // tfAirQualityIndex.setText(Integer.toString(aqi));
+        tfCO.setText(Double.toString(co));
+        tfNH3.setText(Double.toString(nh3));
+        tfNO.setText(Double.toString(no));
+        tfNO2.setText(Double.toString(no2));
+        tfO3.setText(Double.toString(o3));
+        tfPM10.setText(Double.toString(pm10));
+        tfPM2.setText(Double.toString(pm2_5));
+        tfSO2.setText(Double.toString(so2));
+    }
 }

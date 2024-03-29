@@ -1,3 +1,5 @@
+package Src.WeatherDataStorage;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -32,13 +34,13 @@ public class DBAirPoll {
             JsonObject coordObject = jsonObject.getAsJsonObject("coord");
             double lat = coordObject.get("lat").getAsDouble();
             double lon = coordObject.get("lon").getAsDouble();
-            
+
             // Check if data is already present in the database
             if (isDataPresent(connection, lat, lon)) {
                 displayDataFromDatabase(connection, lat, lon);
                 return;
             }
-            
+
             JsonArray listArray = jsonObject.getAsJsonArray("list");
             JsonObject firstItem = listArray.get(0).getAsJsonObject();
             long dt = firstItem.get("dt").getAsLong();
@@ -61,7 +63,11 @@ public class DBAirPoll {
             String insertSql = "INSERT INTO Air_Pollution_Data (loc_id, city_name, latitude, longitude, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
                 insertStatement.setInt(1, locationIdCounter);
-                insertStatement.setString(2, getCityNameFromCurrentWeatherData(connection, lat, lon)); // Obtain city name from current weather data table
+                insertStatement.setString(2, getCityNameFromCurrentWeatherData(connection, lat, lon)); // Obtain city
+                                                                                                       // name from
+                                                                                                       // current
+                                                                                                       // weather data
+                                                                                                       // table
                 insertStatement.setDouble(3, lat);
                 insertStatement.setDouble(4, lon);
                 insertStatement.setLong(5, dt);
@@ -125,7 +131,8 @@ public class DBAirPoll {
         }
     }
 
-    private String getCityNameFromCurrentWeatherData(Connection connection, double latitude, double longitude) throws SQLException {
+    private String getCityNameFromCurrentWeatherData(Connection connection, double latitude, double longitude)
+            throws SQLException {
         String cityName = "Unknown";
         String selectSql = "SELECT city_name FROM Current_Weather_Data WHERE latitude = ? AND longitude = ?";
         try (PreparedStatement selectStatement = connection.prepareStatement(selectSql)) {
@@ -160,13 +167,13 @@ public class DBAirPoll {
 
             // Proceed with API call
             String apiUrl = "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
-            latitude +
-            "&lon=" +
-            longitude +
-            "&appid=" +
-            API_KEY +
-            "&units=" +
-            UNITS;
+                    latitude +
+                    "&lon=" +
+                    longitude +
+                    "&appid=" +
+                    API_KEY +
+                    "&units=" +
+                    UNITS;
 
             URL url = new URL(apiUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -193,20 +200,15 @@ public class DBAirPoll {
             e.printStackTrace();
         }
     }
-    
+
+    public static void main(String[] args) {
+        DBAirPoll fetcher = new DBAirPoll();
+
+        // Schedule deletion of old data every 6 hours
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(fetcher::deleteOldData, 0, 6, TimeUnit.HOURS);
+
+        // Example API call
+        fetcher.APIcall(40.7128, -74.0060); // Example latitude and longitude
+    }
 }
-public static void main(String[] args) {
-    DBAirPoll fetcher = new DBAirPoll();
-
-    // Schedule deletion of old data every 6 hours
-    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    scheduler.scheduleAtFixedRate(fetcher::deleteOldData, 0, 6, TimeUnit.HOURS);
-
-    // Example API call
-    fetcher.APIcall(40.7128, -74.0060); // Example latitude and longitude
-}
-
-
-
-
-

@@ -1,5 +1,8 @@
 package Src.OpenWeatherAPI;
 
+import Src.AppUI.Screen3Controller;
+import Src.AppUI.mainscreenController;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,6 +13,16 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 
 public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
+  private Screen3Controller controller;
+
+  // Constructor
+  public AirPollutionAPI() {
+  }
+
+  // Method to set the mainscreenController reference
+  public void setController(Screen3Controller controller) {
+    this.controller = controller;
+  }
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
@@ -46,6 +59,9 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
     if (aqi > POOR_AIR_QUALITY_THRESHOLD) {
       generateNotification(aqi);
+    }
+    if (controller != null) {
+      controller.setAirPollutionData(co, nh3, no, no2, o3, pm10, pm2_5, so2);
     }
   }
 

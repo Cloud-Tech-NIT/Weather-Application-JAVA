@@ -11,7 +11,7 @@ public class mainTest {
     // db credentials
     static String DB_URL = "weatherCache";
     static String DB_USER = "root";
-    static String DB_PASSWORD = "abc_123";
+    static String DB_PASSWORD = "4820";
 
     public static void main(String[] args) {
         queryImplementSQL data = new queryImplementSQL();

@@ -1,8 +1,16 @@
 package Src.AppUI;
 
+import java.util.Date;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+
+import Src.BusinessLogic.DUIFiller;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -139,11 +147,29 @@ public class mainscreenController {
     private Label tfSunrise;
 
     @FXML
+    private Label tfSunset;
+
+    @FXML
     private Label tfWindspeed;
 
     @FXML
     void ExpandAirPollutionInfo(ActionEvent event) {
+        String lat = tfLatitude.getText();
+        String lon = tfLongitude.getText();
+        double latitude = Double.parseDouble(lat);
+        double longitude = Double.parseDouble(lon);
+        try {
 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/screen3.fxml"));
+            Parent root = loader.load();
+            Screen3Controller controller = loader.getController();
+            controller.initialize(latitude, longitude); // Pass city name to Screen2Controller
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle exception appropriately
+        }
     }
 
     @FXML
@@ -153,18 +179,48 @@ public class mainscreenController {
 
     public void updateUI(mainscreenController controller, String cityName, String countryName, double currentTemp,
             String weatherCondition,
-            String weatherIconURL, double tempMin, double tempMax, int sunrise, int sunset, int pressure, int humidity,
-            double windSpeed, double lat, double lon) {
+            String weatherIconURL, double lat, double lon, double feelsLike, int humidity, double tempMin,
+            double tempMax,
+            int sunrise, int sunset, int pressure, double windSpeed) {
+        // Convert temperature units from Kelvin to Celsius
         double temperatureInCelsius = currentTemp - 273.15;
+        double feelslikeInCelsius = feelsLike - 273.15;
+        double mintemperatureInCelsius = tempMin - 273.15;
+        double maxtemperatureInCelsius = tempMax - 273.15;
         // Format the temperature to have one digit after the decimal point
         String formattedTemperature = String.format("%.1f", temperatureInCelsius);
+        String formattedFeelsLike = String.format("%.1f", feelslikeInCelsius);
+        String formattedTempMin = String.format("%.1f", mintemperatureInCelsius);
+        String formattedTempMax = String.format("%.1f", maxtemperatureInCelsius);
+        String formattedWindSpeed = String.format("%.1f", windSpeed);
 
+        // Set data to respective labels
         controller.tfCityAndCountryName.setText(cityName + ", " + countryName);
-        controller.tfCurrentTemp.setText(String.valueOf(formattedTemperature) + 273.15 + " °C");
+        controller.tfCurrentTemp.setText(formattedTemperature + " °C");
         controller.tfCurrentWeatherConditon.setText(weatherCondition);
-        // Load weather icon from URL and set it to ImageView
-        Image image = new Image(weatherIconURL);
-        controller.tfCurrentWeatherIcon.setImage(image);
+        // Image image = new Image(weatherIconURL);
+        // controller.tfCurrentWeatherIcon.setImage(image);
+        controller.tfLatitude.setText(Double.toString(lat));
+        controller.tfLongitude.setText(Double.toString(lon));
+        controller.tfFeelsLike.setText(formattedFeelsLike + " °C");
+        controller.tfHumidity.setText(Integer.toString(humidity) + " %");
+        controller.tfMinimumTemp.setText(formattedTempMin + " °C");
+        controller.tfMaximumTemp.setText(formattedTempMax + " °C");
+        controller.tfSunrise.setText(formatTime(sunrise));
+        controller.tfSunset.setText(formatTime(sunset));
+        controller.tfPressure.setText(Integer.toString(pressure) + " hPa");
+        controller.tfWindspeed.setText(formattedWindSpeed + " m/s");
     }
 
+    // Method to format time in hh:mm format
+    private String formatTime(int timeInSeconds) {
+        // Convert time from seconds to milliseconds
+        long millis = timeInSeconds * 1000L;
+        // Create a Date object
+        Date date = new Date(millis);
+        // Create a SimpleDateFormat object with desired format
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        // Format the date
+        return sdf.format(date);
+    }
 }

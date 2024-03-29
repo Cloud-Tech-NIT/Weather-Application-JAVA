@@ -1,6 +1,5 @@
 package Src.OpenWeatherAPI;
 
-import Src.AppUI.Screen2Controller;
 import Src.AppUI.mainscreenController;
 
 import com.google.gson.Gson;
@@ -20,7 +19,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
   // Constructor
   public CurrentWeatherAPI() {
-    // No need to initialize controller here
   }
 
   // Method to set the mainscreenController reference
@@ -76,8 +74,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
       generateNotification(visibility);
     }
     if (controller != null) {
-      controller.updateUI(controller, CityName, country, temp, weatherMain, weatherIcon, tempMin, tempMax, sunrise,
-          sunset, pressure, humidity, windSpeed, lat, lon);
+      controller.updateUI(controller, CityName, country, temp, weatherMain, weatherIcon, lat, lon, feelsLike,
+          humidity, tempMin, tempMax, sunrise, sunset, pressure, windSpeed);
     }
   }
 

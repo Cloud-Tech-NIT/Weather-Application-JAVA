@@ -5,84 +5,84 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="445.0" prefWidth="340.0" styleClass="mainpane" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Screen3Controller">
+<AnchorPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="437.0" prefWidth="340.0" styleClass="mainpane" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Src.AppUI.Screen3Controller">
    <children>
-      <Label fx:id="tfcityname11" layoutX="71.0" layoutY="225.0" prefHeight="43.0" prefWidth="54.0" stylesheets="@styles.css" text="SO2:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="225.0" prefHeight="43.0" prefWidth="54.0" stylesheets="@styles.css" text="SO2:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname12" layoutX="71.0" layoutY="182.0" prefHeight="43.0" prefWidth="54.0" stylesheets="@styles.css" text="O3:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="182.0" prefHeight="43.0" prefWidth="54.0" stylesheets="@styles.css" text="O3:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname13" layoutX="71.0" layoutY="147.0" prefHeight="43.0" prefWidth="63.0" stylesheets="@styles.css" text="NO2:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="147.0" prefHeight="43.0" prefWidth="63.0" stylesheets="@styles.css" text="NO2:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname14" layoutX="71.0" layoutY="102.0" prefHeight="43.0" prefWidth="53.0" stylesheets="@styles.css" text="NO:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="102.0" prefHeight="43.0" prefWidth="53.0" stylesheets="@styles.css" text="NO:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname15" layoutX="71.0" layoutY="64.0" prefHeight="43.0" prefWidth="63.0" stylesheets="@styles.css" text="CO:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="64.0" prefHeight="43.0" prefWidth="63.0" stylesheets="@styles.css" text="CO:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="26.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname113" layoutX="71.0" layoutY="354.0" prefHeight="43.0" prefWidth="78.0" stylesheets="@styles.css" text="PM10:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="354.0" prefHeight="43.0" prefWidth="78.0" stylesheets="@styles.css" text="PM10:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname114" layoutX="71.0" layoutY="311.0" prefHeight="43.0" prefWidth="78.0" stylesheets="@styles.css" text="PM2.5:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="311.0" prefHeight="43.0" prefWidth="78.0" stylesheets="@styles.css" text="PM2.5:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="tfcityname115" layoutX="71.0" layoutY="268.0" prefHeight="43.0" prefWidth="63.0" stylesheets="@styles.css" text="NH3:" textFill="#ffe0bf">
+      <Label layoutX="71.0" layoutY="268.0" prefHeight="43.0" prefWidth="63.0" stylesheets="@styles.css" text="NH3:" textFill="#ffe0bf">
          <font>
             <Font name="Calibri" size="24.0" />
          </font>
       </Label>
-      <Text fx:id="tfCO" fill="WHITE" layoutX="182.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfCO" fill="WHITE" layoutX="182.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="145.33673286437988">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfNO" fill="WHITE" layoutX="182.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfNO" fill="WHITE" layoutX="182.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="145.33673286437988">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfNO2" fill="WHITE" layoutX="182.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfNO2" fill="WHITE" layoutX="182.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="145.33673286437988">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfO3" fill="WHITE" layoutX="182.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfO3" fill="WHITE" layoutX="182.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="156.53674507141113">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfSO2" fill="WHITE" layoutX="182.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfSO2" fill="WHITE" layoutX="182.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="156.53674507141113">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfNH3" fill="WHITE" layoutX="182.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfNH3" fill="WHITE" layoutX="182.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="156.53674507141113">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfPM25" fill="WHITE" layoutX="182.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfPM2" fill="WHITE" layoutX="182.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="145.33673286437988">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="tfPM10" fill="WHITE" layoutX="182.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="78.13672065734863">
+      <Text fx:id="tfPM10" fill="WHITE" layoutX="182.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" wrappingWidth="145.33673286437988">
          <font>
             <Font name="Calibri Light" size="30.0" />
          </font>
