@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1350.0" style="-fx-background-color: #000;" styleClass="main" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainscreenController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1350.0" style="-fx-background-color: #000;" styleClass="main" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Src.AppUI.mainscreenController">
    <children>
       <HBox prefHeight="250.0" prefWidth="200.0">
          <VBox.margin>
@@ -99,7 +99,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label alignment="BOTTOM_LEFT" layoutX="157.0" layoutY="55.0" prefHeight="30.0" prefWidth="75.0" text="AM" textFill="WHITE">
+                  <Label alignment="BOTTOM_LEFT" layoutX="157.0" layoutY="55.0" prefHeight="30.0" prefWidth="75.0" text="PM" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -164,9 +164,9 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="865.0" layoutY="104.0" prefHeight="46.0" prefWidth="89.0" text="AQI: " textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="877.0" layoutY="105.0" prefHeight="46.0" prefWidth="89.0" text="AQI: " textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="30.0" />
+                        <Font name="Arial Bold" size="30.0" />
                      </font>
                   </Label>
                   <Label fx:id="tfAQI" layoutX="963.0" layoutY="102.0" prefHeight="54.0" prefWidth="132.0" text="100" textFill="WHITE">
@@ -174,7 +174,7 @@
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Label>
-                  <Button layoutX="1093.0" layoutY="108.0" mnemonicParsing="false" onAction="#ExpandAirPollutionInfo" text="Expand Air Pollution info">
+                  <Button layoutX="1065.0" layoutY="109.0" mnemonicParsing="false" onAction="#ExpandAirPollutionInfo" text="Expand Air Pollution info">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -195,9 +195,9 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="tfCurrentTemp" alignment="CENTER" prefHeight="41.0" prefWidth="170.0" text="12°" textFill="WHITE">
+                        <Label fx:id="tfCurrentTemp" alignment="CENTER" prefHeight="88.0" prefWidth="264.0" text="12°" textFill="WHITE">
                            <font>
-                              <Font size="60.0" />
+                              <Font size="40.0" />
                            </font>
                         </Label>
                         <Label fx:id="tfCurrentWeatherConditon" alignment="CENTER" prefHeight="13.0" prefWidth="108.0" text="Rainy" textFill="WHITE">

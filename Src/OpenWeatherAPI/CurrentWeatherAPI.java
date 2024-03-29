@@ -1,6 +1,8 @@
 package Src.OpenWeatherAPI;
 
 import Src.AppUI.Screen2Controller;
+import Src.AppUI.mainscreenController;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -14,6 +16,17 @@ import javax.swing.JOptionPane;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
+  private mainscreenController controller;
+
+  // Constructor
+  public CurrentWeatherAPI() {
+    // No need to initialize controller here
+  }
+
+  // Method to set the mainscreenController reference
+  public void setController(mainscreenController controller) {
+    this.controller = controller;
+  }
   // <changed> added print functionality//
 
   @Override
@@ -61,6 +74,10 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
     if (visibility > POOR_WEATHER_THRESHOLD) {
       generateNotification(visibility);
+    }
+    if (controller != null) {
+      controller.updateUI(controller, CityName, country, temp, weatherMain, weatherIcon, tempMin, tempMax, sunrise,
+          sunset, pressure, humidity, windSpeed, lat, lon);
     }
   }
 
