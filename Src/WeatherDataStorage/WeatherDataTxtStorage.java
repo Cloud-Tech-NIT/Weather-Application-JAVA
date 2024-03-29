@@ -63,50 +63,47 @@ public class WeatherDataTxtStorage {
         }
     }
 
+    
     public static void deleteOldData() {
-        String filePath = "AirPollutionCo.txt";
-        File file = new File(filePath);
-
-        // Get current time
-        long currentTime = System.currentTimeMillis();
-
-        // Get 5 hours in milliseconds
+        String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt" };
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 
-        // Create a StringBuilder to store the updated content
-        StringBuilder updatedContent = new StringBuilder();
+        for (String filePath : filesToDeleteFrom) {
+            File file = new File(filePath);
+            StringBuilder updatedContent = new StringBuilder();
 
-        // Read file and delete old entries
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Split the line by _
-                String[] parts = line.split("_");
-                if (parts.length >= 4) {
-                    // Extract timestamp from the line
-                    String timestampString = parts[2] + "_" + parts[3]; // Assuming timestamp is at index 2 and 3
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
-                    Date timestamp = format.parse(timestampString);
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
 
-                    // Calculate difference between current time and timestamp
-                    long difference = currentTime - timestamp.getTime();
-
-                    // If the difference is less than 5 hours, keep the entry
-                    if (difference < fiveHoursInMillis) {
-                        updatedContent.append(line).append("\n");
+                    // For AirPollutionCo.txt
+                    String[] parts = line.split("_");
+                    if (parts.length >= 4) {
+                        String timestampString = "";
+                        if (filePath.equals("CurrentWeatherData.txt")) {
+                            timestampString = parts[3] + "_" + parts[4];
+                        } else
+                            timestampString = parts[2] + "_" + parts[3];
+                        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                        Date timestamp = format.parse(timestampString);
+                        long difference = System.currentTimeMillis() - timestamp.getTime();
+                        if (difference < fiveHoursInMillis) {
+                            updatedContent.append(line).append("\n");
+                        }
                     }
-                }
-            }
-        } catch (IOException | ParseException e) {
-            e.printStackTrace();
-        }
 
-        // Write the updated content back to the original file
-        try (FileWriter writer = new FileWriter(file);
-                BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
-            bufferedWriter.write(updatedContent.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+                }
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+
+            // Write the updated content back to the original file
+            try (FileWriter writer = new FileWriter(file);
+                    BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+                bufferedWriter.write(updatedContent.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
