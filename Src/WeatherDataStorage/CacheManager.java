@@ -10,6 +10,8 @@ public interface CacheManager {
 
   public Boolean checkData(String cityName);
 
-  public String FetchData();
+  public String FetchData(double latitude, double longitude);
+
+  public String FetchData(String cityName);
 
 }
