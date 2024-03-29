@@ -9,6 +9,48 @@
             "name": "WeatherForecast5Days",
             "request": "launch",
             "mainClass": "Src.OpenWeatherAPI.WeatherForecast5Days",
+            "projectName": "Weather-Application_ebb062c4"
+        },
+        {
+            "type": "java",
+            "name": "TerminalUI",
+            "request": "launch",
+            "mainClass": "Src.AppUI.TerminalUI",
+            "projectName": "Weather-Application_ebb062c4"
+        },
+        {
+            "type": "java",
+            "name": "CurrentWeatherAPI",
+            "request": "launch",
+            "mainClass": "Src.OpenWeatherAPI.CurrentWeatherAPI",
+            "projectName": "Weather-Application_ebb062c4"
+        },
+        {
+            "type": "java",
+            "name": "DataHandlingTxT",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.DataHandlingTxT",
+            "projectName": "Weather-Application_ebb062c4"
+        },
+        {
+            "type": "java",
+            "name": "WeatherDataTxtStorage",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.WeatherDataTxtStorage",
+            "projectName": "Weather-Application_ebb062c4"
+        },
+        {
+            "type": "java",
+            "name": "AirPollutionAPI",
+            "request": "launch",
+            "mainClass": "Src.OpenWeatherAPI.AirPollutionAPI",
+            "projectName": "Weather-Application_ebb062c4"
+        },
+        {
+            "type": "java",
+            "name": "WeatherForecast5Days",
+            "request": "launch",
+            "mainClass": "Src.OpenWeatherAPI.WeatherForecast5Days",
             "projectName": "Weather-Application_bddd53ca"
         },
         {

@@ -9,6 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.swing.JOptionPane;
 
+import Src.WeatherDataStorage.WeatherDataTxtStorage;
+
 public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
   @Override
@@ -32,6 +34,10 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     double pm2_5 = components.get("pm2_5").getAsDouble();
     double pm10 = components.get("pm10").getAsDouble();
     double nh3 = components.get("nh3").getAsDouble();
+
+    WeatherDataTxtStorage.deleteOldData();
+
+    WeatherDataTxtStorage.storeAirPollutionData(lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
 
     System.out.println("DT: " + dt);
     System.out.println("AQI: " + aqi);
