@@ -14,7 +14,7 @@ package Src.WeatherDataStorage;
     // MODIFIED BY ANYONE WHO HAS THE USERNAME+ PASS FOR THE SQL SERVER*/
     // ** To view the database go to MYSQL COMMAND LINE and enter "show databases;"
     // */
-
+    
     public class DBCreate {
     public void createDatabase() {
     try {
