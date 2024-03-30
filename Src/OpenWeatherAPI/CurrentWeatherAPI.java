@@ -20,18 +20,24 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
   public void parseJSON(JsonObject jsonObject) {
     // This module Parses the JSON string returned by the API
 
+    // Coordinates Section
     JsonObject coord = jsonObject.getAsJsonObject("coord");
     double lon = coord.get("lon").getAsDouble();
     double lat = coord.get("lat").getAsDouble();
 
+    // Weather Section
     JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
     JsonObject weather = weatherArray.get(0).getAsJsonObject();
-
     int WeatherID = weather.get("id").getAsInt();
     String weatherMain = weather.get("main").getAsString(); // Rain, Snow etc
     String weatherDescription = weather.get("description").getAsString();
-    String weatherIcon = weather.get("icon").getAsString(); // Icon of current weather
 
+    // Icon Section
+    String iconCode = weather.get("icon").getAsString(); // Icon of current weather
+    String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
+    String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon
+
+    // Main section
     JsonObject main = jsonObject.getAsJsonObject("main");
     double temp = main.get("temp").getAsDouble();
     double feelsLike = main.get("feels_like").getAsDouble();
@@ -39,19 +45,14 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     double tempMax = main.get("temp_max").getAsDouble();
     int pressure = main.get("pressure").getAsInt();
     int humidity = main.get("humidity").getAsInt();
-
     int visibility = jsonObject.get("visibility").getAsInt();
-
     JsonObject wind = jsonObject.getAsJsonObject("wind");
     double windSpeed = wind.get("speed").getAsDouble();
     int WindDeg = wind.get("deg").getAsInt();
     JsonObject rain = jsonObject.getAsJsonObject("rain");
-
     JsonObject clouds = jsonObject.getAsJsonObject("clouds");
     int cloudsAll = clouds.get("all").getAsInt(); // Cloudiness
-
     int dt = jsonObject.get("dt").getAsInt(); // Time of data calculation
-
     JsonObject sys = jsonObject.getAsJsonObject("sys");
     String country = sys.get("country").getAsString(); // Country Codes (GB,JP etc)
     int sunrise = sys.get("sunrise").getAsInt(); // Sunrise Time
@@ -59,6 +60,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
+    // generating notifications on the basis of poor_weather
     if (visibility > POOR_WEATHER_THRESHOLD) {
       generateNotification(visibility);
     }
@@ -117,8 +119,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     JsonObject jsonObject = gson.fromJson(
         response.toString(),
         JsonObject.class);
-    parseJSON(jsonObject);
     System.out.println(jsonObject);
+    parseJSON(jsonObject);
     connection.disconnect();
   }
 
