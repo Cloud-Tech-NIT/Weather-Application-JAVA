@@ -15,18 +15,23 @@ public class DataHandlingTxT implements CacheManager {
                 String[] parts = line.split("_");
                 double lat = 0.0, lon = 0.0;
 
-                if (filename == "CurrentWeatherData.txt")
+                if (filename == "AirPollutionCo.txt")
 
                 {
-                    lat = Double.parseDouble(parts[1]);
-                    lon = Double.parseDouble(parts[2]);
-                } else {
                     lat = Double.parseDouble(parts[0]);
                     lon = Double.parseDouble(parts[1]);
+                    if (lat == latitude && lon == longitude) {
+                        return true; // Data found
+                    }
+                  
+                } else {
+                    lat = Double.parseDouble(parts[1]);
+                    lon = Double.parseDouble(parts[2]);
+                    if (lat == latitude && lon == longitude) {
+                        return true; // Data found
+                    }
                 }
-                if (lat == latitude && lon == longitude) {
-                    return true; // Data found
-                }
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,17 +66,19 @@ public class DataHandlingTxT implements CacheManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("_");
                 double lat = 0.0, lon = 0.0;
-                if (filename == "CurrentWeatherData.txt")
+                if (filename == "AirPollutionCo.txt")
 
                 {
-                    lat = Double.parseDouble(parts[1]);
-                    lon = Double.parseDouble(parts[2]);
+                    lat = Double.parseDouble(parts[0]);
+                    lon = Double.parseDouble(parts[1]);
                     if (lat == latitude && lon == longitude) {
                         response.append(line).append("\n");
                     }
                 } else {
-                    lat = Double.parseDouble(parts[0]);
-                    lon = Double.parseDouble(parts[1]);
+                   
+
+                    lat = Double.parseDouble(parts[1]);
+                    lon = Double.parseDouble(parts[2]);
                     if (lat == latitude && lon == longitude) {
                         response.append(line).append("\n");
                     }
@@ -107,33 +114,18 @@ public class DataHandlingTxT implements CacheManager {
 
     public static void main(String[] args) {
         DataHandlingTxT dataHandler = new DataHandlingTxT();
-        // Test checkData method for AirPollutionCo.txt
+        // Test checkData 
         if (dataHandler.checkData("AirPollutionCo.txt", 31.52, 74.35)) {
             System.out.println("Data found in AirPollutionCo.txt ");
         } else {
             System.out.println("Data not found in AirPollutionCo.txt ");
         }
-    
-        // Test FetchData method for AirPollutionCo.txt
+
+        // Test FetchData
         String airPollutionData = dataHandler.FetchData("AirPollutionCo.txt", 34.56, 89.0);
         System.out.println("Fetched Data from AirPollutionCo.txt:");
         System.out.println(airPollutionData);
     
-        // Test checkData method for CurrentWeatherData.txt
-        if (dataHandler.checkData("CurrentWeatherData.txt", 40.71, -74.01)) {
-            System.out.println("Data found in CurrentWeatherData.txt");
-        } else {
-            System.out.println("Data not found in CurrentWeatherData.txt");
-        }
-    
-        // Test FetchData method for CurrentWeatherData.txt by latitude and longitude
-        String currentWeatherData1 = dataHandler.FetchData("CurrentWeatherData.txt", 31.54, 74.34);
-        System.out.println("Fetched Data from CurrentWeatherData.txt:");
-        System.out.println(currentWeatherData1);
-    
-        // Test FetchData method for CurrentWeatherData.txt by city name
-        String currentWeatherData2 = dataHandler.FetchData("CurrentWeatherData.txt", "Lahore");
-        System.out.println("Fetched Data from CurrentWeatherData.txt for city Lahore:");
-        System.out.println(currentWeatherData2);
+      
     }
 }
