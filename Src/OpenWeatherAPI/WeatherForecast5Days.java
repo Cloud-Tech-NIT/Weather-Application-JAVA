@@ -20,10 +20,12 @@ public class WeatherForecast5Days implements InterfaceAPI {
     JsonArray list = jsonObject.getAsJsonArray("list");
 
     // Store data of Each of 5 days in a 2D array
-
-    double[][] data = new double[6][6]; // 5 days and 5 data points (temp, temp_min, temp_max, pressure, humidity)
-
+    int numDays = 5; // Number of days
+    double[][] data = new double[numDays][5]; // 5 days and 5 data points (temp, temp_min, temp_max, pressure, humidity)
+    String[] iconUrls = new String[numDays]; // Array to store icon URLs
+    String[] weatherCondition = new String[numDays]; // Array to store weather condition
     int dayIndex = 0;
+
     for (int i = 0; i < list.size(); i++) {
       JsonObject item = list.get(i).getAsJsonObject();
       JsonObject main = item.getAsJsonObject("main");
@@ -34,41 +36,46 @@ public class WeatherForecast5Days implements InterfaceAPI {
       data[dayIndex][3] = main.get("pressure").getAsDouble();
       data[dayIndex][4] = main.get("humidity").getAsDouble();
 
+      JsonArray weatherArray = item.getAsJsonArray("weather");
+      JsonObject weather = weatherArray.get(0).getAsJsonObject();
+      String iconCode = weather.get("icon").getAsString(); // Icon of current weather
+      String weatherMain = weather.get("main").getAsString();
+
+      String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
+      String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon
+
+      // Storing icon URL in the 1D array
+      iconUrls[dayIndex] = iconUrl;
+      weatherCondition[dayIndex] = weatherMain;
+
       if ((i + 1) % 8 == 0) {
         dayIndex++;
       }
     }
-
-    /// FOR Loop for Printing the Data of Each of 5 Days
-    int i = 1;
-    for (double[] dayData : data) {
-      System.out.println("DAY " + i);
-      for (double value : dayData) {
+    // Printing the Data of Each of 5 Days
+    for (int i = 0; i < numDays; i++) {
+      System.out.println("DAY " + (i + 1));
+      for (double value : data[i]) {
         System.out.print(value + " ");
       }
-      i = i + 1;
+      // Print the icon URL for the day
+      System.out.println("Icon URL: " + iconUrls[i]);
+      System.out.println("WeatherCondition: " + weatherCondition[i]);
       System.out.println();
     }
-    // JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
-    // JsonObject weather = weatherArray.get(0).getAsJsonObject();
-    // String iconCode = weather.get("icon").getAsString(); // Icon of current weather
-    // String baseIconUrl = "https://openweathermap.org/img/wn/";  // url for the icons 
-    // String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon 
-    // System.out.println(iconUrl);
   }
 
   @Override
   public void APIcall(double latitude, double longitude) {
     try {
-      String apiUrl =
-        "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-        latitude +
-        "&lon=" +
-        longitude +
-        "&appid=" +
-        APIkey +
-        "&units=" +
-        units;
+      String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+          latitude +
+          "&lon=" +
+          longitude +
+          "&appid=" +
+          APIkey +
+          "&units=" +
+          units;
 
       // Create URL object
       @SuppressWarnings("deprecation")
@@ -91,11 +98,10 @@ public class WeatherForecast5Days implements InterfaceAPI {
     try {
       @SuppressWarnings("deprecation")
       URL apiUrl = new URL(
-        "https://api.openweathermap.org/data/2.5/forecast?q=" +
-        cityName +
-        "&appid=" +
-        APIkey
-      );
+          "https://api.openweathermap.org/data/2.5/forecast?q=" +
+              cityName +
+              "&appid=" +
+              APIkey);
       performAPICall(apiUrl);
     } catch (Exception e) {
       e.printStackTrace();
@@ -109,8 +115,7 @@ public class WeatherForecast5Days implements InterfaceAPI {
     System.out.println("Response Code: " + responseCode);
 
     BufferedReader in = new BufferedReader(
-      new InputStreamReader(connection.getInputStream())
-    );
+        new InputStreamReader(connection.getInputStream()));
     String inputLine;
     StringBuilder response = new StringBuilder();
     while ((inputLine = in.readLine()) != null) {
@@ -120,11 +125,10 @@ public class WeatherForecast5Days implements InterfaceAPI {
 
     Gson gson = new Gson();
     JsonObject jsonObject = gson.fromJson(
-      response.toString(),
-      JsonObject.class
-    );
+        response.toString(),
+        JsonObject.class);
     parseJSON(jsonObject);
-    System.out.println(jsonObject);
+    // System.out.println(jsonObject);
 
     connection.disconnect();
   }
