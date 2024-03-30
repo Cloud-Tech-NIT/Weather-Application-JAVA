@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "WeatherForecast5Days",
+            "request": "launch",
+            "mainClass": "Src.OpenWeatherAPI.WeatherForecast5Days",
+            "projectName": "Weather-Application_4d79eac9"
+        },
+        {
+            "type": "java",
             "name": "CurrentWeatherAPI",
             "request": "launch",
             "mainClass": "Src.OpenWeatherAPI.CurrentWeatherAPI",

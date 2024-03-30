@@ -49,6 +49,12 @@ public class WeatherForecast5Days implements InterfaceAPI {
       i = i + 1;
       System.out.println();
     }
+    // JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
+    // JsonObject weather = weatherArray.get(0).getAsJsonObject();
+    // String iconCode = weather.get("icon").getAsString(); // Icon of current weather
+    // String baseIconUrl = "https://openweathermap.org/img/wn/";  // url for the icons 
+    // String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon 
+    // System.out.println(iconUrl);
   }
 
   @Override

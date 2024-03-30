@@ -20,29 +20,24 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
   public void parseJSON(JsonObject jsonObject) {
     // This module Parses the JSON string returned by the API
 
-
-    //Coordinates Section
+    // Coordinates Section
     JsonObject coord = jsonObject.getAsJsonObject("coord");
     double lon = coord.get("lon").getAsDouble();
     double lat = coord.get("lat").getAsDouble();
 
-    //Weather Section
+    // Weather Section
     JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
     JsonObject weather = weatherArray.get(0).getAsJsonObject();
     int WeatherID = weather.get("id").getAsInt();
     String weatherMain = weather.get("main").getAsString(); // Rain, Snow etc
     String weatherDescription = weather.get("description").getAsString();
 
-
-    //Icon Section
+    // Icon Section
     String iconCode = weather.get("icon").getAsString(); // Icon of current weather
-    String baseIconUrl = "https://openweathermap.org/img/wn/";  // url for the icons 
-    String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon 
-    
-    
-    
-    
-    //Main section
+    String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
+    String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon
+
+    // Main section
     JsonObject main = jsonObject.getAsJsonObject("main");
     double temp = main.get("temp").getAsDouble();
     double feelsLike = main.get("feels_like").getAsDouble();
@@ -65,8 +60,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
-
-    //generating notifications on the basis of poor_weather
+    // generating notifications on the basis of poor_weather
     if (visibility > POOR_WEATHER_THRESHOLD) {
       generateNotification(visibility);
     }
