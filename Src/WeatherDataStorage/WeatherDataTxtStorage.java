@@ -63,8 +63,33 @@ public class WeatherDataTxtStorage {
         }
     }
 
+    public static void storeWeatherForecastData(double[][] data, double lat, double lon,String cityName) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String timestamp = dateFormat.format(new Date());
+    
+        StringBuilder dataLine = new StringBuilder();
+    
+        // Append city, latitude, longitude, and timestamp
+        dataLine.append(cityName).append("_").append(lat).append("_").append(lon).append("_").append(timestamp).append("_");
+    
+        // Append data for each day
+        for (int i = 0; i < data.length; i++) {
+            dataLine.append("#_");
+            for (int j = 0; j < data[i].length; j++) {
+                dataLine.append(data[i][j]).append("_");
+            }
+        }
+    
+        // Write data to the file
+        try (FileWriter writer = new FileWriter("WeatherForecastData.txt", true)) {
+            writer.write(dataLine.toString() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void deleteOldData() {
-        String[] filesToDeleteFrom = {"AirPollutionCo.txt", "CurrentWeatherData.txt"};
+        String[] filesToDeleteFrom = {"AirPollutionCo.txt", "CurrentWeatherData.txt","WeatherForecastData.txt"};
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 
         for (String filePath : filesToDeleteFrom) {
@@ -78,12 +103,12 @@ public class WeatherDataTxtStorage {
                         String[] parts = line.split("_");
                         if (parts.length >= 4) {
                             String timestampString = "";
-                            if (filePath.equals("CurrentWeatherData.txt")) {
-                            timestampString = parts[3] + "_" + parts[4];
+                            if (filePath.equals("AirPollutionCo.txt")) {
+                            timestampString = parts[2] + "_" + parts[3];
                             }
                             else
                             {
-                            timestampString = parts[2] + "_" + parts[3];
+                            timestampString = parts[3] + "_" + parts[4];
                             }
                             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
                             Date timestamp = format.parse(timestampString);

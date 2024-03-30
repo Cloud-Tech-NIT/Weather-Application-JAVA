@@ -12,16 +12,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import Src.WeatherDataStorage.WeatherDataTxtStorage;
 public class WeatherForecast5Days implements InterfaceAPI {
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
+
+    //for cityname, latitude, longitude//
+
+    JsonObject city = jsonObject.getAsJsonObject("city");
+    double lat = city.getAsJsonObject("coord").get("lat").getAsDouble();
+    double lon = city.getAsJsonObject("coord").get("lon").getAsDouble();
+    String cityName = city.get("name").getAsString();
+
     // Parsing values into variables
     JsonArray list = jsonObject.getAsJsonArray("list");
 
     // Store data of Each of 5 days in a 2D array
 
-    double[][] data = new double[6][6]; // 5 days and 5 data points (temp, temp_min, temp_max, pressure, humidity)
+    double[][] data = new double[5][5]; // 5 days and 5 data points (temp, temp_min, temp_max, pressure, humidity)
 
     int dayIndex = 0;
     for (int i = 0; i < list.size(); i++) {
@@ -49,6 +58,11 @@ public class WeatherForecast5Days implements InterfaceAPI {
       i = i + 1;
       System.out.println();
     }
+
+    //store in txt//
+    WeatherDataTxtStorage.deleteOldData();
+    WeatherDataTxtStorage.storeWeatherForecastData(data, lat, lon,cityName);
+
   }
 
   @Override
@@ -125,6 +139,6 @@ public class WeatherForecast5Days implements InterfaceAPI {
 
   public static void main(String[] args) {
     WeatherForecast5Days test = new WeatherForecast5Days();
-    test.APIcall(34.56, 89.0);
+    test.APIcall(31.54, 74.35);
   }
 }
