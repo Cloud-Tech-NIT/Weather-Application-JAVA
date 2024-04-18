@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
   // <changed> added print functionality//
-
   @Override
   public void parseJSON(JsonObject jsonObject) {
     // This module Parses the JSON string returned by the API
@@ -64,6 +63,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     if (visibility > POOR_WEATHER_THRESHOLD) {
       generateNotification(visibility);
     }
+    System.out.println("MAX TEMPERATURE: " + tempMax);
+    System.out.println("MIN TEMPERATURE: " + tempMin);
   }
 
   @Override
@@ -119,7 +120,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     JsonObject jsonObject = gson.fromJson(
         response.toString(),
         JsonObject.class);
-    System.out.println(jsonObject);
+    // System.out.println(jsonObject);
     parseJSON(jsonObject);
     connection.disconnect();
   }
