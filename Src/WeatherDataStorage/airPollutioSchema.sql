@@ -1,12 +1,12 @@
-CREATE TABLE AirQualityData (
-     loc_id INT PRIMARY KEY,
+CREATE TABLE air_pollution_data (
+    loc_id INT PRIMARY KEY,
     city_name VARCHAR(255),
     latitude FLOAT,
     longitude FLOAT,
     dt BIGINT,
     aqi INT,
     co FLOAT,
-    [no] FLOAT,
+    `no` FLOAT,
     no2 FLOAT,
     o3 FLOAT,
     so2 FLOAT,

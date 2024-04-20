@@ -87,7 +87,7 @@
       </HBox>
       <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
          <children>
-            <Pane prefHeight="189.0" prefWidth="1350.0" >
+            <Pane prefHeight="189.0" prefWidth="1350.0">
             
                <children>
                   <ImageView fitHeight="41.0" fitWidth="109.0" layoutX="46.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
@@ -160,23 +160,23 @@
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Label>
-                  <Button layoutX="1065.0" layoutY="109.0" mnemonicParsing="false" onAction="#ExpandAirPollutionInfo" text="Expand Air Pollution info">
+                  <Button layoutX="1065.0" layoutY="109.0" mnemonicParsing="false" onAction="#ExpandAirPollutionInfo" text="Show Air pollution data">
                      <font>
-                        <Font size="16.0" />
+                        <Font size="18.0" />
                      </font>
                   </Button>
                </children>
             </Pane>
          </children>
       </VBox>
-      <HBox prefHeight="330.0" prefWidth="1350.0" spacing="20.0" style="-fx-background-color: #2c4a66;">
+      <HBox prefHeight="351.0" prefWidth="1350.0" spacing="20.0" style="-fx-background-color: #2c4a66;">
          <children>
             <HBox alignment="CENTER" prefHeight="293.0" prefWidth="329.0">
                <children>
                   <ImageView fx:id="tfCurrentWeatherIcon" fitHeight="95.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
                   <VBox alignment="CENTER" prefHeight="293.0" prefWidth="195.0" spacing="5.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label alignment="CENTER" prefHeight="34.0" prefWidth="142.0" styleClass="daysbg" stylesheets="@styles.css" text="TODAY" textFill="WHITE">
+                        <Label alignment="CENTER" prefHeight="39.0" prefWidth="142.0" styleClass="daysbg" stylesheets="@styles.css" text="TODAY" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -239,98 +239,213 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="293.0" prefWidth="182.0" spacing="10.0">
                <children>
-                  <Label fx:id="tfDay1" alignment="CENTER" prefHeight="34.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="THURS" textFill="WHITE">
+                  <Label fx:id="tfDay1" alignment="CENTER" prefHeight="115.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="THURS" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="tfDay1Icon" fitHeight="94.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="tfDay1Temp" alignment="CENTER" prefHeight="38.0" prefWidth="162.0" text="12°" textFill="WHITE">
-                     <font>
-                        <Font size="55.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tfDay1WeatherConditon" alignment="CENTER" prefHeight="40.0" prefWidth="108.0" text="Rainy" textFill="WHITE">
+                  <ImageView fx:id="tfDay1Icon" fitHeight="94.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox prefHeight="89.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="85.0" text="High:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay1MaxTemp" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="85.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="99.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="86.0" text="Low:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay1MinTemp" alignment="CENTER" prefHeight="35.0" prefWidth="87.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="tfDay1WeatherConditon" alignment="CENTER" prefHeight="142.0" prefWidth="130.0" text="Rainy" textFill="WHITE">
                      <font>
                         <Font name="System Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="178.0" spacing="10.0">
+            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="182.0" spacing="10.0">
                <children>
-                  <Label fx:id="tfDay2" alignment="CENTER" prefHeight="35.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="FRIDAY" textFill="WHITE">
+                  <Label fx:id="tfDay2" alignment="CENTER" prefHeight="115.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="THURS" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="tfDay2Icon" fitHeight="101.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="tfDay2Temp" alignment="CENTER" prefHeight="70.0" prefWidth="162.0" text="12°" textFill="WHITE">
-                     <font>
-                        <Font size="60.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tfDay2WeatherConditon" alignment="CENTER" prefHeight="12.0" prefWidth="108.0" text="Rainy" textFill="WHITE">
+                  <ImageView fx:id="tfDay2Icon" fitHeight="94.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox prefHeight="89.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="85.0" text="High:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay2MaxTemp" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="85.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="99.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="86.0" text="Low:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay2MinTemp" alignment="CENTER" prefHeight="35.0" prefWidth="87.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="tfDay2WeatherConditon" alignment="CENTER" prefHeight="142.0" prefWidth="130.0" text="Rainy" textFill="WHITE">
                      <font>
                         <Font name="System Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="178.0" spacing="10.0">
+            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="182.0" spacing="10.0">
                <children>
-                  <Label fx:id="tfDay3" alignment="CENTER" prefHeight="34.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="SAT" textFill="WHITE">
+                  <Label fx:id="tfDay3" alignment="CENTER" prefHeight="115.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="THURS" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="tfDay3Icon" fitHeight="101.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="tfDay3Temp" alignment="CENTER" prefHeight="62.0" prefWidth="162.0" text="12°" textFill="WHITE">
-                     <font>
-                        <Font size="60.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tfDay3WeatherConditon" alignment="CENTER" prefHeight="0.0" prefWidth="108.0" text="Rainy" textFill="WHITE">
+                  <ImageView fx:id="tfDay3Icon" fitHeight="94.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox prefHeight="89.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="85.0" text="High:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay3MaxTemp" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="85.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="99.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="86.0" text="Low:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay3MinTemp" alignment="CENTER" prefHeight="35.0" prefWidth="87.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="tfDay3WeatherConditon" alignment="CENTER" prefHeight="142.0" prefWidth="130.0" text="Rainy" textFill="WHITE">
                      <font>
                         <Font name="System Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="195.0" spacing="10.0">
+            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="182.0" spacing="10.0">
                <children>
-                  <Label fx:id="tfDay4" alignment="CENTER" prefHeight="35.0" prefWidth="142.0" styleClass="daysbg" stylesheets="@styles.css" text="SUN" textFill="WHITE">
+                  <Label fx:id="tfDay4" alignment="CENTER" prefHeight="115.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="THURS" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="tfDay4Icon" fitHeight="101.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="tfDay4Temp" alignment="CENTER" prefHeight="62.0" prefWidth="162.0" text="12°" textFill="WHITE">
-                     <font>
-                        <Font size="60.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tfDay4WeatherConditon" alignment="CENTER" prefHeight="0.0" prefWidth="108.0" text="Rainy" textFill="WHITE">
+                  <ImageView fx:id="tfDay4Icon" fitHeight="94.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox prefHeight="89.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="85.0" text="High:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay4MaxTemp" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="85.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="99.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="86.0" text="Low:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay4MinTemp" alignment="CENTER" prefHeight="35.0" prefWidth="87.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="tfDay4WeatherConditon" alignment="CENTER" prefHeight="142.0" prefWidth="130.0" text="Rainy" textFill="WHITE">
                      <font>
                         <Font name="System Italic" size="24.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="200.0" spacing="10.0">
+            <VBox alignment="CENTER" prefHeight="293.0" prefWidth="182.0" spacing="10.0">
                <children>
-                  <Label fx:id="tfDay5" alignment="CENTER" prefHeight="34.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="MON" textFill="WHITE">
+                  <Label fx:id="tfDay5" alignment="CENTER" prefHeight="115.0" prefWidth="140.0" styleClass="daysbg" stylesheets="@styles.css" text="THURS" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="tfDay5Icon" fitHeight="101.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="tfDay5Temp" alignment="CENTER" prefHeight="62.0" prefWidth="162.0" text="12°" textFill="WHITE">
-                     <font>
-                        <Font size="60.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tfDay5WeatherConditon" alignment="CENTER" prefHeight="0.0" prefWidth="108.0" text="Rainy" textFill="WHITE">
+                  <ImageView fx:id="tfDay5Icon" fitHeight="94.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true" />
+                  <HBox prefHeight="89.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="85.0" text="High:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay5MaxTemp" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="85.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="99.0" prefWidth="180.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="86.0" text="Low:" textFill="WHITE">
+                           <font>
+                              <Font name="System Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tfDay5MinTemp" alignment="CENTER" prefHeight="35.0" prefWidth="87.0" text="13" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Label fx:id="tfDay5WeatherConditon" alignment="CENTER" prefHeight="142.0" prefWidth="130.0" text="Rainy" textFill="WHITE">
                      <font>
                         <Font name="System Italic" size="24.0" />
                      </font>
@@ -338,6 +453,9 @@
                </children>
             </VBox>
          </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
       </HBox>
    </children>
 </VBox>

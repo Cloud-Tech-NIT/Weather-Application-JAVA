@@ -11,9 +11,9 @@ public class createDB {
         try {
             String url = "jdbc:mysql://localhost:3306/";
 
-            String databaseName = "weatherCache";
+            String databaseName = "weather_Cache";
             String userName = "root";
-            String password = "abc_123";
+            String password = "4820";
 
             Connection connection = DriverManager.getConnection(url, userName, password);
             Statement stm = connection.createStatement();

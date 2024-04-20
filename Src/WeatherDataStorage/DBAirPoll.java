@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Executors;
@@ -19,11 +20,22 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import Src.AppUI.Screen3Controller;
+
 public class DBAirPoll {
+    public DBAirPoll() {
+    }
+
+    private Screen3Controller controller;
+
+    // Method to set the mainscreenController reference
+    public void setController(Screen3Controller controller) {
+        this.controller = controller;
+    }
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/weather_Cache";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "abc_123";
+    private static final String JDBC_PASSWORD = "4820";
     private static final String API_KEY = "cc7d0c84d9aca07ad0bc1494b2af27a0";
     private static final String UNITS = "metric"; // or "imperial" depending on your preference
 
@@ -41,6 +53,7 @@ public class DBAirPoll {
                 return;
             }
 
+            // data parsed and get
             JsonArray listArray = jsonObject.getAsJsonArray("list");
             JsonObject firstItem = listArray.get(0).getAsJsonObject();
             long dt = firstItem.get("dt").getAsLong();
@@ -55,9 +68,6 @@ public class DBAirPoll {
             double pm2_5 = components.get("pm2_5").getAsDouble();
             double pm10 = components.get("pm10").getAsDouble();
             double nh3 = components.get("nh3").getAsDouble();
-
-            // Increment and assign location ID
-            locationIdCounter++;
 
             // Store data in the database
             String insertSql = "INSERT INTO Air_Pollution_Data (loc_id, city_name, latitude, longitude, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -82,12 +92,16 @@ public class DBAirPoll {
                 insertStatement.setDouble(14, nh3);
                 insertStatement.executeUpdate();
             }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            // Handle duplicate primary key error (update existing record)
+            updateExistingRecord(jsonObject);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private boolean isDataPresent(Connection connection, double latitude, double longitude) {
+    // func to check if data already present in database
+    public boolean isDataPresent(Connection connection, double latitude, double longitude) {
         boolean present = false;
         String selectSql = "SELECT COUNT(*) FROM Air_Pollution_Data WHERE latitude = ? AND longitude = ?";
         try (PreparedStatement selectStatement = connection.prepareStatement(selectSql)) {
@@ -104,33 +118,50 @@ public class DBAirPoll {
         return present;
     }
 
-    private void displayDataFromDatabase(Connection connection, double latitude, double longitude) {
+    // fetch data from data base
+    public void displayDataFromDatabase(Connection connection, double latitude, double longitude) {
         String selectSql = "SELECT * FROM Air_Pollution_Data WHERE latitude = ? AND longitude = ?";
         try (PreparedStatement selectStatement = connection.prepareStatement(selectSql)) {
             selectStatement.setDouble(1, latitude);
             selectStatement.setDouble(2, longitude);
             ResultSet resultSet = selectStatement.executeQuery();
+            // this is only printed to check if code runs properly, you can utilize data
+            // however you want
             while (resultSet.next()) {
+                int aqi = resultSet.getInt("aqi");
+                double co = resultSet.getDouble("co");
+                double no = resultSet.getDouble("no");
+                double no2 = resultSet.getDouble("no2");
+                double o3 = resultSet.getDouble("o3");
+                double so2 = resultSet.getDouble("so2");
+                double pm25 = resultSet.getDouble("pm2_5");
+                double pm10 = resultSet.getDouble("pm10");
+                double nh3 = resultSet.getDouble("nh3");
+                System.out.println("runn");
                 System.out.println("Location ID: " + resultSet.getInt("loc_id"));
                 System.out.println("City Name: " + resultSet.getString("city_name"));
                 System.out.println("Latitude: " + resultSet.getDouble("latitude"));
                 System.out.println("Longitude: " + resultSet.getDouble("longitude"));
                 System.out.println("Date and Time: " + resultSet.getLong("dt"));
-                System.out.println("AQI: " + resultSet.getInt("aqi"));
-                System.out.println("CO: " + resultSet.getDouble("co"));
-                System.out.println("NO: " + resultSet.getDouble("no"));
-                System.out.println("NO2: " + resultSet.getDouble("no2"));
-                System.out.println("O3: " + resultSet.getDouble("o3"));
-                System.out.println("SO2: " + resultSet.getDouble("so2"));
-                System.out.println("PM2.5: " + resultSet.getDouble("pm2_5"));
-                System.out.println("PM10: " + resultSet.getDouble("pm10"));
-                System.out.println("NH3: " + resultSet.getDouble("nh3"));
+                System.out.println("AQI: " + aqi);
+                System.out.println("CO: " + co);
+                System.out.println("NO: " + no);
+                System.out.println("NO2: " + no2);
+                System.out.println("O3: " + o3);
+                System.out.println("SO2: " + so2);
+                System.out.println("PM2.5: " + pm25);
+                System.out.println("PM10: " + pm10);
+                System.out.println("NH3: " + nh3);
+                controller.setAirPollutionData(co, nh3, no, no2, o3, pm10,
+                        pm25, so2);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // since city name is not fetched by air pollution API, so it is obtained from
+    // current Weather Data table
     private String getCityNameFromCurrentWeatherData(Connection connection, double latitude, double longitude)
             throws SQLException {
         String cityName = "Unknown";
@@ -146,6 +177,7 @@ public class DBAirPoll {
         return cityName;
     }
 
+    // delete data in table after 6 hours
     public void deleteOldData() {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
             Instant sixHoursAgo = Instant.now().minus(Duration.ofHours(6));
@@ -154,6 +186,56 @@ public class DBAirPoll {
             try (PreparedStatement deleteStatement = connection.prepareStatement(deleteSql)) {
                 deleteStatement.setLong(1, sixHoursAgoEpoch);
                 deleteStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Update existing record in case of duplicate primary key
+    private void updateExistingRecord(JsonObject jsonObject) {
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD)) {
+            JsonObject coordObject = jsonObject.getAsJsonObject("coord");
+            double lat = coordObject.get("lat").getAsDouble();
+            double lon = coordObject.get("lon").getAsDouble();
+
+            // data parsed and get
+            JsonArray listArray = jsonObject.getAsJsonArray("list");
+            JsonObject firstItem = listArray.get(0).getAsJsonObject();
+            long dt = firstItem.get("dt").getAsLong();
+            JsonObject main = firstItem.getAsJsonObject("main");
+            int aqi = main.get("aqi").getAsInt();
+            JsonObject components = firstItem.getAsJsonObject("components");
+            double co = components.get("co").getAsDouble();
+            double no = components.get("no").getAsDouble();
+            double no2 = components.get("no2").getAsDouble();
+            double o3 = components.get("o3").getAsDouble();
+            double so2 = components.get("so2").getAsDouble();
+            double pm2_5 = components.get("pm2_5").getAsDouble();
+            double pm10 = components.get("pm10").getAsDouble();
+            double nh3 = components.get("nh3").getAsDouble();
+
+            // Update data in the database
+            String updateSql = "UPDATE Air_Pollution_Data SET city_name = ?, dt = ?, aqi = ?, co = ?, no = ?, no2 = ?, o3 = ?, so2 = ?, pm2_5 = ?, pm10 = ?, nh3 = ? WHERE latitude = ? AND longitude = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                updateStatement.setString(1, getCityNameFromCurrentWeatherData(connection, lat, lon)); // Obtain city
+                                                                                                       // name from
+                                                                                                       // current
+                                                                                                       // weather data
+                                                                                                       // table
+                updateStatement.setLong(2, dt);
+                updateStatement.setInt(3, aqi);
+                updateStatement.setDouble(4, co);
+                updateStatement.setDouble(5, no);
+                updateStatement.setDouble(6, no2);
+                updateStatement.setDouble(7, o3);
+                updateStatement.setDouble(8, so2);
+                updateStatement.setDouble(9, pm2_5);
+                updateStatement.setDouble(10, pm10);
+                updateStatement.setDouble(11, nh3);
+                updateStatement.setDouble(12, lat);
+                updateStatement.setDouble(13, lon);
+                updateStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -210,5 +292,8 @@ public class DBAirPoll {
 
         // Example API call
         fetcher.APIcall(40.7128, -74.0060); // Example latitude and longitude
+
+        // Message to check if the code runs properly
+        System.out.println("Code executed successfully!");
     }
 }

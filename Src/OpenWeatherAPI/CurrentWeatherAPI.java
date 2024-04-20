@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.swing.JOptionPane;
+import Src.WeatherDataStorage.DBCurrweatherData;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
@@ -41,7 +42,11 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int WeatherID = weather.get("id").getAsInt();
     String weatherMain = weather.get("main").getAsString(); // Rain, Snow etc
     String weatherDescription = weather.get("description").getAsString();
-    String weatherIcon = weather.get("icon").getAsString(); // Icon of current weather
+
+    // Icon Section
+    String iconCode = weather.get("icon").getAsString(); // Icon of current weather
+    String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
+    String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon
 
     JsonObject main = jsonObject.getAsJsonObject("main");
     double temp = main.get("temp").getAsDouble();
@@ -74,8 +79,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
       generateNotification(visibility);
     }
     if (controller != null) {
-      controller.updateUI(controller, CityName, country, temp, weatherMain, weatherIcon, lat, lon, feelsLike,
-          humidity, tempMin, tempMax, sunrise, sunset, pressure, windSpeed);
+      controller.updateUI(controller, CityName, country, temp, weatherMain, iconUrl, lat, lon, feelsLike,
+          humidity, tempMin, tempMax, sunrise, sunset, pressure, windSpeed, timezone);
     }
   }
 
@@ -133,6 +138,12 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
         response.toString(),
         JsonObject.class);
     parseJSON(jsonObject);
+    // instance of DBCurrweatherData
+    DBCurrweatherData dbCurrweatherData = new DBCurrweatherData();
+
+    // Call the parseJSON method of DBCurrweatherData
+    dbCurrweatherData.parseJSON(jsonObject);
+
     System.out.println(jsonObject);
     connection.disconnect();
   }
@@ -149,6 +160,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
-    test.APIcall("lahore");
+    test.APIcall("london");
   }
 }

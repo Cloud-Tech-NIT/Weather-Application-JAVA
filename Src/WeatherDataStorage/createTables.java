@@ -1,3 +1,5 @@
+package Src.WeatherDataStorage;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,9 +14,9 @@ public class createTables {
 
     public void Table_CurrentWeatherData() {
         try {
-            String url = "jdbc:mysql://localhost:3306/weather_Cache";
+            String url = "jdbc:mysql://localhost:3306/weather_cache";
             String userName = "root";
-            String password = "abc_123";
+            String password = "4820";
 
             Connection connection = DriverManager.getConnection(url, userName, password);
             Statement stm = connection.createStatement();
@@ -22,7 +24,7 @@ public class createTables {
             // sql query for creating tables
             // **If you want to change data type of any variable, change in this */
 
-            String query = "CREATE TABLE Current_Weather_Data(loc_id INT PRIMARY KEY,city_name VARCHAR(255),latitude Float,longitude Float,weather_main VARCHAR(255), weather_description VARCHAR(255),weather_icon VARCHAR(255),temperature Float,feels_like Float,temp_min Float,temp_max Float,pressure INT,thumidity INT,visibility INT,wind_speed Float,rain Float,clouds_all INT,dt INT,country VARCHAR(255),sunrise INT, sunset INT,timezone INT)";
+            String query = "CREATE TABLE Current_Weather_Data(loc_id INT,city_name VARCHAR(255) PRIMARY KEY,latitude Double,longitude Double,weather_main VARCHAR(255), weather_description VARCHAR(255),weather_icon VARCHAR(255),temperature Float,feels_like Float,temp_min Float,temp_max Float,pressure INT,humidity INT,visibility INT,wind_speed Float,rain Float,clouds_all INT,dt INT,country VARCHAR(255),sunrise INT, sunset INT,timezone INT)";
 
             stm.executeUpdate(query);
             System.out.println(" Current_Weather_Data Table Created Successfully!");
@@ -38,7 +40,7 @@ public class createTables {
         try {
             String url = "jdbc:mysql://localhost:3306/weather_cache";
             String userName = "root";
-            String password = "abc_123";
+            String password = "4820";
 
             Connection connection = DriverManager.getConnection(url, userName, password);
             Statement stm = connection.createStatement();
@@ -46,7 +48,7 @@ public class createTables {
             // sql query for creating tables
             // **If you want to change data type of any variable, change in this */
 
-            String query = "CREATE TABLE Air_Pollution_Data(loc_id INT PRIMARY KEY,city_name VARCHAR(255),latitude Float,longitude Float,dt INT,aqi INT,co FLOAT,no FLOAT,no2 FLOAT,o3 FLOAT, so2 FLOAT,pm2_5 FLOAT,pm10 FLOAT,nh3 FLOAT )";
+            String query = "CREATE TABLE Air_Pollution_Data(loc_id INT ,city_name VARCHAR(255),latitude Double,longitude Double,dt INT,aqi INT,co FLOAT,no FLOAT,no2 FLOAT,o3 FLOAT, so2 FLOAT,pm2_5 FLOAT,pm10 FLOAT,nh3 FLOAT, PRIMARY KEY(latitude,longitude))";
             stm.executeUpdate(query);
             System.out.println("Air Pollution Table Created Successfully!");
             connection.close();
@@ -59,9 +61,9 @@ public class createTables {
 
     public void Table_weather_Forecast() {
         try {
-            String url = "jdbc:mysql://localhost:3306/weather_Cache";
+            String url = "jdbc:mysql://localhost:3306/weather_cache";
             String userName = "root";
-            String password = "abc_123";
+            String password = "4820";
 
             Connection connection = DriverManager.getConnection(url, userName, password);
             Statement stm = connection.createStatement();
@@ -69,7 +71,7 @@ public class createTables {
             // sql query for creating tables
             // **If you want to change data type of any variable, change in this */
 
-            String query = "CREATE TABLE weather_Forecast (loc_id INT PRIMARY KEY,city_name VARCHAR(255),latitude Float,longitude Float,date DATE,temp FLOAT,temp_min FLOAT, temp_max FLOAT,pressure FLOAT,humidity FLOAT,city_coordinates VARCHAR(255))";
+            String query = "CREATE TABLE weather_Forecast (Day INT,city_name VARCHAR(255) ,latitude Double, longitude Double,temp FLOAT,temp_min FLOAT, temp_max FLOAT,pressure FLOAT,humidity FLOAT,PRIMARY KEY (Day, city_name))";
             stm.executeUpdate(query);
             System.out.println("weather_Forecast Table Created Successfully!");
             connection.close();

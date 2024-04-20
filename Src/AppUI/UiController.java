@@ -1,5 +1,6 @@
 package Src.AppUI;
 
+import javafx.scene.Node;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -41,16 +42,17 @@ public class UiController {
     void oncitysearch(ActionEvent event) {
         String cityName = tfcityname.getText();
         try {
-            DUIFiller duiFiller = new DUIFiller();
 
-            duiFiller.setcity(cityName);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/screen2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen.fxml"));
             Parent root = loader.load();
-            Screen2Controller controller = loader.getController();
+            mainscreenController controller = loader.getController();
             controller.initialize(cityName); // Pass city name to Screen2Controller
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+            Node sourceNode = (Node) event.getSource();
+            Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+            currentStage.close();
         } catch (IOException e) {
             e.printStackTrace(); // Handle exception appropriately
         }
@@ -59,35 +61,19 @@ public class UiController {
     @FXML
 
     void onlatsearch(ActionEvent event) {
-        double latitude = Double.parseDouble(tflatitude.getText());
-        double longitude = Double.parseDouble(tflongitude.getText());
+
         try {
 
-            DUIFiller duiFiller = new DUIFiller();
-
-            // Pass latitude and longitude to DUIFiller
-            duiFiller.setLatLong(latitude, longitude);
-            duiFiller.setcity(null);
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/screen2.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen.fxml"));
             Parent root = loader.load();
-            Screen2Controller controller = loader.getController();
-
-            // Fetch weather data using latitude and longitude
-            CurrentWeatherAPI weatherAPI = new CurrentWeatherAPI();
-            String weatherData = weatherAPI.getData(latitude, longitude);
-
-            // Parse JSON data with Gson
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(weatherData, JsonObject.class);
-
-            // Update UI elements with parsed data
-            weatherAPI.parseJSON(jsonObject, controller);
-
-            // Show the stage
+            mainscreenController controller = loader.getController();
+            controller.initialize(tflatitude.getText(), tflongitude.getText()); // Pass city name to Screen2Controller
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+            Node sourceNode = (Node) event.getSource();
+            Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+            currentStage.close();
         } catch (IOException e) {
             e.printStackTrace(); // Handle exception appropriately
         }

@@ -1,4 +1,4 @@
-CREATE TABLE WeatherForecast (
+CREATE TABLE weather_forecast (
     loc_id INT PRIMARY KEY,
     city_name VARCHAR(255),
     latitude FLOAT,

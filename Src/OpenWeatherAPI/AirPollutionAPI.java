@@ -2,6 +2,9 @@ package Src.OpenWeatherAPI;
 
 import Src.AppUI.Screen3Controller;
 import Src.AppUI.mainscreenController;
+import Src.WeatherDataStorage.DBAirPoll;
+import Src.WeatherDataStorage.DBCurrweatherData;
+import Src.WeatherDataStorage.DBAirPoll;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -105,6 +108,17 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
             .parse(response.toString())
             .getAsJsonObject();
         parseJSON(jsonObject);
+        // instance of DBAirpoll
+        DBAirPoll dbAirpoll = new DBAirPoll();
+
+        // Call the parseJSON method of DBAirPoll
+        dbAirpoll.parseJSON(jsonObject);
+        // instance of DBCurrweatherData
+        DBAirPoll dbairpol = new DBAirPoll();
+
+        // Call the parseJSON method of DBCurrweatherData
+        dbairpol.parseJSON(jsonObject);
+
       } else {
         System.out.println("GET request not worked");
       }
