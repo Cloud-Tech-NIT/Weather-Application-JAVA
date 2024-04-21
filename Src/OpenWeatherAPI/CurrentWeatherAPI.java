@@ -70,6 +70,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     if (visibility > POOR_WEATHER_THRESHOLD) {
       generateNotification(visibility);
     }
+    System.out.println("MAX TEMPERATURE: " + tempMax);
+    System.out.println("MIN TEMPERATURE: " + tempMin);
   }
 
   @Override
@@ -125,7 +127,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     JsonObject jsonObject = gson.fromJson(
         response.toString(),
         JsonObject.class);
-    System.out.println(jsonObject);
+    // System.out.println(jsonObject);
     parseJSON(jsonObject);
     connection.disconnect();
   }
