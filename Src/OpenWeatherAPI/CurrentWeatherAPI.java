@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.swing.JOptionPane;
+import Src.WeatherDataStorage.WeatherDataTxtStorage;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
@@ -58,6 +59,12 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
+
+    WeatherDataTxtStorage.deleteOldData();
+    WeatherDataTxtStorage.storeCurrentWeatherData(lat, lon, WeatherID, weatherMain, weatherDescription,
+        temp, feelsLike, tempMin, tempMax, pressure, humidity,
+        visibility, windSpeed, WindDeg, cloudsAll, dt, country,
+        sunrise, sunset, timezone, CityName);
 
     // generating notifications on the basis of poor_weather
     if (visibility > POOR_WEATHER_THRESHOLD) {

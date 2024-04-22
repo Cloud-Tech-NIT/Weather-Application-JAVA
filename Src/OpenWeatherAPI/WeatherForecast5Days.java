@@ -11,11 +11,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import Src.WeatherDataStorage.WeatherDataTxtStorage;
 
 public class WeatherForecast5Days implements InterfaceAPI {
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
+
+    JsonObject city = jsonObject.getAsJsonObject("city");
+    double lat = city.getAsJsonObject("coord").get("lat").getAsDouble();
+    double lon = city.getAsJsonObject("coord").get("lon").getAsDouble();
+    String cityName = city.get("name").getAsString();
+
+
+    
     // Parsing values into variables
     JsonArray list = jsonObject.getAsJsonArray("list");
 
@@ -58,6 +67,13 @@ public class WeatherForecast5Days implements InterfaceAPI {
       for (double value : data[i]) {
         System.out.print(value + " ");
       }
+
+       //store in txt//
+    WeatherDataTxtStorage.deleteOldData();
+    WeatherDataTxtStorage.storeWeatherForecastData(data, lat, lon,cityName);
+
+
+
       // Print the icon URL for the day
       System.out.println("Icon URL: " + iconUrls[i]);
       System.out.println("WeatherCondition: " + weatherCondition[i]);
