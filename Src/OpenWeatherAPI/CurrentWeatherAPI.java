@@ -134,7 +134,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
             " with visibility = " +
             visibility);
   }
-
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
     test.APIcall("lahore");
