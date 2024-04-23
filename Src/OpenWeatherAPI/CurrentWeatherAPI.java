@@ -1,6 +1,7 @@
 package Src.OpenWeatherAPI;
 
 import Src.AppUI.Screen2Controller;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -12,8 +13,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.swing.JOptionPane;
 import Src.WeatherDataStorage.WeatherDataTxtStorage;
+import Src.BusinessLogic.DisplayData;
+
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
+
+  private DisplayData callback; // Callback reference variable
+
+  public void setCallback(DisplayData displayData) {
+      this.callback = displayData;
+  }
 
   // <changed> added print functionality//
   @Override
@@ -60,6 +69,15 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
+    callback.displayCurrentWeatherData( lat, lon, WeatherID, weatherMain,
+     weatherDescription,  temp,  feelsLike,
+     tempMin, tempMax, pressure, humidity,
+    visibility, windSpeed, WindDeg,
+    cloudsAll,  dt, country, sunrise,
+    sunset, timezone, CityName);
+
+
+
     WeatherDataTxtStorage.deleteOldData();
     WeatherDataTxtStorage.storeCurrentWeatherData(lat, lon, WeatherID, weatherMain, weatherDescription,
         temp, feelsLike, tempMin, tempMax, pressure, humidity,
@@ -93,7 +111,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
       e.printStackTrace();
     }
   }
-
+  @Override
   public void APIcall(String cityName) {
     try {
       @SuppressWarnings("deprecation")

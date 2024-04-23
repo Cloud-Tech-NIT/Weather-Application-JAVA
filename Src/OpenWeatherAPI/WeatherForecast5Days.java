@@ -11,9 +11,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import Src.WeatherDataStorage.WeatherDataTxtStorage;
+import Src.BusinessLogic.DisplayData;
 
 public class WeatherForecast5Days implements InterfaceAPI {
+
+  private DisplayData callback; // Callback reference variable
+
+  public void setCallback(DisplayData displayData) {
+    this.callback = displayData;
+  }
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
@@ -61,24 +69,30 @@ public class WeatherForecast5Days implements InterfaceAPI {
         dayIndex++;
       }
     }
-    // Printing the Data of Each of 5 Days
-    for (int i = 0; i < numDays; i++) {
-      System.out.println("DAY " + (i + 1));
-      for (double value : data[i]) {
-        System.out.print(value + " ");
-      }
+    
+    // // Printing the Data of Each of 5 Days
+    // for (int i = 0; i < numDays; i++) {
+    //   System.out.println("DAY " + (i + 1));
+    //   for (double value : data[i]) {
+    //     System.out.print(value + " ");
+    //   }
+    // 
+    //   // Print the icon URL for the day
+    //   System.out.println("Icon URL: " + iconUrls[i]);
+    //   System.out.println("WeatherCondition: " + weatherCondition[i]);
+    //   System.out.println();
+    // }
 
+    
+    if (callback != null) {
+      callback.displayWeatherForecast(data, iconUrls, weatherCondition, lat, lon,
+      cityName);
+    }
        //store in txt//
     WeatherDataTxtStorage.deleteOldData();
     WeatherDataTxtStorage.storeWeatherForecastData(data, lat, lon,cityName);
 
 
-
-      // Print the icon URL for the day
-      System.out.println("Icon URL: " + iconUrls[i]);
-      System.out.println("WeatherCondition: " + weatherCondition[i]);
-      System.out.println();
-    }
   }
 
   @Override
