@@ -14,14 +14,14 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 import Src.WeatherDataStorage.WeatherDataTxtStorage;
 import Src.BusinessLogic.DisplayData;
-
+import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
   private DisplayData callback; // Callback reference variable
 
   public void setCallback(DisplayData displayData) {
-      this.callback = displayData;
+    this.callback = displayData;
   }
 
   // <changed> added print functionality//
@@ -31,8 +31,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
     // Coordinates Section
     JsonObject coord = jsonObject.getAsJsonObject("coord");
-    double lon = coord.get("lon").getAsDouble();
-    double lat = coord.get("lat").getAsDouble();
+    float lon = coord.get("lon").getAsFloat();
+    float lat = coord.get("lat").getAsFloat();
 
     // Weather Section
     JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
@@ -69,14 +69,12 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
-    callback.displayCurrentWeatherData( lat, lon, WeatherID, weatherMain,
-     weatherDescription,  temp,  feelsLike,
-     tempMin, tempMax, pressure, humidity,
-    visibility, windSpeed, WindDeg,
-    cloudsAll,  dt, country, sunrise,
-    sunset, timezone, CityName);
-
-
+    callback.displayCurrentWeatherData(lat, lon, WeatherID, weatherMain,
+        weatherDescription, temp, feelsLike,
+        tempMin, tempMax, pressure, humidity,
+        visibility, windSpeed, WindDeg,
+        cloudsAll, dt, country, sunrise,
+        sunset, timezone, CityName);
 
     WeatherDataTxtStorage.deleteOldData();
     WeatherDataTxtStorage.storeCurrentWeatherData(lat, lon, WeatherID, weatherMain, weatherDescription,
@@ -111,6 +109,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
       e.printStackTrace();
     }
   }
+
   @Override
   public void APIcall(String cityName) {
     try {
@@ -159,6 +158,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
             " with visibility = " +
             visibility);
   }
+
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
     test.APIcall("lahore");
