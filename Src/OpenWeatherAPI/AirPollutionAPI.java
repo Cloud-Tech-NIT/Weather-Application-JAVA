@@ -9,9 +9,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.swing.JOptionPane;
 
+import Src.BusinessLogic.DisplayData;
 import Src.WeatherDataStorage.WeatherDataTxtStorage;
 
+
+
+
 public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
+
+  private DisplayData callback; // Callback reference variable
+
+  public void setCallback(DisplayData airPollutionData) {
+    this.callback = airPollutionData;
+  }
 
   @Override
   public void parseJSON(JsonObject jsonObject) {
@@ -35,23 +45,25 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     double pm10 = components.get("pm10").getAsDouble();
     double nh3 = components.get("nh3").getAsDouble();
 
+    if (callback != null) {
+      callback.displayAirPollutionData(lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
+    }
 
-    
     WeatherDataTxtStorage.deleteOldData();
     WeatherDataTxtStorage.storeAirPollutionData(lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
 
-  
+    
 
-    System.out.println("DT: " + dt);
-    System.out.println("AQI: " + aqi);
-    System.out.println("CO: " + co);
-    System.out.println("NO: " + no);
-    System.out.println("NO2: " + no2);
-    System.out.println("O3: " + o3);
-    System.out.println("SO2: " + so2);
-    System.out.println("PM2.5: " + pm2_5);
-    System.out.println("PM10: " + pm10);
-    System.out.println("NH3: " + nh3);
+    // System.out.println("DT: " + dt);
+    // System.out.println("AQI: " + aqi);
+    // System.out.println("CO: " + co);
+    // System.out.println("NO: " + no);
+    // System.out.println("NO2: " + no2);
+    // System.out.println("O3: " + o3);
+    // System.out.println("SO2: " + so2);
+    // System.out.println("PM2.5: " + pm2_5);
+    // System.out.println("PM10: " + pm10);
+    // System.out.println("NH3: " + nh3);
 
     if (aqi > POOR_AIR_QUALITY_THRESHOLD) {
       generateNotification(aqi);
@@ -115,8 +127,9 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     JOptionPane.showMessageDialog(null, "The air quality for the region is not good with AQI = " + aqi);
   }
 
+  
   public static void main(String[] args) {
-    AirPollutionAPI AirPollution = new AirPollutionAPI();
-    AirPollution.APIcall(34.56, 89.0);
+
+    //airPollutionAPI.APIcall(34.56, 89.0);
   }
 }
