@@ -1,5 +1,8 @@
 CREATE TABLE WeatherForecast (
-    id INT PRIMARY KEY,
+    loc_id INT PRIMARY KEY,
+    city_name VARCHAR(255),
+    latitude FLOAT,
+    longitude FLOAT,
     date DATE,
     temp FLOAT,
     temp_min FLOAT,

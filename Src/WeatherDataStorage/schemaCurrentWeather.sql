@@ -1,6 +1,5 @@
 CREATE TABLE WeatherDatas (
-    id INT PRIMARY KEY,
-    city_id INT,
+    loc_id INT PRIMARY KEY,
     city_name VARCHAR(255),
     latitude Float,
     longitude Float,
