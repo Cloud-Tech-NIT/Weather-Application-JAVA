@@ -10,7 +10,6 @@ import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.WeatherDataStorage.MySQLConnection;
 
@@ -18,7 +17,8 @@ import Src.WeatherDataStorage.MySQLConnection;
 public class DBCurrWeather 
 {
     private MySQLConnection Connection=new MySQLConnection();
-    
+    private CurrentWeatherAPIData obj=new CurrentWeatherAPIData();
+
     private int locationIdCounter = 0;
 
     public void insertWeatherData(CurrentWeatherAPIData  jsonObject)
@@ -155,26 +155,26 @@ public class DBCurrWeather
         }
     }
     // Helper method to display fetched data from ResultSet
-    private void displayData(ResultSet resultSet) throws SQLException {
+    private CurrentWeatherAPIData displayData(ResultSet resultSet) throws SQLException {
         while (resultSet.next())
          {
-            // Extract data from ResultSet and display it
+            // Extract data from ResultSet 
             int loc_id = resultSet.getInt("loc_id");
             String city_name = resultSet.getString("city_name");
-            double lat = resultSet.getDouble("latitude");
-            double lon = resultSet.getDouble("longitude");
+             float lat = resultSet.getFloat("latitude");
+            float lon = resultSet.getFloat("longitude");
             String weather_main = resultSet.getString("weather_main");
             String weather_description = resultSet.getString("weather_description");
             String weather_icon = resultSet.getString("weather_icon");
-            double temperature = resultSet.getDouble("temperature");
-            double feels_like = resultSet.getDouble("feels_like");
-            double temp_min = resultSet.getDouble("temp_min");
-            double temp_max = resultSet.getDouble("temp_max");
+            float temperature = resultSet.getFloat("temperature");
+            float feels_like = resultSet.getFloat("feels_like");
+            float temp_min = resultSet.getFloat("temp_min");
+            float temp_max = resultSet.getFloat("temp_max");
             int pressure = resultSet.getInt("pressure");
             int humidity = resultSet.getInt("humidity");
             int visibility = resultSet.getInt("visibility");
-            double wind_speed = resultSet.getDouble("wind_speed");
-            double rain = resultSet.getDouble("rain");
+            float wind_speed = resultSet.getFloat("wind_speed");
+            float rain = resultSet.getFloat("rain");
             int clouds_all = resultSet.getInt("clouds_all");
             int dt = resultSet.getInt("dt");
             String country = resultSet.getString("country");
@@ -182,36 +182,33 @@ public class DBCurrWeather
             int sunset = resultSet.getInt("sunset");
             int timezone = resultSet.getInt("timezone");
             String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
-            String iconUrl = baseIconUrl + weather_icon + "@2x.png"; // final url for icon
-            // controller.updateUI(controller, city_name, country, temperature + 273, weather_main, iconUrl, lat, lon,
-            //         feels_like + 273,
-            //         humidity, temp_min + 273, temp_max + 273, sunrise, sunset, pressure, wind_speed, timezone);
-
-            // Display the fetched data
-            System.out.println("Location ID: " + loc_id);
-            System.out.println("City Name: " + city_name);
-            System.out.println("Latitude: " + lat);
-            System.out.println("Longitude: " + lon);
-            System.out.println("Weather Main: " + weather_main);
-            System.out.println("Weather Description: " + weather_description);
-            System.out.println("Weather Icon: " + weather_icon);
-            System.out.println("Temperature: " + temperature);
-            System.out.println("Feels Like: " + feels_like);
-            System.out.println("Temp Min: " + temp_min);
-            System.out.println("Temp Max: " + temp_max);
-            System.out.println("Pressure: " + pressure);
-            System.out.println("Humidity: " + humidity);
-            System.out.println("Visibility: " + visibility);
-            System.out.println("Wind Speed: " + wind_speed);
-            System.out.println("Rain: " + rain);
-            System.out.println("Clouds All: " + clouds_all);
-            System.out.println("DT: " + dt);
-            System.out.println("Country: " + country);
-            System.out.println("Sunrise: " + sunrise);
-            System.out.println("Sunset: " + sunset);
-            System.out.println("Timezone: " + timezone);
-            System.out.println();
-        }
+            String iconUrl = baseIconUrl + weather_icon + "@2x.png";
+         
+            //make temporary CurrWeather APi obj to store data for ui display
+            obj.setLocId(1);
+    obj.setCityName(city_name);
+    obj.setLatitude(lat);
+    obj.setLongitude(lon);
+    obj.setWeatherDescription(weather_description);
+    obj.setWeatherIcon(iconUrl);
+    obj.setWeatherMain(weather_main);
+    obj.setTemperature(temperature);
+    obj.setFeelsLike(feels_like);
+    obj.setTempMax(temp_max);
+    obj.setTempMin(temp_min);
+    obj.setPressure(pressure);
+    obj.setHumidity(humidity);
+    obj.setVisibility(visibility);
+    obj.setWindSpeed(wind_speed);
+    obj.setRain(rain);
+    obj.setCloudsAll(clouds_all);
+    obj.setDt(dt);
+    obj.setCountry(country);
+    obj.setSunrise(sunrise);
+    obj.setSunset(sunset);
+    obj.setTimezone(timezone);
+    }
+    return obj;
     }
 
     // Delete data in table after 6 hours
