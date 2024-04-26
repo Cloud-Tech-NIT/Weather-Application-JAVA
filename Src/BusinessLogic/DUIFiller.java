@@ -2,7 +2,6 @@ package Src.BusinessLogic;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
@@ -10,7 +9,8 @@ import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.DBCurrWeather;
-import Src.WeatherDataStorage.MySQLConnection;
+import Src.WeatherDataStorage.DBweatherForecast;
+import Src.WeatherDataStorage.DBAirPollDat;
 public class DUIFiller {
 
   // Make the object of Desktop UI here
@@ -26,6 +26,11 @@ public class DUIFiller {
   private CurrentWeatherAPI APIcall = new CurrentWeatherAPI();
   private WeatherForecast5Days WeatherAPIcall = new WeatherForecast5Days();
   private AirPollutionAPI PollutionAPIcall = new AirPollutionAPI();
+ 
+  //DB objs
+  private DBAirPollDat airpol=new DBAirPollDat();
+  private DBweatherForecast frcst=new DBweatherForecast();
+  private DBCurrWeather curr=new DBCurrWeather();
 
   // Method For Searching By City
   public void SearchByCity(String CityName) {
@@ -50,41 +55,95 @@ public class DUIFiller {
   // Write Methods for getting data through DB and fill the CurrentWeather,
   // Forecast, AirPoll
   //method to get and store for curr Weather
-  public void insertDataCurrWeather()
-  { int locationIdCounter = 0;
-    float lat = CurrentWeather.getLatitude();
-    float lon=CurrentWeather.getLongitude();
-            String cityName = CurrentWeather.getCityName();
-            String weatherMain = CurrentWeather.getWeatherMain();
-            String weatherDescription =CurrentWeather.getWeatherDescription();
-            String weatherIcon = CurrentWeather.getWeatherIcon();
-            float temp = CurrentWeather.getTemperature();
-            float feelsLike = CurrentWeather.getFeelsLike();
-            float tempMin = CurrentWeather.getTempMin();
-            double tempMax =CurrentWeather.getTempMax();
-            int pressure = CurrentWeather.getPressure();
-            int humidity =CurrentWeather.getPressure();
-            int visibility = CurrentWeather.getVisibility();
-            double windSpeed =CurrentWeather.getWindSpeed();
-            double rainVolume =CurrentWeather.getRain();
-            int cloudsAll=CurrentWeather.getCloudsAll();
-            int dt=CurrentWeather.getDt();
-            String country=CurrentWeather.getCountry();
-            int sunrise = CurrentWeather.getSunrise();
-            int sunset = CurrentWeather.getSunset();
 
-            try (Connection connection =  MySQLConnection.getConnection()) {
-      DBCurrWeather insertionClass = new DBCurrWeather();
-        insertionClass.insertWeatherData(locationIdCounter, lat, lon, cityName, weatherMain,
-                weatherDescription, weatherIcon, temp, feelsLike,
-                tempMin, tempMax, pressure, humidity, visibility,
-                windSpeed, rainVolume, cloudsAll, dt, country,
-                sunrise, sunset);
-    } catch (SQLException e) {
-        e.printStackTrace();
+  //check Weather by coordinates
+  public void CheckCurrWeatherCoord(double lat,double lon)
+  { 
+    if (curr.isDataPresentByLatLon(lat, lon))
+     {
+      curr.displayDataFromDatabaseByLatLon(lat,lon); 
     }
-}
-   
+     else 
+     {
+      APIcall.SearchByCoord(lat, lon, CurrentWeather);
+      if (CurrentWeather != null)
+      { // Check if data is retrieved successfully
+        curr.insertWeatherData(CurrentWeather);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+
+  //check curr weather by city
+  public void CheckCurrWeatherCity(String City)
+  { 
+    if (curr.isDataPresentByCityName(City))
+     {
+      curr. displayDataFromDatabaseByCityName(City); // Assuming it returns data
+    }
+     else 
+     {
+      APIcall.SearchByCity(City, CurrentWeather);;
+      if (CurrentWeather != null)
+      { // Check if data is retrieved successfully
+        curr.insertWeatherData(CurrentWeather);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+  
+  //check airpollution by City
+  public void CheckAirPollCity(String City)
+  { 
+    if (airpol.isDataPresentByCityName(City))
+     {
+      airpol.displayDataFromDatabaseByCityName(City); // Assuming it returns data
+    }
+     else 
+     {
+      PollutionAPIcall.searchAirPollution(0, 0, City, AirPoll);     
+       if (AirPoll != null)
+      { 
+        airpol.insertWeatherData(AirPoll);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+
+  //check airpollution by Coord
+  public void CheckAirPollCoord(double lat,double lon)
+  { 
+    if (airpol.isDataPresentCoord(lat,lon))
+     {
+      airpol.displayDataFromDatabaseByLatLon(lat,lon); // Assuming it returns data
+    }
+     else 
+     {
+      PollutionAPIcall.searchAirPollution(lat, lon, null, AirPoll);     
+       if (AirPoll != null)
+      { 
+        airpol.insertWeatherData(AirPoll);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+
+
+
+
+
  
 
 
