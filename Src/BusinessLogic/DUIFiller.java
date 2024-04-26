@@ -1,12 +1,16 @@
 package Src.BusinessLogic;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
-
+import Src.WeatherDataStorage.DBCurrWeather;
+import Src.WeatherDataStorage.DBweatherForecast;
+import Src.WeatherDataStorage.DBAirPollDat;
 public class DUIFiller {
 
   // Make the object of Desktop UI here
@@ -22,6 +26,11 @@ public class DUIFiller {
   private CurrentWeatherAPI APIcall = new CurrentWeatherAPI();
   private WeatherForecast5Days WeatherAPIcall = new WeatherForecast5Days();
   private AirPollutionAPI PollutionAPIcall = new AirPollutionAPI();
+ 
+  //DB objs
+  private DBAirPollDat airpol=new DBAirPollDat();
+  private DBweatherForecast frcst=new DBweatherForecast();
+  private DBCurrWeather curr=new DBCurrWeather();
 
   // Method For Searching By City
   public void SearchByCity(String CityName) {
@@ -42,9 +51,103 @@ public class DUIFiller {
     city = CurrentWeather.getCityName();
     PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
   }
-
+  
   // Write Methods for getting data through DB and fill the CurrentWeather,
   // Forecast, AirPoll
+  //method to get and store for curr Weather
+
+  //check Weather by coordinates
+  public void CheckCurrWeatherCoord(double lat,double lon)
+  { 
+    if (curr.isDataPresentByLatLon(lat, lon))
+     {
+      curr.displayDataFromDatabaseByLatLon(lat,lon); 
+    }
+     else 
+     {
+      APIcall.SearchByCoord(lat, lon, CurrentWeather);
+      if (CurrentWeather != null)
+      { // Check if data is retrieved successfully
+        curr.insertWeatherData(CurrentWeather);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+
+  //check curr weather by city
+  public void CheckCurrWeatherCity(String City)
+  { 
+    if (curr.isDataPresentByCityName(City))
+     {
+      curr. displayDataFromDatabaseByCityName(City); // Assuming it returns data
+    }
+     else 
+     {
+      APIcall.SearchByCity(City, CurrentWeather);;
+      if (CurrentWeather != null)
+      { // Check if data is retrieved successfully
+        curr.insertWeatherData(CurrentWeather);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+  
+  //check airpollution by City
+  public void CheckAirPollCity(String City)
+  { 
+    if (airpol.isDataPresentByCityName(City))
+     {
+      airpol.displayDataFromDatabaseByCityName(City); // Assuming it returns data
+    }
+     else 
+     {
+      PollutionAPIcall.searchAirPollution(0, 0, City, AirPoll);     
+       if (AirPoll != null)
+      { 
+        airpol.insertWeatherData(AirPoll);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+
+  //check airpollution by Coord
+  public void CheckAirPollCoord(double lat,double lon)
+  { 
+    if (airpol.isDataPresentCoord(lat,lon))
+     {
+      airpol.displayDataFromDatabaseByLatLon(lat,lon); // Assuming it returns data
+    }
+     else 
+     {
+      PollutionAPIcall.searchAirPollution(lat, lon, null, AirPoll);     
+       if (AirPoll != null)
+      { 
+        airpol.insertWeatherData(AirPoll);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  }
+
+
+
+
+
+ 
+
+
+  
 
   // (TEHREEM) ---
 
