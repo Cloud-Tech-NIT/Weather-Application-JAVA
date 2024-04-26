@@ -1,7 +1,7 @@
 package Src.BusinessLogic;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
@@ -9,7 +9,8 @@ import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
-
+import Src.WeatherDataStorage.DBCurrWeather;
+import Src.WeatherDataStorage.MySQLConnection;
 public class DUIFiller {
 
   // Make the object of Desktop UI here
@@ -48,6 +49,7 @@ public class DUIFiller {
   
   // Write Methods for getting data through DB and fill the CurrentWeather,
   // Forecast, AirPoll
+  //method to get and store for curr Weather
   public void insertDataCurrWeather()
   { int locationIdCounter = 0;
     float lat = CurrentWeather.getLatitude();
@@ -70,7 +72,21 @@ public class DUIFiller {
             String country=CurrentWeather.getCountry();
             int sunrise = CurrentWeather.getSunrise();
             int sunset = CurrentWeather.getSunset();
-  }
+
+            try (Connection connection =  MySQLConnection.getConnection()) {
+      DBCurrWeather insertionClass = new DBCurrWeather();
+        insertionClass.insertWeatherData(locationIdCounter, lat, lon, cityName, weatherMain,
+                weatherDescription, weatherIcon, temp, feelsLike,
+                tempMin, tempMax, pressure, humidity, visibility,
+                windSpeed, rainVolume, cloudsAll, dt, country,
+                sunrise, sunset);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+   
+ 
+
 
   
 
