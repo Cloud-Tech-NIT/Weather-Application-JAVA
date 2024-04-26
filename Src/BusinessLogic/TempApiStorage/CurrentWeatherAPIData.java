@@ -15,8 +15,8 @@ public class CurrentWeatherAPIData extends APIdataStorage {
   private float rain;
   private int cloudsAll;
   private String country;
-  private long sunrise;
-  private long sunset;
+  private int sunrise;
+  private int sunset;
   private int timezone;
 
   public String getWeatherMain() {
@@ -131,19 +131,19 @@ public class CurrentWeatherAPIData extends APIdataStorage {
     this.country = country;
   }
 
-  public long getSunrise() {
+  public int getSunrise() {
     return sunrise;
   }
 
-  public void setSunrise(long sunrise) {
+  public void setSunrise(int sunrise) {
     this.sunrise = sunrise;
   }
 
-  public long getSunset() {
+  public int getSunset() {
     return sunset;
   }
 
-  public void setSunset(long sunset) {
+  public void setSunset(int sunset) {
     this.sunset = sunset;
   }
 
