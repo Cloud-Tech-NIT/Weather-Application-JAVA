@@ -140,7 +140,45 @@ public class DUIFiller {
     }
   }
 
-
+  public void CheckForecastCity(String City)
+  {
+    if (frcst.isDataPresentByCityName(Forecast))
+     {
+      frcst.displayDataFromDatabaseByCityName(Forecast); // Assuming it returns data
+    }
+     else 
+     {
+      WeatherAPIcall.SearchByCity(City, Forecast);    
+       if (AirPoll != null)
+      { 
+        airpol.insertWeatherData(Forecast);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  } 
+  public void CheckForecastCoord(String City)
+  {
+    if (frcst.isDataPresentByCoord(Forecast))
+     {
+      frcst.displayDataFromDatabaseByCoord(Forecast); // Assuming it returns data
+    }
+     else 
+     {
+      WeatherAPIcall.SearchByCoord(0, 0, Forecast); 
+       if (AirPoll != null)
+      { 
+        airpol.insertWeatherData(Forecast);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  } 
+  
 
 
 

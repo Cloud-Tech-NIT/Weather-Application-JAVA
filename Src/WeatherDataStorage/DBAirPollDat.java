@@ -16,6 +16,8 @@ import Src.WeatherDataStorage.MySQLConnection;
 
 public class DBAirPollDat 
 {
+    public AirPollutionAPIData obj=new AirPollutionAPIData();
+
     public DBAirPollDat() {
     }
     public void insertWeatherData(AirPollutionAPIData  jsonObject)
@@ -165,35 +167,40 @@ public class DBAirPollDat
         }
     }
 
-    private void displayData(ResultSet resultSet) throws SQLException {
+    private AirPollutionAPIData displayData(ResultSet resultSet) throws SQLException {
             while (resultSet.next())
-             {
+             {   int loc_id = resultSet.getInt("loc_id");
+             String city_name = resultSet.getString("city_name");
+              float lat = resultSet.getFloat("latitude");
+             float lon = resultSet.getFloat("longitude");
                 int aqi = resultSet.getInt("aqi");
-                double co = resultSet.getDouble("co");
-                double no = resultSet.getDouble("no");
-                double no2 = resultSet.getDouble("no2");
-                double o3 = resultSet.getDouble("o3");
-                double so2 = resultSet.getDouble("so2");
-                double pm25 = resultSet.getDouble("pm2_5");
-                double pm10 = resultSet.getDouble("pm10");
-                double nh3 = resultSet.getDouble("nh3");
+                float co = resultSet.getFloat("co");
+                float no = resultSet.getFloat("no");
+                float no2 = resultSet.getFloat("no2");
+                float o3 = resultSet.getFloat("o3");
+                float so2 = resultSet.getFloat("so2");
+                float pm25 = resultSet.getFloat("pm2_5");
+                float pm10 = resultSet.getFloat("pm10");
+                float nh3 = resultSet.getFloat("nh3");
 
-                System.out.println("Location ID: " + resultSet.getInt("loc_id"));
-                System.out.println("City Name: " + resultSet.getString("city_name"));
-                System.out.println("Latitude: " + resultSet.getDouble("latitude"));
-                System.out.println("Longitude: " + resultSet.getDouble("longitude"));
-                System.out.println("Date and Time: " + resultSet.getLong("dt"));
-                System.out.println("AQI: " + aqi);
-                System.out.println("CO: " + co);
-                System.out.println("NO: " + no);
-                System.out.println("NO2: " + no2);
-                System.out.println("O3: " + o3);
-                System.out.println("SO2: " + so2);
-                System.out.println("PM2.5: " + pm25);
-                System.out.println("PM10: " + pm10);
-                System.out.println("NH3: " + nh3);
+                //create temp obj to store data for ui
+                obj.setCityName(city_name);
+                obj.setLatitude(lat);
+                obj.setLongitude(lon);
+                obj.setAqi(aqi);
+                obj.setCo(co);
+                obj.setNo2(no2);
+                obj.setNo(no);
+                obj.setO3(o3);
+                obj.setSo2(so2);
+                obj.setPm25(pm25);
+                obj.setPm10(pm10);
+                obj.setNh3(nh3);
+
             }
+            return obj;
     }
+    
     public void deleteOldData() {
         try (Connection connection = MySQLConnection.getConnection()) {
             Instant sixHoursAgo = Instant.now().minus(Duration.ofHours(6));
