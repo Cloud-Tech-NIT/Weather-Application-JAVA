@@ -1,5 +1,8 @@
 package Src.BusinessLogic;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
@@ -42,9 +45,34 @@ public class DUIFiller {
     city = CurrentWeather.getCityName();
     PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
   }
-
+  
   // Write Methods for getting data through DB and fill the CurrentWeather,
   // Forecast, AirPoll
+  public void insertDataCurrWeather()
+  { int locationIdCounter = 0;
+    float lat = CurrentWeather.getLatitude();
+    float lon=CurrentWeather.getLongitude();
+            String cityName = CurrentWeather.getCityName();
+            String weatherMain = CurrentWeather.getWeatherMain();
+            String weatherDescription =CurrentWeather.getWeatherDescription();
+            String weatherIcon = CurrentWeather.getWeatherIcon();
+            float temp = CurrentWeather.getTemperature();
+            float feelsLike = CurrentWeather.getFeelsLike();
+            float tempMin = CurrentWeather.getTempMin();
+            double tempMax =CurrentWeather.getTempMax();
+            int pressure = CurrentWeather.getPressure();
+            int humidity =CurrentWeather.getPressure();
+            int visibility = CurrentWeather.getVisibility();
+            double windSpeed =CurrentWeather.getWindSpeed();
+            double rainVolume =CurrentWeather.getRain();
+            int cloudsAll=CurrentWeather.getCloudsAll();
+            int dt=CurrentWeather.getDt();
+            String country=CurrentWeather.getCountry();
+            int sunrise = CurrentWeather.getSunrise();
+            int sunset = CurrentWeather.getSunset();
+  }
+
+  
 
   // (TEHREEM) ---
 
