@@ -40,45 +40,34 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import Src.WeatherDataStorage.DBAirPoll;
-import Src.WeatherDataStorage.DBCurrweatherData;
+//import Src.WeatherDataStorage.DBAirPoll;
+//import Src.WeatherDataStorage.DBCurrweatherData;
 import Src.WeatherDataStorage.DBweatherForecast;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
+import Src.BusinessLogic.DUIFiller;
 
 public class mainscreenController {
     private String city;
     private double longitude;
     private double latitude;
 
-    private final CurrentWeatherAPI weatherAPI;
-    private final WeatherForecast5Days forecastAPI;
-    private final DBCurrweatherData currWeatherData;
+    // private final CurrentWeatherAPI weatherAPI;
+    // private final WeatherForecast5Days forecastAPI;
+    // private final DBCurrweatherData currWeatherData;
     // private final DBAirPoll airPoll;
-    private final DBweatherForecast weatherForecast;
-    private Connection connection;
+    private final DUIFiller executeflow;
+    // private final DBweatherForecast weatherForecast;
+    // private Connection connection;
 
     public mainscreenController() {
-        this.weatherAPI = new CurrentWeatherAPI();
-        this.forecastAPI = new WeatherForecast5Days();
-        this.weatherAPI.setController(this); // Set the controller reference
-        this.forecastAPI.setController(this);
-        this.currWeatherData = new DBCurrweatherData();
-        // this.airPoll = new DBAirPoll();
-        this.weatherForecast = new DBweatherForecast();
-        try {
-            // Establish a connection to the database
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/weather_Cache", "root", "4820");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.executeflow = new DUIFiller(this);
     }
 
     @FXML
     void initialize() {
         // Set default city (Lahore) on startup
-        weatherAPI.APIcall("Lahore");
-        forecastAPI.APIcall("Lahore");
+        executeflow.Flow("Lahore");
         // Set current day's day and date
         setDayAndDate();
 
@@ -99,56 +88,38 @@ public class mainscreenController {
     }
 
     public void initialize(String lat, String lon) {
-        double latitude = Double.parseDouble(lat);
-        double longitude = Double.parseDouble(lon);
-        currWeatherData.setController(this);
-        weatherAPI.setController(this);
-        weatherForecast.setController(this);
-        boolean currWeatherExists = currWeatherData.isDataPresentByLatLon(connection, latitude, longitude);
-        boolean weatherForecastExists = weatherForecast.isDataPresentByLatLon(connection, latitude, longitude);
-
-        if (currWeatherExists && weatherForecastExists) {
-            // Show a message box indicating that data is being fetched from the database
-            showAlert("Data Found for both current weather and weather forecast",
-                    "Fetching data from the database...");
-
-            currWeatherData.displayDataFromDatabaseByLatLon(connection, latitude, longitude);
-            weatherForecast.displayDataFromDatabaseByLatLon(connection, latitude, longitude);
-
-        } else {
-            showAlert("Data Not Found", "Fetching data from the API...");
-
-            weatherAPI.APIcall(latitude, longitude);
-            forecastAPI.APIcall(latitude, longitude);
-        }
 
     }
 
     public void initialize(String cityName) {
-        currWeatherData.setController(this);
-        weatherForecast.setController(this);
-        weatherAPI.setController(this); // Set the reference to this controller
+        executeflow.Flow(cityName);
+
+        // weatherForecast.setController(this);
+        // weatherAPI.setController(this); // Set the reference to this controller
         // Check if data exists in the database for current weather
-        boolean currWeatherExists = currWeatherData.isDataPresentByCityName(connection, cityName);
+        // boolean currWeatherExists =
+        // currWeatherData.isDataPresentByCityName(connection, cityName);
         // Check if data exists in the database for weather forecast
-        boolean weatherForecastExists = weatherForecast.isDataPresentByCityName(connection, cityName);
-        if (currWeatherExists && weatherForecastExists) {
-            // // Show a message box indicating that data is being fetched from the database
-            showAlert("Data Found for both current weather and weather forecast",
-                    "Fetching data from the database...");
+        // boolean weatherForecastExists =
+        // weatherForecast.isDataPresentByCityName(connection, cityName);
+        // if (currWeatherExists && weatherForecastExists) {
+        // // // Show a message box indicating that data is being fetched from the
+        // database
+        // showAlert("Data Found for both current weather and weather forecast",
+        // "Fetching data from the database...");
 
-            // Fetch data from the database for all tables
-            currWeatherData.displayDataFromDatabaseByCityName(connection, cityName);
-            weatherForecast.displayDataFromDatabaseByCityName(connection, cityName);
-        } else {
-            // Show a message box indicating that data is being fetched from the API
-            showAlert("Data Not Found", "Fetching data from the API...");
+        // // Fetch data from the database for all tables
+        // currWeatherData.displayDataFromDatabaseByCityName(connection, cityName);
+        // weatherForecast.displayDataFromDatabaseByCityName(connection, cityName);
+        // } else {
+        // // Show a message box indicating that data is being fetched from the API
+        // showAlert("Data Not Found", "Fetching data from the API...");
 
-            // Fetch data from the API for all tables
-            weatherAPI.APIcall(cityName);
-            forecastAPI.APIcall(cityName);
+        // // Fetch data from the API for all tables
+        // weatherAPI.APIcall(cityName);
+        // forecastAPI.APIcall(cityName);
 
-        }
+        // }
     }
 
     // Method to show an alert dialog

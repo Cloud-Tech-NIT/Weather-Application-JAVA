@@ -11,11 +11,19 @@ import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.DBCurrWeather;
 import Src.WeatherDataStorage.DBweatherForecast;
 import Src.WeatherDataStorage.DBAirPollDat;
+import Src.AppUI.mainscreenController;
+import Src.AppUI.Screen3Controller;
+import Src.AppUI.App;
+
 public class DUIFiller {
 
-  // Make the object of Desktop UI here
+  // objects of Desktop UI
+  private mainscreenController controller;
+  private Screen3Controller airpoll_controller = new Screen3Controller();
 
-  // private DesktopUI=new DesktopUI; (Example)
+  public DUIFiller(mainscreenController controller) {
+    this.controller = controller;
+  }
 
   // Private Instances of Individual Temporary Data Storage
   private CurrentWeatherAPIData CurrentWeather = new CurrentWeatherAPIData();
@@ -26,11 +34,11 @@ public class DUIFiller {
   private CurrentWeatherAPI APIcall = new CurrentWeatherAPI();
   private WeatherForecast5Days WeatherAPIcall = new WeatherForecast5Days();
   private AirPollutionAPI PollutionAPIcall = new AirPollutionAPI();
- 
-  //DB objs
-  private DBAirPollDat airpol=new DBAirPollDat();
-  private DBweatherForecast frcst=new DBweatherForecast();
-  private DBCurrWeather curr=new DBCurrWeather();
+
+  // DB objs
+  private DBAirPollDat airpol = new DBAirPollDat();
+  private DBweatherForecast frcst = new DBweatherForecast();
+  private DBCurrWeather curr = new DBCurrWeather();
 
   // Method For Searching By City
   public void SearchByCity(String CityName) {
@@ -51,141 +59,119 @@ public class DUIFiller {
     city = CurrentWeather.getCityName();
     PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
   }
-  
+
   // Write Methods for getting data through DB and fill the CurrentWeather,
   // Forecast, AirPoll
-  //method to get and store for curr Weather
+  // method to get and store for curr Weather
 
-  //check Weather by coordinates
-  public void CheckCurrWeatherCoord(double lat,double lon)
-  { 
-    if (curr.isDataPresentByLatLon(lat, lon))
-     {
-      curr.displayDataFromDatabaseByLatLon(lat,lon); 
-    }
-     else 
-     {
+  // check Weather by coordinates
+  public void CheckCurrWeatherCoord(double lat, double lon) {
+    if (curr.isDataPresentByLatLon(lat, lon)) {
+      curr.displayDataFromDatabaseByLatLon(lat, lon);
+    } else {
       APIcall.SearchByCoord(lat, lon, CurrentWeather);
-      if (CurrentWeather != null)
-      { // Check if data is retrieved successfully
+      if (CurrentWeather != null) { // Check if data is retrieved successfully
         curr.insertWeatherData(CurrentWeather);
-      }
-       else
-      {
+      } else {
         // Handle API call error (e.g., display error message)
       }
     }
   }
 
-  //check curr weather by city
-  public void CheckCurrWeatherCity(String City)
-  { 
-    if (curr.isDataPresentByCityName(City))
-     {
-      curr. displayDataFromDatabaseByCityName(City); // Assuming it returns data
-    }
-     else 
-     {
-      APIcall.SearchByCity(City, CurrentWeather);;
-      if (CurrentWeather != null)
-      { // Check if data is retrieved successfully
+  // check curr weather by city
+  public void CheckCurrWeatherCity(String City) {
+    if (curr.isDataPresentByCityName(City)) {
+      curr.displayDataFromDatabaseByCityName(City); // Assuming it returns data
+      controller.updateUI(controller, CurrentWeather);
+
+    } else {
+      APIcall.SearchByCity(City, CurrentWeather);
+      if (CurrentWeather != null) { // Check if data is retrieved successfully
+        controller.updateUI(controller, CurrentWeather);
         curr.insertWeatherData(CurrentWeather);
-      }
-       else
-      {
+      } else {
         // Handle API call error (e.g., display error message)
       }
     }
   }
-  
-  //check airpollution by City
-  public void CheckAirPollCity(String City)
-  { 
-    if (airpol.isDataPresentByCityName(City))
-     {
+
+  // check airpollution by City
+  public void CheckAirPollCity(String City) {
+    if (airpol.isDataPresentByCityName(City)) {
       airpol.displayDataFromDatabaseByCityName(City); // Assuming it returns data
-    }
-     else 
-     {
-      PollutionAPIcall.searchAirPollution(0, 0, City, AirPoll);     
-       if (AirPoll != null)
-      { 
+    } else {
+      PollutionAPIcall.searchAirPollution(0, 0, City, AirPoll);
+      if (AirPoll != null) {
         airpol.insertWeatherData(AirPoll);
-      }
-       else
-      {
+      } else {
         // Handle API call error (e.g., display error message)
       }
     }
   }
 
-  //check airpollution by Coord
-  public void CheckAirPollCoord(double lat,double lon)
-  { 
-    if (airpol.isDataPresentCoord(lat,lon))
-     {
-      airpol.displayDataFromDatabaseByLatLon(lat,lon); // Assuming it returns data
-    }
-     else 
-     {
-      PollutionAPIcall.searchAirPollution(lat, lon, null, AirPoll);     
-       if (AirPoll != null)
-      { 
+  // check airpollution by Coord
+  public void CheckAirPollCoord(double lat, double lon) {
+    if (airpol.isDataPresentCoord(lat, lon)) {
+      airpol.displayDataFromDatabaseByLatLon(lat, lon); // Assuming it returns data
+      airpoll_controller.setAirPollutionData(AirPoll);
+
+    } else {
+      PollutionAPIcall.searchAirPollution(lat, lon, null, AirPoll);
+      if (AirPoll != null) {
+        airpoll_controller.setAirPollutionData(AirPoll);
         airpol.insertWeatherData(AirPoll);
-      }
-       else
-      {
+      } else {
         // Handle API call error (e.g., display error message)
       }
     }
   }
 
-  public void CheckForecastCity(String City)
-  {
-    if (frcst.isDataPresentByCityName(Forecast))
-     {
-      frcst.displayDataFromDatabaseByCityName(Forecast); // Assuming it returns data
-    }
-     else 
-     {
-      WeatherAPIcall.SearchByCity(City, Forecast);    
-       if (AirPoll != null)
-      { 
-        airpol.insertWeatherData(Forecast);
-      }
-       else
-      {
-        // Handle API call error (e.g., display error message)
-      }
-    }
-  } 
-  public void CheckForecastCoord(String City)
-  {
-    if (frcst.isDataPresentByCoord(Forecast))
-     {
-      frcst.displayDataFromDatabaseByCoord(Forecast); // Assuming it returns data
-    }
-     else 
-     {
-      WeatherAPIcall.SearchByCoord(0, 0, Forecast); 
-       if (AirPoll != null)
-      { 
-        airpol.insertWeatherData(Forecast);
-      }
-       else
-      {
-        // Handle API call error (e.g., display error message)
-      }
-    }
-  } 
-  
+  // public void CheckForecastCity(String City) {
+  // if (frcst.isDataPresentByCityName(Forecast)) {
+  // frcst.displayDataFromDatabaseByCityName(Forecast); // Assuming it returns
+  // data
+  // } else {
+  // WeatherAPIcall.SearchByCity(City, Forecast);
+  // if (AirPoll != null) {
+  // airpol.insertWeatherData(Forecast);
+  // } else {
+  // // Handle API call error (e.g., display error message)
+  // }
+  // }
+  // }
 
+  // public void CheckForecastCoord(String City) {
+  // if (frcst.isDataPresentByCoord(Forecast)) {
+  // frcst.displayDataFromDatabaseByCoord(Forecast); // Assuming it returns data
+  // } else {
+  // WeatherAPIcall.SearchByCoord(0, 0, Forecast);
+  // if (AirPoll != null) {
+  // airpol.insertWeatherData(Forecast);
+  // } else {
+  // // Handle API call error (e.g., display error message)
+  // }
+  // }
+  // }
 
+  public void runGUI() {
+    String[] args = {};
+    App.main(args);
+  }
 
- 
+  public void Flow(String city) {
 
+    // Check For Data
+    // getDataFromDB
+    CheckCurrWeatherCity(city);
+    CheckAirPollCity(city);
+    // CheckForecastCity(city);
+    // ifNotPresent
+    // this.DataNotPresent();
 
-  
+    // ifPresent
+    // this.DataPresent();
+
+  }
 
   // (TEHREEM) ---
 
@@ -212,24 +198,11 @@ public class DUIFiller {
     // individual variables of CurrentWeather, Forecast, AirPoll
   }
 
-  public void Flow() {
-
-    // Check For Data
-    // getDataFromDB
-
-    // ifNotPresent
-    // this.DataNotPresent();
-
-    // ifPresent
-    // this.DataPresent();
-
-  }
-
   public static void main(String[] args) {
-    // DUIFiller DUI = new DUIFiller();
+    DUIFiller DUI = new DUIFiller();
     // DUI.SearchByCoord(20.23, 19.34);
     // DUI.SearchByCity("lahore");
-
+    DUI.runGUI();
   }
 
 }

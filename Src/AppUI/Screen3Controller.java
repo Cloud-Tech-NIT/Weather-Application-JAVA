@@ -66,21 +66,23 @@ public class Screen3Controller {
     }
 
     public void initialize(double latitude, double longitude) {
-        airPollutionAPI.setController(this); // Set the reference to this controller
-        airPoll.setController(this);
-        // check data in db
-        boolean currpollexist = airPoll.isDataPresent(connection, latitude, longitude);
+        // airPollutionAPI.setController(this); // Set the reference to this controller
+        // airPoll.setController(this);
+        // // check data in db
+        // boolean currpollexist = airPoll.isDataPresent(connection, latitude,
+        // longitude);
 
-        if (currpollexist) {
-            // alert messages were only so i can check if data is being fetched from db or
-            // not
-            // showAlert("Data Found", "Fetching data from the database...");
+        // if (currpollexist) {
+        // // alert messages were only so i can check if data is being fetched from db
+        // or
+        // // not
+        // // showAlert("Data Found", "Fetching data from the database...");
 
-            airPoll.displayDataFromDatabase(connection, latitude, longitude);
-        } else {
-            // showAlert("Data not Found", "Fetching data from the API...");
-            airPollutionAPI.APIcall(latitude, longitude); // Call the API
-        }
+        // airPoll.displayDataFromDatabase(connection, latitude, longitude);
+        // } else {
+        // // showAlert("Data not Found", "Fetching data from the API...");
+        // airPollutionAPI.APIcall(latitude, longitude); // Call the API
+        // }
     }
 
     // private void showAlert(String title, String message) {
