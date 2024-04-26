@@ -1,6 +1,6 @@
 .anchor-pane {
-    -fx-background-image: url('bg3.jpg');
-    background-image: url('bg3.jpg'); /* Standard property for compatibility */
+    -fx-background-image: url('simeon-muller-Io9VYJorLuc-unsplash.jpg');
+    background-image: url('simeon-muller-Io9VYJorLuc-unsplash.jpg'); /* Standard property for compatibility */
     -fx-background-size: cover;
     background-size: cover; /* Standard property for compatibility */
     -fx-background-position: center;
@@ -25,8 +25,16 @@
     /*background-image: url('bg3.jpg'); */
 }
 .mainpane{
-    -fx-background-image: url('airqual_bg.jpg');
-    background-image: url('airqual_bg.jpg'); 
+    /* -fx-background-image: url('airqual_bg.jpg');
+    background-image: url('airqual_bg.jpg');  */
+    -fx-background-image: url(HD-wallpaper-abstract-best-black-colourful-new-orange-pics-theme.jpg);
+    background-image: url(HD-wallpaper-abstract-best-black-colourful-new-orange-pics-theme.jpg); 
+    -fx-background-color:#43709A;
+    background-color:#43709A;
+    -fx-background-size: 100%; 
+    background-size: 100%; 
+    -fx-background-repeat: no-repeat; 
+    background-repeat: no-repeat; 
 }
 .daysbg{
   -fx-background-color:#43709A;
@@ -42,18 +50,4 @@
     -fx-background-repeat: no-repeat; 
     background-repeat: no-repeat; 
    
-}
-/* Default style for the progress bar */
-.progress-bar {
-    -fx-accent: green; /* Default color */
-}
-
-/* Style for good AQI level */
-.progress-bar.good {
-    -fx-accent: green;
-}
-
-/* Style for warning AQI level */
-.progress-bar.warning {
-    -fx-accent: yellow;
 }

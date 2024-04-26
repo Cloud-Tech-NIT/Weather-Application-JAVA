@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/weatherui.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen.fxml"));
         Parent root = loader.load();
-        UiController controller = loader.getController();
+        mainscreenController controller = loader.getController();
         controller.setMainWindow(primaryStage);
         primaryStage.setTitle("Weather App");
         primaryStage.setScene(new Scene(root, 800, 800));
