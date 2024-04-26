@@ -43,6 +43,8 @@ import javafx.stage.Stage;
 import Src.WeatherDataStorage.DBAirPoll;
 import Src.WeatherDataStorage.DBCurrweatherData;
 import Src.WeatherDataStorage.DBweatherForecast;
+import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
+import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
 public class mainscreenController {
     private String city;
@@ -80,14 +82,6 @@ public class mainscreenController {
         // Set current day's day and date
         setDayAndDate();
 
-        // Fetch and set standard time
-        // try {
-        // String timeZoneId = getTimeZoneId(31.5497, 74.3436); // Example coordinates
-        // for Lahore
-        // setStandardTime(timeZoneId);
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
     }
 
     // Method to set the current day's day and date
@@ -97,61 +91,6 @@ public class mainscreenController {
         String date = currentDate.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
         tfDayAndDate.setText(dayOfWeek + ", " + date);
     }
-
-    // private void setStandardTime(String timeZoneId) {
-    // try {
-    // // Get standard time for a city by time zone identifier
-    // ZoneId zoneId = ZoneId.of(timeZoneId);
-    // ZonedDateTime cityTime = ZonedDateTime.now(zoneId);
-
-    // // Format the ZonedDateTime object to a string
-    // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
-    // HH:mm:ss z");
-    // String formattedTime = cityTime.format(formatter);
-
-    // // Set the standard time to the text field
-    // tfStandardTime.setText(formattedTime);
-    // } catch (ZoneRulesException e) {
-    // // Handle the exception (e.g., invalid time zone identifier)
-    // tfStandardTime.setText("Error: Invalid time zone identifier");
-    // }
-    // }
-
-    // public static String getTimeZoneId(double latitude, double longitude) throws
-    // IOException {
-    // String apiKey = "YOUR_API_KEY"; // Replace with your Google Maps API key
-    // String apiUrl = "https://maps.googleapis.com/maps/api/timezone/json" +
-    // "?location=" + latitude + "," + longitude +
-    // "&timestamp=" + (System.currentTimeMillis() / 1000) + // Use current
-    // timestamp
-    // "&key=" + apiKey;
-
-    // // Make HTTP request
-    // URL url = new URL(apiUrl);
-    // HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    // connection.setRequestMethod("GET");
-
-    // // Read response
-    // BufferedReader reader = new BufferedReader(new
-    // InputStreamReader(connection.getInputStream()));
-    // StringBuilder response = new StringBuilder();
-    // String line;
-    // while ((line = reader.readLine()) != null) {
-    // response.append(line);
-    // }
-    // reader.close();
-
-    // // Parse JSON response
-    // Gson gson = new Gson();
-    // TimeZoneResponse timeZoneResponse = gson.fromJson(response.toString(),
-    // TimeZoneResponse.class);
-    // // Extract time zone ID
-    // return timeZoneResponse.timeZoneId;
-    // }
-
-    // private static class TimeZoneResponse {
-    // String timeZoneId;
-    // }
 
     private Stage mainWindow;
 
@@ -393,12 +332,25 @@ public class mainscreenController {
 
     }
 
-    public void updateUI(mainscreenController controller, String cityName, String countryName, double currentTemp,
-            String weatherCondition,
-            String weatherIconURL, double lat, double lon, double feelsLike, int humidity, double tempMin,
-            double tempMax,
-            int sunrise, int sunset, int pressure, double windSpeed, int timezone) {
+    public void updateUI(mainscreenController controller, CurrentWeatherAPIData jsonObject) {
         // Convert temperature units from Kelvin to Celsius
+        double lat = jsonObject.getLatitude();
+        double lon = jsonObject.getLongitude();
+        String cityName = jsonObject.getCityName();// Changed variable name to cityName
+        String weatherCondition = jsonObject.getWeatherMain();
+        String weatherIconURL = jsonObject.getWeatherIcon(); // Icon of current weather
+        double currentTemp = jsonObject.getTemperature();
+        double feelsLike = jsonObject.getFeelsLike();
+        double tempMin = jsonObject.getTempMin();
+        double tempMax = jsonObject.getTempMax();
+        int pressure = jsonObject.getPressure();
+        int humidity = jsonObject.getHumidity();
+        double windSpeed = jsonObject.getWindSpeed();
+        String countryName = jsonObject.getCountry();
+        int sunrise = jsonObject.getSunrise(); // Sunrise Time
+        int sunset = jsonObject.getSunset();
+        int timezone = jsonObject.getTimezone();
+
         double temperatureInCelsius = currentTemp - 273.15;
         double feelslikeInCelsius = feelsLike - 273.15;
         double mintemperatureInCelsius = tempMin - 273.15;
@@ -470,7 +422,10 @@ public class mainscreenController {
         return Sunrise;
     }
 
-    public void updateForecast(double[][] data, String[] iconUrls, String[] weatherConditions) {
+    public void updateForecast(WeatherForecastAPIData DataObj) {
+        double[][] data = DataObj.getData();
+        String[] iconUrls = DataObj.getIconUrls();
+        String[] weatherConditions = DataObj.getWeatherCondition();
         // Update UI with forecast data for each day
         for (int i = 0; i < 5; i++) {
             // double temperature = data[i][0];
@@ -554,4 +509,3 @@ public class mainscreenController {
         return formattedTemperature;
     }
 }
-

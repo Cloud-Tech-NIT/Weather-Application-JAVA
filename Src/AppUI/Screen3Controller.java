@@ -6,16 +6,18 @@ import java.sql.SQLException;
 
 import Src.OpenWeatherAPI.AirPollutionAPI;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import Src.WeatherDataStorage.DBAirPoll;
+import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
+//import Src.WeatherDataStorage.DBAirPoll;
 import Src.WeatherDataStorage.DBweatherForecast;
 
 public class Screen3Controller {
-    private final DBAirPoll airPoll;
+    // private final DBAirPoll airPoll;
     @FXML
     private AnchorPane mainpane;
 
@@ -54,7 +56,7 @@ public class Screen3Controller {
 
     public Screen3Controller() {
         this.airPollutionAPI = new AirPollutionAPI();
-        this.airPoll = new DBAirPoll();
+        // this.airPoll = new DBAirPoll();
         try {
             // Establish a connection to the database
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/weather_Cache", "root", "4820");
@@ -89,8 +91,16 @@ public class Screen3Controller {
     // alert.showAndWait();
     // }
 
-    public void setAirPollutionData(int aqi, double co, double nh3, double no, double no2, double o3, double pm10,
-            double pm2_5, double so2) {
+    public void setAirPollutionData(AirPollutionAPIData DataObject) {
+        int aqi = DataObject.getAqi();
+        double co = DataObject.getCo();
+        double nh3 = DataObject.getNh3();
+        double no = DataObject.getNo();
+        double no2 = DataObject.getNo2();
+        double o3 = DataObject.getO3();
+        double pm10 = DataObject.getPm10();
+        double pm2_5 = DataObject.getPm25();
+        double so2 = DataObject.getSo2();
         tfAirQualityIndex.setText(Integer.toString(aqi));
         tfCO.setText(Double.toString(co));
         tfNH3.setText(Double.toString(nh3));
