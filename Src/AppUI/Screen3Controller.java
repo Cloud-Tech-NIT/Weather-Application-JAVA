@@ -23,7 +23,7 @@ public class Screen3Controller {
     }
 
     public void initialize(double latitude, double longitude) {
-        executeflow.Flow(latitude, longitude);
+        executeflow.CheckAirPollCoord(latitude, longitude);
 
     }
 

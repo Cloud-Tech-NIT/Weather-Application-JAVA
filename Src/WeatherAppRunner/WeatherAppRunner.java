@@ -1,21 +1,28 @@
 package Src.WeatherAppRunner;
 
+import Src.AppUI.App;
 import Src.BusinessLogic.DUIFiller;
 import Src.BusinessLogic.TUIFiller;
 
 public class WeatherAppRunner {
   public static void main(String[] args) {
     // IF TerminalUI
-    char input = 'T';
+    char input = 'D';
 
     if (input == 'T') {
       TUIFiller TUI = new TUIFiller();
       // TUI.RunTerminal();
+    } else if (input == 'D') {
+      launchAppUI();
     } else {
-      DUIFiller DesktopUI = new DUIFiller();
-      DesktopUI.runGUI();
+      System.out.println("Invalid input. Please enter 'T' or 'D'.");
     }
 
+  }
+
+  private static void launchAppUI() {
+    // Launch JavaFX Application (AppUI)
+    App.launch(App.class);
   }
 
 }

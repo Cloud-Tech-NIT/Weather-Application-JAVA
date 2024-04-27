@@ -145,23 +145,23 @@ public class DBFrcst5Day {
 
             }
 
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data[i].length; j++) {
-                    System.out.println("data[" + i + "][" + j + "] = " + data[i][j]);
-                }
-            }
+            // for (int i = 0; i < data.length; i++) {
+            // for (int j = 0; j < data[i].length; j++) {
+            // System.out.println("data[" + i + "][" + j + "] = " + data[i][j]);
+            // }
+            // }
 
-            // Displaying elements of the iconUrls array
-            System.out.println("iconUrls:");
-            for (int i = 0; i < iconUrls.length; i++) {
-                System.out.println("iconUrls[" + i + "] = " + iconUrls[i]);
-            }
+            // // Displaying elements of the iconUrls array
+            // System.out.println("iconUrls:");
+            // for (int i = 0; i < iconUrls.length; i++) {
+            // System.out.println("iconUrls[" + i + "] = " + iconUrls[i]);
+            // }
 
-            // Displaying elements of the weatherCondition array
-            System.out.println("weatherCondition:");
-            for (int i = 0; i < weatherConditions.length; i++) {
-                System.out.println("weatherCondition[" + i + "] = " + weatherConditions[i]);
-            }
+            // // Displaying elements of the weatherCondition array
+            // System.out.println("weatherCondition:");
+            // for (int i = 0; i < weatherConditions.length; i++) {
+            // System.out.println("weatherCondition[" + i + "] = " + weatherConditions[i]);
+            // }
 
             apiData.setData(data);
             apiData.setIconUrls(iconUrls);

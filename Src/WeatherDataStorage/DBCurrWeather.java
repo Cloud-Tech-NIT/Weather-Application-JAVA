@@ -127,17 +127,18 @@ public class DBCurrWeather {
         return present;
     }
 
-    public void displayDataFromDatabaseByLatLon(double latitude, double longitude) {
+    public CurrentWeatherAPIData displayDataFromDatabaseByLatLon(double latitude, double longitude) {
         try (Connection connection = MySQLConnection.getConnection()) {
             String query = "SELECT * FROM Current_Weather_Data WHERE latitude = ? AND longitude = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setDouble(1, latitude);
             preparedStatement.setDouble(2, longitude);
             ResultSet resultSet = preparedStatement.executeQuery();
-            displayData(resultSet);
+            this.obj = displayData(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return obj;
     }
 
     public CurrentWeatherAPIData displayDataFromDatabaseByCityName(String cityName) {

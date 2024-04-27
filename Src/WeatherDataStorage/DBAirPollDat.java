@@ -138,16 +138,17 @@ public class DBAirPollDat {
         return present;
     }
 
-    public void displayDataFromDatabaseByCityName(String cityName) {
+    public AirPollutionAPIData displayDataFromDatabaseByCityName(String cityName) {
         try (Connection connection = MySQLConnection.getConnection()) {
             String query = "SELECT * FROM Air_Pollution_Data WHERE city_name = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, cityName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            displayData(resultSet);
+            this.obj = displayData(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return obj;
     }
 
     public AirPollutionAPIData displayDataFromDatabaseByLatLon(double latitude, double longitude) {

@@ -54,11 +54,14 @@ public class mainscreenController {
     private Stage mainWindow;
 
     public void setMainWindow(Stage mainwindow) {
+
         this.mainWindow = mainwindow;
     }
 
     public void initialize(String lat, String lon) {
-
+        double latitude = Double.parseDouble(lat);
+        double longitude = Double.parseDouble(lon);
+        executeflow.Flow(latitude, longitude);
     }
 
     public void initialize(String cityName) {

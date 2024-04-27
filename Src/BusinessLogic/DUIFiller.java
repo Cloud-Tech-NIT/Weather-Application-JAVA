@@ -81,10 +81,12 @@ public class DUIFiller {
   // check Weather by coordinates
   public void CheckCurrWeatherCoord(double lat, double lon) {
     if (curr.isDataPresentByLatLon(lat, lon)) {
-      curr.displayDataFromDatabaseByLatLon(lat, lon);
+      this.CurrentWeather = curr.displayDataFromDatabaseByLatLon(lat, lon);
+      controller.updateUI(controller, CurrentWeather);
     } else {
       APIcall.SearchByCoord(lat, lon, CurrentWeather);
       if (CurrentWeather != null) { // Check if data is retrieved successfully
+        controller.updateUI(controller, CurrentWeather);
         curr.insertWeatherData(CurrentWeather);
       } else {
         // Handle API call error (e.g., display error message)
@@ -109,19 +111,23 @@ public class DUIFiller {
     }
   }
 
-  // check airpollution by City
-  public void CheckAirPollCity(String City) {
-    if (airpol.isDataPresentByCityName(City)) {
-      airpol.displayDataFromDatabaseByCityName(City); // Assuming it returns data
-    } else {
-      PollutionAPIcall.searchAirPollution(0, 0, City, AirPoll);
-      if (AirPoll != null) {
-        airpol.insertWeatherData(AirPoll);
-      } else {
-        // Handle API call error (e.g., display error message)
-      }
-    }
-  }
+  // // check airpollution by City
+  // public void CheckAirPollCity(String City) {
+  // if (airpol.isDataPresentByCityName(City)) {
+  // this.AirPoll = airpol.displayDataFromDatabaseByCityName(City); // Assuming it
+  // returns data
+  // airpoll_controller.setAirPollutionData(AirPoll);
+
+  // } else {
+  // PollutionAPIcall.searchAirPollution(0, 0, City, AirPoll);
+  // if (AirPoll != null) {
+  // airpoll_controller.setAirPollutionData(AirPoll);
+  // airpol.insertWeatherData(AirPoll);
+  // } else {
+  // // Handle API call error (e.g., display error message)
+  // }
+  // }
+  // }
 
   // check airpollution by Coord
   public void CheckAirPollCoord(double lat, double lon) {
@@ -177,13 +183,14 @@ public class DUIFiller {
 
   public void Flow(String city) {
     CheckCurrWeatherCity(city);
-    CheckAirPollCity(city);
     CheckForecastCity(city);
   }
 
   public void Flow(double lat, double longi) {
-    CheckAirPollCoord(lat, longi);
+    CheckCurrWeatherCoord(lat, longi);
+    CheckForecastCoord(lat, longi);
   }
+
   // (TEHREEM) ---
 
   public void getDataFromDB() {
