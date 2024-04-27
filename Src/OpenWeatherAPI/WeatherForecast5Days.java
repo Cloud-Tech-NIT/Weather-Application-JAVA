@@ -262,7 +262,9 @@ public class WeatherForecast5Days implements InterfaceAPI {
           "https://api.openweathermap.org/data/2.5/forecast?q=" +
               cityName +
               "&appid=" +
-              APIkey);
+              APIkey +
+              "&units=" +
+              units);
       return apiUrl;
     } catch (MalformedURLException e) {
       // Handle the MalformedURLException appropriately
