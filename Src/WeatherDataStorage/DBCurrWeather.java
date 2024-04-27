@@ -1,4 +1,5 @@
 package Src.WeatherDataStorage;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,18 +14,14 @@ import java.util.concurrent.TimeUnit;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.WeatherDataStorage.MySQLConnection;
 
-
-public class DBCurrWeather 
-{
-    private MySQLConnection Connection=new MySQLConnection();
-    private CurrentWeatherAPIData obj=new CurrentWeatherAPIData();
+public class DBCurrWeather {
+    private MySQLConnection Connection = new MySQLConnection();
+    private CurrentWeatherAPIData obj = new CurrentWeatherAPIData();
 
     private int locationIdCounter = 0;
 
-    public void insertWeatherData(CurrentWeatherAPIData  jsonObject)
-     {
-        try (Connection connection = MySQLConnection.getConnection()) 
-        {
+    public void insertWeatherData(CurrentWeatherAPIData jsonObject) {
+        try (Connection connection = MySQLConnection.getConnection()) {
             // Query to get the last location ID
             String lastLocationIdQuery = "SELECT MAX(loc_id) FROM Current_Weather_Data";
             PreparedStatement lastLocationIdStatement = connection.prepareStatement(lastLocationIdQuery);
@@ -42,15 +39,15 @@ public class DBCurrWeather
             String weatherDescription = jsonObject.getWeatherDescription();
             String weatherIcon = jsonObject.getWeatherIcon(); // Icon of current weather
             float temp = jsonObject.getTemperature();
-            float feelsLike =jsonObject.getFeelsLike(); 
-            float tempMin =jsonObject.getTempMin(); 
-            float tempMax =jsonObject.getTempMax(); 
+            float feelsLike = jsonObject.getFeelsLike();
+            float tempMin = jsonObject.getTempMin();
+            float tempMax = jsonObject.getTempMax();
             int pressure = jsonObject.getPressure();
             int humidity = jsonObject.getHumidity();
             int visibility = jsonObject.getVisibility();
             float windSpeed = jsonObject.getWindSpeed();
             double rainVolume = jsonObject.getRain(); // Assume rain volume is in "1h" key
-            int cloudsAll =jsonObject.getCloudsAll();
+            int cloudsAll = jsonObject.getCloudsAll();
             int dt = jsonObject.getDt(); // Time of data calculation
             String country = jsonObject.getCountry();
             int sunrise = jsonObject.getSunrise(); // Sunrise Time
@@ -61,8 +58,7 @@ public class DBCurrWeather
                     +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql))
-             {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
                 preparedStatement.setInt(1, locationIdCounter);
                 preparedStatement.setString(2, cityName);
                 preparedStatement.setDouble(3, lat);
@@ -95,11 +91,11 @@ public class DBCurrWeather
             e.printStackTrace();
         }
     }
+
     public boolean isDataPresentByCityName(String cityName) {
         boolean present = false;
         String selectSql = "SELECT COUNT(*) FROM Current_Weather_Data WHERE city_name = ?";
-        try (Connection connection = MySQLConnection.getConnection())
-        {
+        try (Connection connection = MySQLConnection.getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement(selectSql);
             selectStatement.setString(1, cityName);
             ResultSet resultSet = selectStatement.executeQuery();
@@ -112,11 +108,11 @@ public class DBCurrWeather
         }
         return present;
     }
+
     public boolean isDataPresentByLatLon(double latitude, double longitude) {
         boolean present = false;
         String selectSql = "SELECT COUNT(*) FROM Current_Weather_Data WHERE latitude = ? AND longitude = ?";
-        try (Connection connection = MySQLConnection.getConnection())
-        {
+        try (Connection connection = MySQLConnection.getConnection()) {
             PreparedStatement selectStatement = connection.prepareStatement(selectSql);
             selectStatement.setDouble(1, latitude);
             selectStatement.setDouble(2, longitude);
@@ -130,9 +126,9 @@ public class DBCurrWeather
         }
         return present;
     }
+
     public void displayDataFromDatabaseByLatLon(double latitude, double longitude) {
-        try(Connection connection = MySQLConnection.getConnection())
-         {
+        try (Connection connection = MySQLConnection.getConnection()) {
             String query = "SELECT * FROM Current_Weather_Data WHERE latitude = ? AND longitude = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setDouble(1, latitude);
@@ -143,26 +139,27 @@ public class DBCurrWeather
             e.printStackTrace();
         }
     }
-    public void displayDataFromDatabaseByCityName(String cityName) 
-    {
-        try (Connection connection = MySQLConnection.getConnection())
-        {    String query = "SELECT * FROM Current_Weather_Data WHERE city_name = ?";
+
+    public CurrentWeatherAPIData displayDataFromDatabaseByCityName(String cityName) {
+        try (Connection connection = MySQLConnection.getConnection()) {
+            String query = "SELECT * FROM Current_Weather_Data WHERE city_name = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, cityName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            displayData(resultSet);
+            this.obj = displayData(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return obj;
     }
+
     // Helper method to display fetched data from ResultSet
     private CurrentWeatherAPIData displayData(ResultSet resultSet) throws SQLException {
-        while (resultSet.next())
-         {
-            // Extract data from ResultSet 
+        while (resultSet.next()) {
+            // Extract data from ResultSet
             int loc_id = resultSet.getInt("loc_id");
             String city_name = resultSet.getString("city_name");
-             float lat = resultSet.getFloat("latitude");
+            float lat = resultSet.getFloat("latitude");
             float lon = resultSet.getFloat("longitude");
             String weather_main = resultSet.getString("weather_main");
             String weather_description = resultSet.getString("weather_description");
@@ -183,39 +180,38 @@ public class DBCurrWeather
             int sunset = resultSet.getInt("sunset");
             int timezone = resultSet.getInt("timezone");
             String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
-            String iconUrl = baseIconUrl + weather_icon + "@2x.png";
-         
-            //make temporary CurrWeather APi obj to store data for ui display
+            String iconUrl = resultSet.getString("weather_icon");
+
+            // make temporary CurrWeather APi obj to store data for ui display
             obj.setLocId(1);
-    obj.setCityName(city_name);
-    obj.setLatitude(lat);
-    obj.setLongitude(lon);
-    obj.setWeatherDescription(weather_description);
-    obj.setWeatherIcon(iconUrl);
-    obj.setWeatherMain(weather_main);
-    obj.setTemperature(temperature);
-    obj.setFeelsLike(feels_like);
-    obj.setTempMax(temp_max);
-    obj.setTempMin(temp_min);
-    obj.setPressure(pressure);
-    obj.setHumidity(humidity);
-    obj.setVisibility(visibility);
-    obj.setWindSpeed(wind_speed);
-    obj.setRain(rain);
-    obj.setCloudsAll(clouds_all);
-    obj.setDt(dt);
-    obj.setCountry(country);
-    obj.setSunrise(sunrise);
-    obj.setSunset(sunset);
-    obj.setTimezone(timezone);
-    }
-    return obj;
+            obj.setCityName(city_name);
+            obj.setLatitude(lat);
+            obj.setLongitude(lon);
+            obj.setWeatherDescription(weather_description);
+            obj.setWeatherIcon(iconUrl);
+            obj.setWeatherMain(weather_main);
+            obj.setTemperature(temperature);
+            obj.setFeelsLike(feels_like);
+            obj.setTempMax(temp_max);
+            obj.setTempMin(temp_min);
+            obj.setPressure(pressure);
+            obj.setHumidity(humidity);
+            obj.setVisibility(visibility);
+            obj.setWindSpeed(wind_speed);
+            obj.setRain(rain);
+            obj.setCloudsAll(clouds_all);
+            obj.setDt(dt);
+            obj.setCountry(country);
+            obj.setSunrise(sunrise);
+            obj.setSunset(sunset);
+            obj.setTimezone(timezone);
+        }
+        return obj;
     }
 
     // Delete data in table after 6 hours
     public void deleteOldData() {
-        try (Connection connection = MySQLConnection.getConnection())
-         {
+        try (Connection connection = MySQLConnection.getConnection()) {
             Instant sixHoursAgo = Instant.now().minus(Duration.ofHours(6));
             long sixHoursAgoEpoch = sixHoursAgo.getEpochSecond();
             String deleteSql = "DELETE FROM Current_Weather_Data WHERE dt < ?";
@@ -227,6 +223,7 @@ public class DBCurrWeather
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         DBCurrWeather fetcher = new DBCurrWeather();
 
