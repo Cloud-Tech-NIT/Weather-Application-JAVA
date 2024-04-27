@@ -95,8 +95,6 @@ public class DUIFiller {
   // check curr weather by city
   public void CheckCurrWeatherCity(String City) {
     if (curr.isDataPresentByCityName(City)) {
-      showAlert("Data Found for both current weather and weather forecast",
-          "Fetching data from the database...");
       this.CurrentWeather = curr.displayDataFromDatabaseByCityName(City); // Assuming it returns data
       controller.updateUI(controller, CurrentWeather);
 
@@ -144,10 +142,12 @@ public class DUIFiller {
 
   public void CheckForecastCity(String City) {
     if (frcst.isDataPresentByCityName(City)) {
-      frcst.displayDataFromDatabaseByCityName(City); // Assuming it returns data
+      this.Forecast = frcst.displayDataFromDatabaseByCityName(City); // Assuming it returns data
+      controller.updateForecast(Forecast);
     } else {
       WeatherAPIcall.SearchByCity(City, Forecast);
       if (Forecast != null) {
+        controller.updateForecast(Forecast);
         frcst.insertWeatherData(Forecast);
       } else {
         // Handle API call error (e.g., display error message)
@@ -157,10 +157,12 @@ public class DUIFiller {
 
   public void CheckForecastCoord(double lat, double lon) {
     if (frcst.isDataPresentByLatLon(lat, lon)) {
-      frcst.displayDataFromDatabaseByLatLon(lat, lon); // Assuming it returns data
+      this.Forecast = frcst.displayDataFromDatabaseByLatLon(lat, lon); // Assuming it returns data
+      controller.updateForecast(Forecast);
     } else {
       WeatherAPIcall.SearchByCoord(0, 0, Forecast);
       if (Forecast != null) {
+        controller.updateForecast(Forecast);
         frcst.insertWeatherData(Forecast);
       } else {
         // Handle API call error (e.g., display error message)
@@ -174,17 +176,9 @@ public class DUIFiller {
   }
 
   public void Flow(String city) {
-
-    // Check For Data
-    // getDataFromDB
     CheckCurrWeatherCity(city);
     CheckAirPollCity(city);
-    // CheckForecastCity(city);
-    // ifNotPresent
-    // this.DataNotPresent();
-
-    // ifPresent
-    // this.DataPresent();
+    CheckForecastCity(city);
   }
 
   public void Flow(double lat, double longi) {
