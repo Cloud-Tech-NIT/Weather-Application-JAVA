@@ -259,15 +259,11 @@ public class mainscreenController {
         int sunset = jsonObject.getSunset();
         int timezone = jsonObject.getTimezone();
 
-        double temperatureInCelsius = currentTemp - 273.15;
-        double feelslikeInCelsius = feelsLike - 273.15;
-        double mintemperatureInCelsius = tempMin - 273.15;
-        double maxtemperatureInCelsius = tempMax - 273.15;
         // Format the temperature to have one digit after the decimal point
-        String formattedTemperature = String.format("%.1f", temperatureInCelsius);
-        String formattedFeelsLike = String.format("%.1f", feelslikeInCelsius);
-        String formattedTempMin = String.format("%.1f", mintemperatureInCelsius);
-        String formattedTempMax = String.format("%.1f", maxtemperatureInCelsius);
+        String formattedTemperature = String.format("%.1f", currentTemp);
+        String formattedFeelsLike = String.format("%.1f", feelsLike);
+        String formattedTempMin = String.format("%.1f", tempMin);
+        String formattedTempMax = String.format("%.1f", tempMax);
         String formattedWindSpeed = String.format("%.1f", windSpeed);
 
         // Set data to respective labels
@@ -275,9 +271,6 @@ public class mainscreenController {
         controller.tfCurrentTemp.setText(formattedTemperature + " °C");
         controller.tfCurrentWeatherConditon.setText(weatherCondition);
         Image image = new Image(weatherIconURL);
-        // String placeholderImageUrl =
-        // getClass().getResource("bg3.jpg").toExternalForm();
-        // Image placeholderImage = new Image(placeholderImageUrl);
         controller.tfCurrentWeatherIcon.setImage(image);
         controller.tfLatitude.setText(Double.toString(lat));
         controller.tfLongitude.setText(Double.toString(lon));
@@ -386,7 +379,7 @@ public class mainscreenController {
 
     // Method to format temperature
     private String formatTemperature(double temperature) {
-        double temperatureInCelsius = temperature - 273.15;
+        double temperatureInCelsius = temperature;
 
         // Format the temperature to have one digit after the decimal point
         String formattedTemperature = String.format("%.1f", temperatureInCelsius);
