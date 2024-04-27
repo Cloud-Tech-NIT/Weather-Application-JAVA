@@ -162,7 +162,9 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
           "https://api.openweathermap.org/data/2.5/weather?q=" +
               cityName +
               "&appid=" +
-              APIkey);
+              APIkey +
+              "&units=" +
+              units);
       return apiUrl;
     } catch (MalformedURLException e) {
       // Handle the MalformedURLException appropriately
