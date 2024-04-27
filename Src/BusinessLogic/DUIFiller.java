@@ -8,13 +8,11 @@ import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.DBCurrWeather;
-import Src.WeatherDataStorage.DBweatherFrcst;
 import Src.WeatherDataStorage.DBAirPollDat;
 import Src.WeatherDataStorage.DBFrcst5Day;
 import Src.AppUI.mainscreenController;
 import Src.AppUI.Screen3Controller;
 import Src.AppUI.App;
-
 
 public class DUIFiller {
 
