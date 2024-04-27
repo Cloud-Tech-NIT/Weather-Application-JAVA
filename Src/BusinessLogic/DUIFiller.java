@@ -1,5 +1,4 @@
 package Src.BusinessLogic;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
@@ -9,11 +8,13 @@ import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.DBCurrWeather;
-import Src.WeatherDataStorage.DBweatherForecast;
+import Src.WeatherDataStorage.DBweatherFrcst;
 import Src.WeatherDataStorage.DBAirPollDat;
+import Src.WeatherDataStorage.DBFrcst5Day;
 import Src.AppUI.mainscreenController;
 import Src.AppUI.Screen3Controller;
 import Src.AppUI.App;
+
 
 public class DUIFiller {
 
@@ -34,11 +35,11 @@ public class DUIFiller {
   private CurrentWeatherAPI APIcall = new CurrentWeatherAPI();
   private WeatherForecast5Days WeatherAPIcall = new WeatherForecast5Days();
   private AirPollutionAPI PollutionAPIcall = new AirPollutionAPI();
-
-  // DB objs
-  private DBAirPollDat airpol = new DBAirPollDat();
-  private DBweatherForecast frcst = new DBweatherForecast();
-  private DBCurrWeather curr = new DBCurrWeather();
+ 
+  //DB objs
+  private DBAirPollDat airpol=new DBAirPollDat();
+  private DBFrcst5Day frcst=new DBFrcst5Day();
+  private DBCurrWeather curr=new DBCurrWeather();
 
   // Method For Searching By City
   public void SearchByCity(String CityName) {
@@ -126,52 +127,45 @@ public class DUIFiller {
     }
   }
 
-  // public void CheckForecastCity(String City) {
-  // if (frcst.isDataPresentByCityName(Forecast)) {
-  // frcst.displayDataFromDatabaseByCityName(Forecast); // Assuming it returns
-  // data
-  // } else {
-  // WeatherAPIcall.SearchByCity(City, Forecast);
-  // if (AirPoll != null) {
-  // airpol.insertWeatherData(Forecast);
-  // } else {
-  // // Handle API call error (e.g., display error message)
-  // }
-  // }
-  // }
+  public void CheckForecastCity(String City)
+  {
+    if (frcst.isDataPresentByCityName(City))
+     {
+      frcst.displayDataFromDatabaseByCityName(City); // Assuming it returns data
+    }
+     else 
+     {
+      WeatherAPIcall.SearchByCity(City, Forecast);    
+       if (Forecast != null)
+      { 
+        frcst.insertWeatherData(Forecast);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  } 
+  public void CheckForecastCoord(double lat,double lon)
+  {
+    if (frcst.isDataPresentByLatLon(lat,lon))
+     {
+      frcst.displayDataFromDatabaseByLatLon(lat,lon); // Assuming it returns data
+    }
+     else 
+     {
+      WeatherAPIcall.SearchByCoord(0, 0, Forecast); 
+       if (Forecast != null)
+      { 
+        frcst.insertWeatherData(Forecast);
+      }
+       else
+      {
+        // Handle API call error (e.g., display error message)
+      }
+    }
+  } 
 
-  // public void CheckForecastCoord(String City) {
-  // if (frcst.isDataPresentByCoord(Forecast)) {
-  // frcst.displayDataFromDatabaseByCoord(Forecast); // Assuming it returns data
-  // } else {
-  // WeatherAPIcall.SearchByCoord(0, 0, Forecast);
-  // if (AirPoll != null) {
-  // airpol.insertWeatherData(Forecast);
-  // } else {
-  // // Handle API call error (e.g., display error message)
-  // }
-  // }
-  // }
-
-  public void runGUI() {
-    String[] args = {};
-    App.main(args);
-  }
-
-  public void Flow(String city) {
-
-    // Check For Data
-    // getDataFromDB
-    CheckCurrWeatherCity(city);
-    CheckAirPollCity(city);
-    // CheckForecastCity(city);
-    // ifNotPresent
-    // this.DataNotPresent();
-
-    // ifPresent
-    // this.DataPresent();
-
-  }
 
   // (TEHREEM) ---
 

@@ -61,7 +61,8 @@ public class DBCurrWeather
                     +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSql))
+             {
                 preparedStatement.setInt(1, locationIdCounter);
                 preparedStatement.setString(2, cityName);
                 preparedStatement.setDouble(3, lat);

@@ -200,7 +200,6 @@ public class DBAirPollDat
             }
             return obj;
     }
-    
     public void deleteOldData() {
         try (Connection connection = MySQLConnection.getConnection()) {
             Instant sixHoursAgo = Instant.now().minus(Duration.ofHours(6));
