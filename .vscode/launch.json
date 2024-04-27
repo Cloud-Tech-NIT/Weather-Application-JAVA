@@ -6,6 +6,48 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DUIFiller",
+            "request": "launch",
+            "mainClass": "Src.BusinessLogic.DUIFiller",
+            "projectName": "Weather-Application_d0a7a57d"
+        },
+        {
+            "type": "java",
+            "name": "DBFrcst5Day",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.DBFrcst5Day",
+            "projectName": "Weather-Application_d0a7a57d"
+        },
+        {
+            "type": "java",
+            "name": "DBAirPollDat",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.DBAirPollDat",
+            "projectName": "Weather-Application_d0a7a57d"
+        },
+        {
+            "type": "java",
+            "name": "DBAirPollution",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.DBAirPollution",
+            "projectName": "Weather-Application_d0a7a57d"
+        },
+        {
+            "type": "java",
+            "name": "MySQLConnection",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.MySQLConnection",
+            "projectName": "Weather-Application_d0a7a57d"
+        },
+        {
+            "type": "java",
+            "name": "DBCurrWeather",
+            "request": "launch",
+            "mainClass": "Src.WeatherDataStorage.DBCurrWeather",
+            "projectName": "Weather-Application_d0a7a57d"
+        },
+        {
+            "type": "java",
             "name": "WeatherForecast5Days",
             "request": "launch",
             "mainClass": "Src.OpenWeatherAPI.WeatherForecast5Days",
