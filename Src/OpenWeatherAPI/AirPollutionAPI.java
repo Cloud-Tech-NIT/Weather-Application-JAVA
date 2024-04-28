@@ -24,7 +24,7 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     JsonObject coordObject = jsonObject.getAsJsonObject("coord");
     float lat = coordObject.get("lat").getAsFloat();
     float lon = coordObject.get("lon").getAsFloat();
-    System.out.println("coordinates: (" + lat + ", " + lon + ")");
+    //System.out.println("coordinates: (" + lat + ", " + lon + ")");
     JsonArray listArray = jsonObject.getAsJsonArray("list");
     JsonObject firstItem = listArray.get(0).getAsJsonObject();
     int dt = firstItem.get("dt").getAsInt(); // date and time
@@ -40,16 +40,16 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     float pm10 = components.get("pm10").getAsFloat();
     float nh3 = components.get("nh3").getAsFloat();
 
-    System.out.println("dt: " + dt);
-    System.out.println("aqi: " + aqi);
-    System.out.println("co: " + co);
-    System.out.println("no: " + no);
-    System.out.println("no2: " + no2);
-    System.out.println("o3: " + o3);
-    System.out.println("so2: " + so2);
-    System.out.println("pm2.5: " + pm2_5);
-    System.out.println("pm10: " + pm10);
-    System.out.println("nh3: " + nh3);
+    // System.out.println("dt: " + dt);
+    // System.out.println("aqi: " + aqi);
+    // System.out.println("co: " + co);
+    // System.out.println("no: " + no);
+    // System.out.println("no2: " + no2);
+    // System.out.println("o3: " + o3);
+    // System.out.println("so2: " + so2);
+    // System.out.println("pm2.5: " + pm2_5);
+    // System.out.println("pm10: " + pm10);
+    // System.out.println("nh3: " + nh3);
 
     obj.setLocId(1);
     obj.setLatitude(lat);
@@ -57,7 +57,7 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     obj.setDt(dt);
     obj.setAqi(aqi);
     obj.setCo(co);
-    obj.setNo(no2);
+    obj.setNo(no);
     obj.setNo2(no2);
     obj.setO3(o3);
     obj.setSo2(so2);
@@ -65,9 +65,12 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     obj.setPm25(pm2_5);
     obj.setNh3(nh3);
     obj.setCityName(CityName);
-    if (aqi > POOR_AIR_QUALITY_THRESHOLD) {
-      generateNotification(aqi);
-    }
+    // if (aqi > POOR_AIR_QUALITY_THRESHOLD) {
+    //   generateNotification(aqi);
+    // }
+
+    //System.out.println("lat: "+lat+" lon :"+lon);
+    
   }
 
   // Old Method
@@ -216,7 +219,7 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
   public static void main(String[] args) {
 
     AirPollutionAPI api = new AirPollutionAPI();
-    URL apiUrl = api.APIcall(22.23, 18.96);
+    URL apiUrl = api.APIcall(34.5, 74.3);
     JsonObject jsonObject = api.performAPICall(apiUrl);
     AirPollutionAPIData data = new AirPollutionAPIData();
     api.parseJSON(jsonObject, data, APIkey);

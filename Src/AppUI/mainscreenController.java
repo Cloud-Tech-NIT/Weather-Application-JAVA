@@ -1,31 +1,14 @@
 package Src.AppUI;
 
-import java.util.Date;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.time.zone.ZoneRulesException;
 import java.util.Locale;
 import Src.BusinessLogic.DUIFiller;
-import Src.OpenWeatherAPI.CurrentWeatherAPI;
-import Src.OpenWeatherAPI.WeatherForecast5Days;
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,54 +23,24 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import Src.WeatherDataStorage.DBAirPoll;
-import Src.WeatherDataStorage.DBCurrweatherData;
-import Src.WeatherDataStorage.DBweatherForecast;
+import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
+import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
 public class mainscreenController {
-    private String city;
-    private double longitude;
-    private double latitude;
 
-    private final CurrentWeatherAPI weatherAPI;
-    private final WeatherForecast5Days forecastAPI;
-    private final DBCurrweatherData currWeatherData;
-    // private final DBAirPoll airPoll;
-    private final DBweatherForecast weatherForecast;
-    private Connection connection;
+    private final DUIFiller executeflow;
 
     public mainscreenController() {
-        this.weatherAPI = new CurrentWeatherAPI();
-        this.forecastAPI = new WeatherForecast5Days();
-        this.weatherAPI.setController(this); // Set the controller reference
-        this.forecastAPI.setController(this);
-        this.currWeatherData = new DBCurrweatherData();
-        // this.airPoll = new DBAirPoll();
-        this.weatherForecast = new DBweatherForecast();
-        try {
-            // Establish a connection to the database
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/weather_Cache", "root", "4820");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.executeflow = new DUIFiller(this);
     }
 
     @FXML
     void initialize() {
         // Set default city (Lahore) on startup
-        weatherAPI.APIcall("Lahore");
-        forecastAPI.APIcall("Lahore");
+        executeflow.Flow("Lahore");
         // Set current day's day and date
         setDayAndDate();
 
-        // Fetch and set standard time
-        // try {
-        // String timeZoneId = getTimeZoneId(31.5497, 74.3436); // Example coordinates
-        // for Lahore
-        // setStandardTime(timeZoneId);
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
     }
 
     // Method to set the current day's day and date
@@ -98,127 +51,21 @@ public class mainscreenController {
         tfDayAndDate.setText(dayOfWeek + ", " + date);
     }
 
-    // private void setStandardTime(String timeZoneId) {
-    // try {
-    // // Get standard time for a city by time zone identifier
-    // ZoneId zoneId = ZoneId.of(timeZoneId);
-    // ZonedDateTime cityTime = ZonedDateTime.now(zoneId);
-
-    // // Format the ZonedDateTime object to a string
-    // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
-    // HH:mm:ss z");
-    // String formattedTime = cityTime.format(formatter);
-
-    // // Set the standard time to the text field
-    // tfStandardTime.setText(formattedTime);
-    // } catch (ZoneRulesException e) {
-    // // Handle the exception (e.g., invalid time zone identifier)
-    // tfStandardTime.setText("Error: Invalid time zone identifier");
-    // }
-    // }
-
-    // public static String getTimeZoneId(double latitude, double longitude) throws
-    // IOException {
-    // String apiKey = "YOUR_API_KEY"; // Replace with your Google Maps API key
-    // String apiUrl = "https://maps.googleapis.com/maps/api/timezone/json" +
-    // "?location=" + latitude + "," + longitude +
-    // "&timestamp=" + (System.currentTimeMillis() / 1000) + // Use current
-    // timestamp
-    // "&key=" + apiKey;
-
-    // // Make HTTP request
-    // URL url = new URL(apiUrl);
-    // HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    // connection.setRequestMethod("GET");
-
-    // // Read response
-    // BufferedReader reader = new BufferedReader(new
-    // InputStreamReader(connection.getInputStream()));
-    // StringBuilder response = new StringBuilder();
-    // String line;
-    // while ((line = reader.readLine()) != null) {
-    // response.append(line);
-    // }
-    // reader.close();
-
-    // // Parse JSON response
-    // Gson gson = new Gson();
-    // TimeZoneResponse timeZoneResponse = gson.fromJson(response.toString(),
-    // TimeZoneResponse.class);
-    // // Extract time zone ID
-    // return timeZoneResponse.timeZoneId;
-    // }
-
-    // private static class TimeZoneResponse {
-    // String timeZoneId;
-    // }
-
     private Stage mainWindow;
 
     public void setMainWindow(Stage mainwindow) {
+
         this.mainWindow = mainwindow;
     }
 
     public void initialize(String lat, String lon) {
         double latitude = Double.parseDouble(lat);
         double longitude = Double.parseDouble(lon);
-        currWeatherData.setController(this);
-        weatherAPI.setController(this);
-        weatherForecast.setController(this);
-        boolean currWeatherExists = currWeatherData.isDataPresentByLatLon(connection, latitude, longitude);
-        boolean weatherForecastExists = weatherForecast.isDataPresentByLatLon(connection, latitude, longitude);
-
-        if (currWeatherExists && weatherForecastExists) {
-            // Show a message box indicating that data is being fetched from the database
-            showAlert("Data Found for both current weather and weather forecast",
-                    "Fetching data from the database...");
-
-            currWeatherData.displayDataFromDatabaseByLatLon(connection, latitude, longitude);
-            weatherForecast.displayDataFromDatabaseByLatLon(connection, latitude, longitude);
-
-        } else {
-            showAlert("Data Not Found", "Fetching data from the API...");
-
-            weatherAPI.APIcall(latitude, longitude);
-            forecastAPI.APIcall(latitude, longitude);
-        }
-
+        executeflow.Flow(latitude, longitude);
     }
 
     public void initialize(String cityName) {
-        currWeatherData.setController(this);
-        weatherForecast.setController(this);
-        weatherAPI.setController(this); // Set the reference to this controller
-        // Check if data exists in the database for current weather
-        boolean currWeatherExists = currWeatherData.isDataPresentByCityName(connection, cityName);
-        // Check if data exists in the database for weather forecast
-        boolean weatherForecastExists = weatherForecast.isDataPresentByCityName(connection, cityName);
-        if (currWeatherExists && weatherForecastExists) {
-            // // Show a message box indicating that data is being fetched from the database
-            showAlert("Data Found for both current weather and weather forecast",
-                    "Fetching data from the database...");
-
-            // Fetch data from the database for all tables
-            currWeatherData.displayDataFromDatabaseByCityName(connection, cityName);
-            weatherForecast.displayDataFromDatabaseByCityName(connection, cityName);
-        } else {
-            // Show a message box indicating that data is being fetched from the API
-            showAlert("Data Not Found", "Fetching data from the API...");
-
-            // Fetch data from the API for all tables
-            weatherAPI.APIcall(cityName);
-            forecastAPI.APIcall(cityName);
-
-        }
-    }
-
-    // Method to show an alert dialog
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        executeflow.Flow(cityName);
     }
 
     @FXML
@@ -393,21 +240,30 @@ public class mainscreenController {
 
     }
 
-    public void updateUI(mainscreenController controller, String cityName, String countryName, double currentTemp,
-            String weatherCondition,
-            String weatherIconURL, double lat, double lon, double feelsLike, int humidity, double tempMin,
-            double tempMax,
-            int sunrise, int sunset, int pressure, double windSpeed, int timezone) {
+    public void updateUI(mainscreenController controller, CurrentWeatherAPIData jsonObject) {
         // Convert temperature units from Kelvin to Celsius
-        double temperatureInCelsius = currentTemp - 273.15;
-        double feelslikeInCelsius = feelsLike - 273.15;
-        double mintemperatureInCelsius = tempMin - 273.15;
-        double maxtemperatureInCelsius = tempMax - 273.15;
+        double lat = jsonObject.getLatitude();
+        double lon = jsonObject.getLongitude();
+        String cityName = jsonObject.getCityName();// Changed variable name to cityName
+        String weatherCondition = jsonObject.getWeatherMain();
+        String weatherIconURL = jsonObject.getWeatherIcon(); // Icon of current weather
+        double currentTemp = jsonObject.getTemperature();
+        double feelsLike = jsonObject.getFeelsLike();
+        double tempMin = jsonObject.getTempMin();
+        double tempMax = jsonObject.getTempMax();
+        int pressure = jsonObject.getPressure();
+        int humidity = jsonObject.getHumidity();
+        double windSpeed = jsonObject.getWindSpeed();
+        String countryName = jsonObject.getCountry();
+        int sunrise = jsonObject.getSunrise(); // Sunrise Time
+        int sunset = jsonObject.getSunset();
+        int timezone = jsonObject.getTimezone();
+
         // Format the temperature to have one digit after the decimal point
-        String formattedTemperature = String.format("%.1f", temperatureInCelsius);
-        String formattedFeelsLike = String.format("%.1f", feelslikeInCelsius);
-        String formattedTempMin = String.format("%.1f", mintemperatureInCelsius);
-        String formattedTempMax = String.format("%.1f", maxtemperatureInCelsius);
+        String formattedTemperature = String.format("%.1f", currentTemp);
+        String formattedFeelsLike = String.format("%.1f", feelsLike);
+        String formattedTempMin = String.format("%.1f", tempMin);
+        String formattedTempMax = String.format("%.1f", tempMax);
         String formattedWindSpeed = String.format("%.1f", windSpeed);
 
         // Set data to respective labels
@@ -426,33 +282,6 @@ public class mainscreenController {
         controller.tfSunset.setText(formatTime(sunset, timezone));
         controller.tfPressure.setText(Integer.toString(pressure) + " hPa");
         controller.tfWindspeed.setText(formattedWindSpeed + " m/s");
-        setcityname(cityName);
-        setlong(lon);
-        setlatitude(lat);
-    }
-
-    void setcityname(String cityName) {
-        this.city = cityName;
-    }
-
-    void setlong(Double longi) {
-        this.longitude = longi;
-    }
-
-    void setlatitude(Double lati) {
-        this.latitude = lati;
-    }
-
-    double getlat() {
-        return this.latitude;
-    }
-
-    double getlong() {
-        return this.longitude;
-    }
-
-    String getcityname() {
-        return this.city;
     }
 
     // Method to format time in hh:mm format
@@ -470,7 +299,10 @@ public class mainscreenController {
         return Sunrise;
     }
 
-    public void updateForecast(double[][] data, String[] iconUrls, String[] weatherConditions) {
+    public void updateForecast(WeatherForecastAPIData DataObj) {
+        double[][] data = DataObj.getData();
+        String[] iconUrls = DataObj.getIconUrls();
+        String[] weatherConditions = DataObj.getWeatherCondition();
         // Update UI with forecast data for each day
         for (int i = 0; i < 5; i++) {
             // double temperature = data[i][0];
@@ -547,11 +379,10 @@ public class mainscreenController {
 
     // Method to format temperature
     private String formatTemperature(double temperature) {
-        double temperatureInCelsius = temperature - 273.15;
+        double temperatureInCelsius = temperature;
 
         // Format the temperature to have one digit after the decimal point
         String formattedTemperature = String.format("%.1f", temperatureInCelsius);
         return formattedTemperature;
     }
 }
-
