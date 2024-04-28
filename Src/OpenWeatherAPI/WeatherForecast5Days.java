@@ -86,21 +86,16 @@ public class WeatherForecast5Days implements InterfaceAPI {
     // System.out.println();
     // }
 
-    if (callback != null) {
-      callback.displayWeatherForecast(data, iconUrls, weatherCondition, lat, lon,
-          cityName);
-    }
-
     obj.setData(data);
     obj.setIconUrls(iconUrls);
     obj.setWeatherCondition(weatherCondition);
 
-    System.out.println("THIS IS 5 DAY DATA\n");
+    // System.out.println("THIS IS 5 DAY DATA\n");
 
-    System.out.println(
-        "Latitude: " + obj.getLatitude() + ", Longitude: " + obj.getLongitude() + ", City Name: " + obj.getCityName());
+    // System.out.println(
+    //     "Latitude: " + obj.getLatitude() + ", Longitude: " + obj.getLongitude() + ", City Name: " + obj.getCityName());
 
-    obj.printData();
+    // obj.printData();
 
   }
 
@@ -165,21 +160,17 @@ public class WeatherForecast5Days implements InterfaceAPI {
     // System.out.println();
     // }
 
-    if (callback != null) {
-      callback.displayWeatherForecast(data, iconUrls, weatherCondition, lat, lon,
-          cityName);
-    }
 
     obj.setData(data);
     obj.setIconUrls(iconUrls);
     obj.setWeatherCondition(weatherCondition);
 
-    System.out.println("THIS IS 5 DAY DATA\n");
+    // System.out.println("THIS IS 5 DAY DATA\n");
 
-    System.out.println(
-        "Latitude: " + obj.getLatitude() + ", Longitude: " + obj.getLongitude() + ", City Name: " + obj.getCityName());
+    // System.out.println(
+    //     "Latitude: " + obj.getLatitude() + ", Longitude: " + obj.getLongitude() + ", City Name: " + obj.getCityName());
 
-    obj.printData();
+    // obj.printData();
 
   }
 
