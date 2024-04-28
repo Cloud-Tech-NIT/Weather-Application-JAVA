@@ -55,16 +55,16 @@ public class DataHandlingTxT implements CacheManager {
         if (parts.length >= 13) {
             airPollutionData.setLatitude(Float.parseFloat(parts[0]));
             airPollutionData.setLongitude(Float.parseFloat(parts[1]));
-            airPollutionData.setDt(Integer.parseInt(parts[3]));
-            airPollutionData.setAqi(Integer.parseInt(parts[4]));
-            airPollutionData.setCo(Float.parseFloat(parts[5]));
-            airPollutionData.setNo(Float.parseFloat(parts[6]));
-            airPollutionData.setNo2(Float.parseFloat(parts[7]));
-            airPollutionData.setO3(Float.parseFloat(parts[8]));
-            airPollutionData.setSo2(Float.parseFloat(parts[9]));
-            airPollutionData.setPm25(Float.parseFloat(parts[10]));
-            airPollutionData.setPm10(Float.parseFloat(parts[11]));
-            airPollutionData.setNh3(Float.parseFloat(parts[12]));
+            airPollutionData.setDt(Integer.parseInt(parts[4]));
+            airPollutionData.setAqi(Integer.parseInt(parts[5]));
+            airPollutionData.setCo(Float.parseFloat(parts[6]));
+            airPollutionData.setNo(Float.parseFloat(parts[7]));
+            airPollutionData.setNo2(Float.parseFloat(parts[8]));
+            airPollutionData.setO3(Float.parseFloat(parts[9]));
+            airPollutionData.setSo2(Float.parseFloat(parts[10]));
+            airPollutionData.setPm25(Float.parseFloat(parts[11]));
+            airPollutionData.setPm10(Float.parseFloat(parts[12]));
+            airPollutionData.setNh3(Float.parseFloat(parts[13]));
 
         }
     }
