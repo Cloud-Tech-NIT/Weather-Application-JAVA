@@ -13,11 +13,20 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
-//import Src.WeatherDataStorage.DBAirPoll;
-import Src.WeatherDataStorage.DBweatherForecast;
+import Src.BusinessLogic.DUIFiller;
 
 public class Screen3Controller {
-    // private final DBAirPoll airPoll;
+    private final DUIFiller executeflow;
+
+    public Screen3Controller() {
+        this.executeflow = new DUIFiller(this);
+    }
+
+    public void initialize(double latitude, double longitude) {
+        executeflow.CheckAirPollCoord(latitude, longitude);
+
+    }
+
     @FXML
     private AnchorPane mainpane;
 
@@ -51,48 +60,6 @@ public class Screen3Controller {
     @FXML
     private Label tfCityName;
 
-    private AirPollutionAPI airPollutionAPI;
-    private Connection connection;
-
-    public Screen3Controller() {
-        this.airPollutionAPI = new AirPollutionAPI();
-        // this.airPoll = new DBAirPoll();
-        try {
-            // Establish a connection to the database
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/weather_Cache", "root", "4820");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void initialize(double latitude, double longitude) {
-        // airPollutionAPI.setController(this); // Set the reference to this controller
-        // airPoll.setController(this);
-        // // check data in db
-        // boolean currpollexist = airPoll.isDataPresent(connection, latitude,
-        // longitude);
-
-        // if (currpollexist) {
-        // // alert messages were only so i can check if data is being fetched from db
-        // or
-        // // not
-        // // showAlert("Data Found", "Fetching data from the database...");
-
-        // airPoll.displayDataFromDatabase(connection, latitude, longitude);
-        // } else {
-        // // showAlert("Data not Found", "Fetching data from the API...");
-        // airPollutionAPI.APIcall(latitude, longitude); // Call the API
-        // }
-    }
-
-    // private void showAlert(String title, String message) {
-    // Alert alert = new Alert(AlertType.INFORMATION);
-    // alert.setTitle(title);
-    // alert.setHeaderText(null);
-    // alert.setContentText(message);
-    // alert.showAndWait();
-    // }
-
     public void setAirPollutionData(AirPollutionAPIData DataObject) {
         int aqi = DataObject.getAqi();
         double co = DataObject.getCo();
@@ -104,13 +71,13 @@ public class Screen3Controller {
         double pm2_5 = DataObject.getPm25();
         double so2 = DataObject.getSo2();
         tfAirQualityIndex.setText(Integer.toString(aqi));
-        tfCO.setText(Double.toString(co));
-        tfNH3.setText(Double.toString(nh3));
-        tfNO.setText(Double.toString(no));
-        tfNO2.setText(Double.toString(no2));
-        tfO3.setText(Double.toString(o3));
-        tfPM10.setText(Double.toString(pm10));
-        tfPM2.setText(Double.toString(pm2_5));
-        tfSO2.setText(Double.toString(so2));
+        tfCO.setText(String.format("%.2f", co));
+        tfNH3.setText(String.format("%.2f", nh3));
+        tfNO.setText(String.format("%.2f", no));
+        tfNO2.setText(String.format("%.2f", no2));
+        tfO3.setText(String.format("%.2f", o3));
+        tfPM10.setText(String.format("%.2f", pm10));
+        tfPM2.setText(String.format("%.2f", pm2_5));
+        tfSO2.setText(String.format("%.2f", so2));
     }
 }

@@ -1,31 +1,14 @@
 package Src.AppUI;
 
-import java.util.Date;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.time.zone.ZoneRulesException;
 import java.util.Locale;
 import Src.BusinessLogic.DUIFiller;
-import Src.OpenWeatherAPI.CurrentWeatherAPI;
-import Src.OpenWeatherAPI.WeatherForecast5Days;
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,25 +23,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-//import Src.WeatherDataStorage.DBAirPoll;
-//import Src.WeatherDataStorage.DBCurrweatherData;
-import Src.WeatherDataStorage.DBweatherForecast;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import Src.BusinessLogic.DUIFiller;
 
 public class mainscreenController {
-    private String city;
-    private double longitude;
-    private double latitude;
 
-    // private final CurrentWeatherAPI weatherAPI;
-    // private final WeatherForecast5Days forecastAPI;
-    // private final DBCurrweatherData currWeatherData;
-    // private final DBAirPoll airPoll;
     private final DUIFiller executeflow;
-    // private final DBweatherForecast weatherForecast;
-    // private Connection connection;
 
     public mainscreenController() {
         this.executeflow = new DUIFiller(this);
@@ -84,51 +54,18 @@ public class mainscreenController {
     private Stage mainWindow;
 
     public void setMainWindow(Stage mainwindow) {
+
         this.mainWindow = mainwindow;
     }
 
     public void initialize(String lat, String lon) {
-
+        double latitude = Double.parseDouble(lat);
+        double longitude = Double.parseDouble(lon);
+        executeflow.Flow(latitude, longitude);
     }
 
     public void initialize(String cityName) {
         executeflow.Flow(cityName);
-
-        // weatherForecast.setController(this);
-        // weatherAPI.setController(this); // Set the reference to this controller
-        // Check if data exists in the database for current weather
-        // boolean currWeatherExists =
-        // currWeatherData.isDataPresentByCityName(connection, cityName);
-        // Check if data exists in the database for weather forecast
-        // boolean weatherForecastExists =
-        // weatherForecast.isDataPresentByCityName(connection, cityName);
-        // if (currWeatherExists && weatherForecastExists) {
-        // // // Show a message box indicating that data is being fetched from the
-        // database
-        // showAlert("Data Found for both current weather and weather forecast",
-        // "Fetching data from the database...");
-
-        // // Fetch data from the database for all tables
-        // currWeatherData.displayDataFromDatabaseByCityName(connection, cityName);
-        // weatherForecast.displayDataFromDatabaseByCityName(connection, cityName);
-        // } else {
-        // // Show a message box indicating that data is being fetched from the API
-        // showAlert("Data Not Found", "Fetching data from the API...");
-
-        // // Fetch data from the API for all tables
-        // weatherAPI.APIcall(cityName);
-        // forecastAPI.APIcall(cityName);
-
-        // }
-    }
-
-    // Method to show an alert dialog
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML
@@ -322,15 +259,11 @@ public class mainscreenController {
         int sunset = jsonObject.getSunset();
         int timezone = jsonObject.getTimezone();
 
-        double temperatureInCelsius = currentTemp - 273.15;
-        double feelslikeInCelsius = feelsLike - 273.15;
-        double mintemperatureInCelsius = tempMin - 273.15;
-        double maxtemperatureInCelsius = tempMax - 273.15;
         // Format the temperature to have one digit after the decimal point
-        String formattedTemperature = String.format("%.1f", temperatureInCelsius);
-        String formattedFeelsLike = String.format("%.1f", feelslikeInCelsius);
-        String formattedTempMin = String.format("%.1f", mintemperatureInCelsius);
-        String formattedTempMax = String.format("%.1f", maxtemperatureInCelsius);
+        String formattedTemperature = String.format("%.1f", currentTemp);
+        String formattedFeelsLike = String.format("%.1f", feelsLike);
+        String formattedTempMin = String.format("%.1f", tempMin);
+        String formattedTempMax = String.format("%.1f", tempMax);
         String formattedWindSpeed = String.format("%.1f", windSpeed);
 
         // Set data to respective labels
@@ -349,33 +282,6 @@ public class mainscreenController {
         controller.tfSunset.setText(formatTime(sunset, timezone));
         controller.tfPressure.setText(Integer.toString(pressure) + " hPa");
         controller.tfWindspeed.setText(formattedWindSpeed + " m/s");
-        setcityname(cityName);
-        setlong(lon);
-        setlatitude(lat);
-    }
-
-    void setcityname(String cityName) {
-        this.city = cityName;
-    }
-
-    void setlong(Double longi) {
-        this.longitude = longi;
-    }
-
-    void setlatitude(Double lati) {
-        this.latitude = lati;
-    }
-
-    double getlat() {
-        return this.latitude;
-    }
-
-    double getlong() {
-        return this.longitude;
-    }
-
-    String getcityname() {
-        return this.city;
     }
 
     // Method to format time in hh:mm format
@@ -473,7 +379,7 @@ public class mainscreenController {
 
     // Method to format temperature
     private String formatTemperature(double temperature) {
-        double temperatureInCelsius = temperature - 273.15;
+        double temperatureInCelsius = temperature;
 
         // Format the temperature to have one digit after the decimal point
         String formattedTemperature = String.format("%.1f", temperatureInCelsius);

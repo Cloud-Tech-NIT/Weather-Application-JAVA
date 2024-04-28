@@ -1,4 +1,5 @@
 package Src.WeatherDataStorage;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,16 +15,12 @@ import java.util.concurrent.TimeUnit;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 import Src.WeatherDataStorage.MySQLConnection;
 
+public class DBFrcst5Day {
+    private MySQLConnection Connection = new MySQLConnection();
+    WeatherForecastAPIData apiData = new WeatherForecastAPIData();
 
-public class DBFrcst5Day 
-{
-    private MySQLConnection Connection=new MySQLConnection();
-    private WeatherForecastAPIData jobj= new WeatherForecastAPIData();
-   public DBFrcst5Day()
-   { }
     public void insertWeatherData(WeatherForecastAPIData jsonObject) {
-        try (Connection connection = MySQLConnection.getConnection())
-         {
+        try (Connection connection = MySQLConnection.getConnection()) {
             int dayIndex = 0;
             float lat = jsonObject.getLatitude();
             float lon = jsonObject.getLongitude();
@@ -31,13 +28,12 @@ public class DBFrcst5Day
             double[][] data = jsonObject.getData();
             String[] iconUrls = jsonObject.getIconUrls();
             String[] weatherConditions = jsonObject.getWeatherCondition();
-    
+
             String insertSql = "INSERT INTO weather_forecast (Day, city_name, latitude, longitude, temp, temp_min, temp_max, pressure, humidity, weather_condition, icon_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-            try (Connection connect = MySQLConnection.getConnection())
-             {PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
-                for (int i = 0; i < 5; i++) 
-                {
+
+            try (Connection connect = MySQLConnection.getConnection()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
+                for (int i = 0; i < 5; i++) {
                     preparedStatement.setInt(1, dayIndex);
                     preparedStatement.setString(2, cityName);
                     preparedStatement.setDouble(3, lat);
@@ -52,7 +48,7 @@ public class DBFrcst5Day
                     preparedStatement.executeUpdate();
                     dayIndex++;
                 }
-    
+
                 System.out.println("Data inserted successfully!");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -62,13 +58,12 @@ public class DBFrcst5Day
         }
     }
 
-    public boolean isDataPresentByCityName(String cityName) 
-    {
+    public boolean isDataPresentByCityName(String cityName) {
         DBFrcst5Day fetcher = new DBFrcst5Day();
         boolean present = false;
         String selectSql = "SELECT COUNT(*) FROM weather_forecast WHERE city_name = ?";
-        try (Connection connect = MySQLConnection.getConnection()) 
-        {PreparedStatement selectStatement = connect.prepareStatement(selectSql);
+        try (Connection connect = MySQLConnection.getConnection()) {
+            PreparedStatement selectStatement = connect.prepareStatement(selectSql);
             selectStatement.setString(1, cityName);
             ResultSet resultSet = selectStatement.executeQuery();
             if (resultSet.next()) {
@@ -80,12 +75,13 @@ public class DBFrcst5Day
         }
         return present;
     }
+
     public boolean isDataPresentByLatLon(double latitude, double longitude) {
         DBFrcst5Day fetcher = new DBFrcst5Day();
         boolean present = false;
         String selectSql = "SELECT COUNT(*) FROM weather_Forecast WHERE latitude = ? AND longitude = ?";
-        try (Connection connect = MySQLConnection.getConnection())
-         {PreparedStatement selectStatement = connect.prepareStatement(selectSql);
+        try (Connection connect = MySQLConnection.getConnection()) {
+            PreparedStatement selectStatement = connect.prepareStatement(selectSql);
             selectStatement.setDouble(1, latitude);
             selectStatement.setDouble(2, longitude);
             ResultSet resultSet = selectStatement.executeQuery();
@@ -96,75 +92,90 @@ public class DBFrcst5Day
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return present;
     }
-    public void displayDataFromDatabaseByCityName(String cityName) {
-        try (Connection connect = MySQLConnection.getConnection())
-        { String query = "SELECT * FROM weather_Forecast WHERE city_name = ?";
+
+    public WeatherForecastAPIData displayDataFromDatabaseByCityName(String cityName) {
+        try (Connection connect = MySQLConnection.getConnection()) {
+            String query = "SELECT * FROM weather_Forecast WHERE city_name = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             preparedStatement.setString(1, cityName);
             ResultSet resultSet = preparedStatement.executeQuery();
-            displayDataAsArray(resultSet);
+            this.apiData = displayDataAsArray(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return apiData;
     }
-    public void displayDataFromDatabaseByLatLon(double latitude, double longitude) {
-        try (Connection connect = MySQLConnection.getConnection())
-        {
+
+    public WeatherForecastAPIData displayDataFromDatabaseByLatLon(double latitude, double longitude) {
+        try (Connection connect = MySQLConnection.getConnection()) {
             String query = "SELECT * FROM weather_Forecast WHERE latitude = ? AND longitude = ?";
             PreparedStatement preparedStatement = connect.prepareStatement(query);
             preparedStatement.setDouble(1, latitude);
             preparedStatement.setDouble(2, longitude);
             ResultSet resultSet = preparedStatement.executeQuery();
-            displayDataAsArray(resultSet);
+            this.apiData = displayDataAsArray(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return apiData;
     }
-     // Function to display fetched data as array
-     public WeatherForecastAPIData displayDataAsArray(ResultSet resultSet) throws SQLException{
-        WeatherForecastAPIData apiData = new WeatherForecastAPIData();
+
+    // Function to display fetched data as array
+    public WeatherForecastAPIData displayDataAsArray(ResultSet resultSet) throws SQLException {
         double[][] data = new double[5][5];
         String[] iconUrls = new String[5];
         String[] weatherConditions = new String[5];
-    
+
         try (Connection connect = MySQLConnection.getConnection()) {
-            String selectSql = "SELECT * FROM weather_forecast ORDER BY Day";
-    
-            try (PreparedStatement preparedStatement = connect.prepareStatement(selectSql)) {
-                ResultSet result = preparedStatement.executeQuery();
-                int dayIndex = 0;
-    
-                while (result.next()) {
-                    if (dayIndex < 5) {
-                        data[dayIndex][0] = resultSet.getDouble("temp");
-                        data[dayIndex][1] = resultSet.getDouble("temp_min");
-                        data[dayIndex][2] = resultSet.getDouble("temp_max");
-                        data[dayIndex][3] = resultSet.getDouble("pressure");
-                        data[dayIndex][4] = resultSet.getDouble("humidity");
-                        iconUrls[dayIndex] = resultSet.getString("icon_url");
-                        weatherConditions[dayIndex] = resultSet.getString("weather_condition");
-                        dayIndex++;
-                    }
-                }
-    
-                apiData.setData(data);
-                apiData.setIconUrls(iconUrls);
-                apiData.setWeatherCondition(weatherConditions);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            int dayIndex = 0;
+
+            while (resultSet.next() && dayIndex < 5) {
+
+                data[dayIndex][0] = resultSet.getDouble("temp");
+                data[dayIndex][1] = resultSet.getDouble("temp_min");
+                data[dayIndex][2] = resultSet.getDouble("temp_max");
+                data[dayIndex][3] = resultSet.getDouble("pressure");
+                data[dayIndex][4] = resultSet.getDouble("humidity");
+                iconUrls[dayIndex] = resultSet.getString("icon_url");
+                weatherConditions[dayIndex] = resultSet.getString("weather_condition");
+                dayIndex++;
+
             }
+
+            // for (int i = 0; i < data.length; i++) {
+            // for (int j = 0; j < data[i].length; j++) {
+            // System.out.println("data[" + i + "][" + j + "] = " + data[i][j]);
+            // }
+            // }
+
+            // // Displaying elements of the iconUrls array
+            // System.out.println("iconUrls:");
+            // for (int i = 0; i < iconUrls.length; i++) {
+            // System.out.println("iconUrls[" + i + "] = " + iconUrls[i]);
+            // }
+
+            // // Displaying elements of the weatherCondition array
+            // System.out.println("weatherCondition:");
+            // for (int i = 0; i < weatherConditions.length; i++) {
+            // System.out.println("weatherCondition[" + i + "] = " + weatherConditions[i]);
+            // }
+
+            apiData.setData(data);
+            apiData.setIconUrls(iconUrls);
+            apiData.setWeatherCondition(weatherConditions);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
+
         return apiData;
     }
+
     public void deleteOldData() {
-        try (Connection connection = MySQLConnection.getConnection()) 
-        {
+        try (Connection connection = MySQLConnection.getConnection()) {
             Instant sixHoursAgo = Instant.now().minus(Duration.ofHours(6));
             long sixHoursAgoEpoch = sixHoursAgo.getEpochSecond();
             String deleteSql = "DELETE FROM Current_Weather_Data WHERE dt < ?";
@@ -174,16 +185,17 @@ public class DBFrcst5Day
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } 
-}
-public static void main(String[] args) {
-    DBFrcst5Day dbFrcst = new DBFrcst5Day();
+        }
+    }
 
-    // Example usage: Insert weather data
-    WeatherForecastAPIData weatherData = new WeatherForecastAPIData();
-    // Set weather data in the WeatherForecastAPIData object
-    dbFrcst.insertWeatherData(weatherData);
+    public static void main(String[] args) {
+        DBFrcst5Day dbFrcst = new DBFrcst5Day();
 
-}
+        // Example usage: Insert weather data
+        WeatherForecastAPIData weatherData = new WeatherForecastAPIData();
+        // Set weather data in the WeatherForecastAPIData object
+        dbFrcst.insertWeatherData(weatherData);
+
+    }
 
 }
