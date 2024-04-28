@@ -39,6 +39,7 @@ public class TUIFiller {
   }
 
   public void getCurrentWeather(double latitude, double longitude, String cityName) {
+    
     if (!(cache.checkCurrentWeatherData(latitude, longitude) || cache.checkCurrentWeatherData(cityName))) {
       if (latitude != 0 && longitude != 0) {
         APIcall.SearchByCoord(latitude, longitude, CurrentWeather);
@@ -49,6 +50,7 @@ public class TUIFiller {
     }
     else
     {
+
       if (latitude != 0 && longitude != 0) {
         cache.fetchCurrentWeatherData(CurrentWeather, latitude, longitude);
       } else if (cityName != null && !cityName.isEmpty()) {
@@ -60,7 +62,7 @@ public class TUIFiller {
 
   // Method to fetch weather forecast data
   public void getWeatherForecast(double latitude, double longitude, String cityName) {
-    if (!(cache.checkWeatherForecastData(latitude, longitude) || cache.checkWeatherForecastData(cityName))) {
+   if (!(cache.checkWeatherForecastData(latitude, longitude) || cache.checkWeatherForecastData(cityName))) {
       if (latitude != 0 && longitude != 0) {
         WeatherAPIcall.SearchByCoord(latitude, longitude, Forecast);
       } else if (cityName != null && !cityName.isEmpty()) {
@@ -164,10 +166,9 @@ public class TUIFiller {
     TUIFiller tuiFiller = new TUIFiller();
 
     // Specify the latitude, longitude, and city name
-    double latitude = 24.8;
-    double longitude = 67.0;
+    double latitude = 31.5;
+    double longitude = 74.35;
     String cityName = "";
-
     // Call the method to get air pollution data
     //tuiFiller.getAirPollution(latitude, longitude, cityName);
     tuiFiller.getWeatherForecast(latitude, longitude,cityName);

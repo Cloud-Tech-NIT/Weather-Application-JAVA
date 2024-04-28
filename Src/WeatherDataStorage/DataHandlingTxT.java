@@ -3,6 +3,8 @@ package Src.WeatherDataStorage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
@@ -89,11 +91,11 @@ public class DataHandlingTxT implements CacheManager {
 
     private void populateCurrentWeatherData(CurrentWeatherAPIData currentWeather, String data) {
         String[] parts = data.split("_");
-        if (parts.length >= 22) { // Ensure all necessary parts are present
+        if (parts.length >= 23) { // Ensure all necessary parts are present
             currentWeather.setCityName(parts[0]);
             currentWeather.setLatitude(Float.parseFloat(parts[1]));
             currentWeather.setLongitude(Float.parseFloat(parts[2]));
-            currentWeather.setWeatherID(Integer.parseInt(parts[4]));
+            currentWeather.setWeatherID(Integer.parseInt(parts[5]));
             currentWeather.setWeatherMain(parts[6]);
             currentWeather.setWeatherDescription(parts[7]);
             currentWeather.setTemperature(Float.parseFloat(parts[8]));
@@ -110,7 +112,8 @@ public class DataHandlingTxT implements CacheManager {
             currentWeather.setCountry(parts[19]);
             currentWeather.setSunrise(Integer.parseInt(parts[20]));
             currentWeather.setSunset(Integer.parseInt(parts[21]));
-            currentWeather.setTimezone(Integer.parseInt(parts[22]));
+            // currentWeather.setTimezone(Integer.parseInt(parts[22]));
+            currentWeather.setTimezone(Integer.parseInt(parts[22].trim()));
         }
     }
 
@@ -131,28 +134,53 @@ public class DataHandlingTxT implements CacheManager {
             populateWeatherForecastData(Forecast, data);
 
         }
+        System.out.println("I am here");
+
     }
-    public void populateWeatherForecastData(WeatherForecastAPIData forecastData, String data) {
-        String[] parts = data.split("_");
-        if (parts.length >= 25) { // Ensure all necessary parts are present
-            forecastData.setCityName(parts[0]);
-            forecastData.setLatitude(Float.parseFloat(parts[1]));
-            forecastData.setLongitude(Float.parseFloat(parts[2]));
-            forecastData.setDt(Integer.parseInt(parts[3])); // Set dt from the timestamp
-    
-            // Parse forecast data for each day
-            int index = 4; // Start from the fifth index
-            for (int i = 0; i < 5; i++) { // Assuming there are 5 days of forecast data
-                for (int j = 0; j < 5; j++) { // Assuming each day has 5 data points
-                    forecastData.getData()[i][j] = Double.parseDouble(parts[index]);
-                    index++;
-                }
-                forecastData.getIconUrls()[i] = parts[index];
-                index++;
-                forecastData.getWeatherCondition()[i] = parts[index];
-                index++;
+
+    public void populateWeatherForecastData(WeatherForecastAPIData forecast, String data) {
+    String[] parts = data.split("_");
+    int index = 0;
+    String cityName = parts[index++];
+    float lat = Float.parseFloat(parts[index++]);
+    float lon = Float.parseFloat(parts[index++]);
+    int timestamp = Integer.parseInt(parts[index++]);
+    index++;
+    forecast.setCityName(cityName);
+    forecast.setLatitude(lat);
+    forecast.setLongitude(lon);
+    forecast.setDt(timestamp);
+
+    List<double[]> forecastDataList = new ArrayList<>();
+    List<String> iconUrlsList = new ArrayList<>();
+    List<String> weatherConditionsList = new ArrayList<>();
+
+    while (index < parts.length) {
+        if (parts[index].equals("#")) {
+            index++; // Skip the '#' separator
+            double[] dayForecastData = new double[5];
+            int j = 0;
+            while (j < 5 && !parts[index].isEmpty()) {
+                dayForecastData[j++] = Double.parseDouble(parts[index++]);
             }
+            forecastDataList.add(dayForecastData);
+            String iconUrl = parts[index++];
+            iconUrlsList.add(iconUrl);
+            String weatherCondition = parts[index++];
+            weatherConditionsList.add(weatherCondition);
+        } else {
+            index++;
         }
+    }
+
+
+    double[][] forecastData = forecastDataList.toArray(new double[forecastDataList.size()][]);
+    String[] iconUrls = iconUrlsList.toArray(new String[iconUrlsList.size()]);
+    String[] weatherConditions = weatherConditionsList.toArray(new String[weatherConditionsList.size()]);
+
+    forecast.setData(forecastData);
+    forecast.setIconUrls(iconUrls);
+    forecast.setWeatherCondition(weatherConditions);
     }
 
     public Boolean checkData(String filename, double latitude, double longitude) {
@@ -167,16 +195,20 @@ public class DataHandlingTxT implements CacheManager {
                 {
                     lat = Double.parseDouble(parts[0]);
                     lon = Double.parseDouble(parts[1]);
-                    if (lat == latitude && lon == longitude) {
-                        return true; // Data found
-                    }
 
                 } else {
                     lat = Double.parseDouble(parts[1]);
                     lon = Double.parseDouble(parts[2]);
-                    if (lat == latitude && lon == longitude) {
-                        return true; // Data found
-                    }
+
+                }
+
+                lat = Math.round(lat * 100.0) / 100.0;
+                lon = Math.round(lon * 100.0) / 100.0;
+
+                // Check if rounded latitude and longitude match the provided latitude and
+                // longitude
+                if (Math.abs(lat - latitude) < 0.01 && Math.abs(lon - longitude) < 0.01) {
+                    return true; // Data found
                 }
 
             }
@@ -216,18 +248,21 @@ public class DataHandlingTxT implements CacheManager {
                 {
                     lat = Double.parseDouble(parts[0]);
                     lon = Double.parseDouble(parts[1]);
-                    if (lat == latitude && lon == longitude) {
-                        response.append(line).append("\n");
-                    }
+
                 } else {
 
                     lat = Double.parseDouble(parts[1]);
                     lon = Double.parseDouble(parts[2]);
-                    if (lat == latitude && lon == longitude) {
-                        response.append(line).append("\n");
-                    }
-                }
 
+                }
+                lat = Math.round(lat * 100.0) / 100.0;
+                lon = Math.round(lon * 100.0) / 100.0;
+
+                // Check if rounded latitude and longitude match the provided latitude and
+                // longitude
+                if (Math.abs(lat - latitude) < 0.01 && Math.abs(lon - longitude) < 0.01) {
+                    response.append(line).append("\n");
+                }
             }
             reader.close();
         } catch (IOException e) {
