@@ -1,18 +1,34 @@
 package Src.AppUI;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import Src.OpenWeatherAPI.AirPollutionAPI;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
+import Src.BusinessLogic.DUIFiller;
 
 public class Screen3Controller {
+    private final DUIFiller executeflow;
+
+    public Screen3Controller() {
+        this.executeflow = new DUIFiller(this);
+    }
+
+    public void initialize(double latitude, double longitude) {
+        executeflow.CheckAirPollCoord(latitude, longitude);
+
+    }
 
     @FXML
     private AnchorPane mainpane;
-
-    @FXML
-    private Text tfAirQualityIndex;
 
     @FXML
     private Text tfCO;
@@ -27,6 +43,9 @@ public class Screen3Controller {
     private Text tfNO2;
 
     @FXML
+    private Text tfAirQualityIndex;
+
+    @FXML
     private Text tfO3;
 
     @FXML
@@ -39,38 +58,26 @@ public class Screen3Controller {
     private Text tfSO2;
 
     @FXML
-    private Label tfcityname;
+    private Label tfCityName;
 
-    @FXML
-    private Label tfcityname1;
-
-    @FXML
-    private Label tfcityname11;
-
-    @FXML
-    private Label tfcityname113;
-
-    @FXML
-    private Label tfcityname114;
-
-    @FXML
-    private Label tfcityname115;
-
-    @FXML
-    private Label tfcityname12;
-
-    @FXML
-    private Label tfcityname13;
-
-    @FXML
-    private Label tfcityname14;
-
-    @FXML
-    private Label tfcityname15;
-
-    @FXML
-    void aqiSlider(MouseEvent event) {
-
+    public void setAirPollutionData(AirPollutionAPIData DataObject) {
+        int aqi = DataObject.getAqi();
+        double co = DataObject.getCo();
+        double nh3 = DataObject.getNh3();
+        double no = DataObject.getNo();
+        double no2 = DataObject.getNo2();
+        double o3 = DataObject.getO3();
+        double pm10 = DataObject.getPm10();
+        double pm2_5 = DataObject.getPm25();
+        double so2 = DataObject.getSo2();
+        tfAirQualityIndex.setText(Integer.toString(aqi));
+        tfCO.setText(String.format("%.2f", co));
+        tfNH3.setText(String.format("%.2f", nh3));
+        tfNO.setText(String.format("%.2f", no));
+        tfNO2.setText(String.format("%.2f", no2));
+        tfO3.setText(String.format("%.2f", o3));
+        tfPM10.setText(String.format("%.2f", pm10));
+        tfPM2.setText(String.format("%.2f", pm2_5));
+        tfSO2.setText(String.format("%.2f", so2));
     }
-
 }

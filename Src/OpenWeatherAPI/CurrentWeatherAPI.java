@@ -1,6 +1,5 @@
 package Src.OpenWeatherAPI;
 
-import Src.AppUI.Screen2Controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -9,21 +8,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
 import Src.WeatherDataStorage.WeatherDataTxtStorage;
+import Src.BusinessLogic.DisplayData;
+import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
-  // <changed> added print functionality//
-  @Override
-  public void parseJSON(JsonObject jsonObject) {
+  public void parseJSON(JsonObject jsonObject, CurrentWeatherAPIData obj) {
     // This module Parses the JSON string returned by the API
+
+    String country = "US";
 
     // Coordinates Section
     JsonObject coord = jsonObject.getAsJsonObject("coord");
-    double lon = coord.get("lon").getAsDouble();
-    double lat = coord.get("lat").getAsDouble();
+    float lon = coord.get("lon").getAsFloat();
+    float lat = coord.get("lat").getAsFloat();
 
     // Weather Section
     JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
@@ -39,47 +41,73 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
     // Main section
     JsonObject main = jsonObject.getAsJsonObject("main");
-    double temp = main.get("temp").getAsDouble();
-    double feelsLike = main.get("feels_like").getAsDouble();
-    double tempMin = main.get("temp_min").getAsDouble();
-    double tempMax = main.get("temp_max").getAsDouble();
+    float temp = main.get("temp").getAsFloat();
+    float feelsLike = main.get("feels_like").getAsFloat();
+    float tempMin = main.get("temp_min").getAsFloat();
+    float tempMax = main.get("temp_max").getAsFloat();
     int pressure = main.get("pressure").getAsInt();
     int humidity = main.get("humidity").getAsInt();
     int visibility = jsonObject.get("visibility").getAsInt();
     JsonObject wind = jsonObject.getAsJsonObject("wind");
-    double windSpeed = wind.get("speed").getAsDouble();
+    float windSpeed = wind.get("speed").getAsFloat();
     int WindDeg = wind.get("deg").getAsInt();
-    JsonObject rain = jsonObject.getAsJsonObject("rain");
+    JsonObject rainP = jsonObject.getAsJsonObject("rain");
+    float rain1h = 0.0f; // Default value for rain1h
+    if (rainP != null && rainP.has("1h")) {
+      rain1h = rainP.get("1h").getAsFloat();
+    }
+
     JsonObject clouds = jsonObject.getAsJsonObject("clouds");
     int cloudsAll = clouds.get("all").getAsInt(); // Cloudiness
     int dt = jsonObject.get("dt").getAsInt(); // Time of data calculation
     JsonObject sys = jsonObject.getAsJsonObject("sys");
-    String country = sys.get("country").getAsString(); // Country Codes (GB,JP etc)
+
+    if (sys.has("country") && !sys.get("country").isJsonNull()) {
+      country = sys.get("country").getAsString();
+    }
     int sunrise = sys.get("sunrise").getAsInt(); // Sunrise Time
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
-    WeatherDataTxtStorage.deleteOldData();
-    WeatherDataTxtStorage.storeCurrentWeatherData(lat, lon, WeatherID, weatherMain, weatherDescription,
-        temp, feelsLike, tempMin, tempMax, pressure, humidity,
-        visibility, windSpeed, WindDeg, cloudsAll, dt, country,
-        sunrise, sunset, timezone, CityName);
+    // // generating notifications on the basis of poor_weather
 
-    // generating notifications on the basis of poor_weather
-    if (visibility > POOR_WEATHER_THRESHOLD) {
-      generateNotification(visibility);
-    }
-    System.out.println("MAX TEMPERATURE: " + tempMax);
-    System.out.println("MIN TEMPERATURE: " + tempMin);
+    // if (visibility > POOR_WEATHER_THRESHOLD) {
+    // generateNotification(visibility);
+    // }
+
+    obj.setLocId(1);
+    obj.setCityName(CityName);
+    obj.setLatitude(lat);
+    obj.setLongitude(lon);
+    obj.setWeatherID(WeatherID);
+    obj.setWeatherDescription(weatherDescription);
+    obj.setWeatherIcon(iconUrl);
+    obj.setWeatherMain(weatherMain);
+    obj.setTemperature(temp);
+    obj.setFeelsLike(feelsLike);
+    obj.setTempMax(tempMax);
+    obj.setTempMin(tempMin);
+    obj.setPressure(pressure);
+    obj.setHumidity(humidity);
+    obj.setVisibility(visibility);
+    obj.setWindSpeed(windSpeed);
+    obj.setWindDeg(WindDeg);
+    obj.setRain(rain1h);
+    obj.setCloudsAll(cloudsAll);
+    obj.setDt(dt);
+    obj.setCountry(country);
+    obj.setSunrise(sunrise);
+    obj.setSunset(sunset);
+    obj.setTimezone(timezone);
   }
 
   @Override
-  public void APIcall(double latitude, double longitude) {
+  public URL APIcall(double latitude, double longitude) {
     try {
       @SuppressWarnings("deprecation")
       // Create URL with latitude, longitude, and API key
-      URL url = new URL(
+      URL apiUrl = new URL(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
               latitude +
               "&lon=" +
@@ -88,48 +116,65 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
               APIkey +
               "&units=" +
               units);
-      performAPICall(url);
+      return apiUrl;
+    } catch (MalformedURLException e) {
+      System.err.println("Malformed URL: " + e.getMessage());
+      return null;
     } catch (Exception e) {
       e.printStackTrace();
+      // Stop execution by throwing a RuntimeException
+      throw new RuntimeException("Exception occurred while creating API URL");
     }
   }
 
-  public void APIcall(String cityName) {
+  @Override
+  public URL APIcall(String cityName) {
     try {
       @SuppressWarnings("deprecation")
       URL apiUrl = new URL(
           "https://api.openweathermap.org/data/2.5/weather?q=" +
               cityName +
               "&appid=" +
-              APIkey);
-      performAPICall(apiUrl);
+              APIkey +
+              "&units=" +
+              units);
+      return apiUrl;
+    } catch (MalformedURLException e) {
+      System.err.println("Malformed URL: " + e.getMessage());
+      return null;
     } catch (Exception e) {
       e.printStackTrace();
+      // Stop execution by throwing a RuntimeException
+      throw new RuntimeException("Exception occurred while creating API URL");
     }
   }
 
-  private void performAPICall(URL apiUrl) throws IOException {
-    HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-    connection.setRequestMethod("GET");
-    int responseCode = connection.getResponseCode();
-    System.out.println("Response Code: " + responseCode);
+  public JsonObject performAPICall(URL apiUrl) {
+    try {
+      HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+      connection.setRequestMethod("GET");
+      int responseCode = connection.getResponseCode();
+      System.out.println("Response Code: " + responseCode);
 
-    BufferedReader in = new BufferedReader(
-        new InputStreamReader(connection.getInputStream()));
-    String inputLine;
-    StringBuilder response = new StringBuilder();
-    while ((inputLine = in.readLine()) != null) {
-      response.append(inputLine);
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(connection.getInputStream()));
+      String inputLine;
+      StringBuilder response = new StringBuilder();
+      while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+      }
+      in.close();
+
+      Gson gson = new Gson();
+      JsonObject jsonObject = gson.fromJson(
+          response.toString(),
+          JsonObject.class);
+      connection.disconnect();
+      return jsonObject;
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
     }
-    in.close();
-
-    Gson gson = new Gson();
-    JsonObject jsonObject = gson.fromJson(
-        response.toString(),
-        JsonObject.class);
-    // System.out.println(jsonObject);
-    parseJSON(jsonObject);
-    connection.disconnect();
   }
 
   // made notification interface function for poor weather quality
@@ -141,8 +186,24 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
             " with visibility = " +
             visibility);
   }
+
+  public void SearchByCity(String CityName, CurrentWeatherAPIData obj) {
+    URL apiUrl = this.APIcall(CityName);
+    JsonObject jsonObject = this.performAPICall(apiUrl);
+    this.parseJSON(jsonObject, obj);
+  }
+
+  public void SearchByCoord(double latitude, double longitude, CurrentWeatherAPIData obj) {
+    URL apiUrl = this.APIcall(latitude, longitude);
+    JsonObject jsonObject = this.performAPICall(apiUrl);
+    this.parseJSON(jsonObject, obj);
+  }
+
   public static void main(String[] args) {
     CurrentWeatherAPI test = new CurrentWeatherAPI();
-    test.APIcall("lahore");
+    URL apiUrl = test.APIcall(33.2, 19.34);
+    JsonObject jsonObject = test.performAPICall(apiUrl);
+    CurrentWeatherAPIData obj = new CurrentWeatherAPIData();
+    test.parseJSON(jsonObject, obj);
   }
 }
