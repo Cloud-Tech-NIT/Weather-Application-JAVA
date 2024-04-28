@@ -13,11 +13,7 @@ import Src.WeatherDataStorage.WeatherDataTxtStorage;
 
 public class TUIFiller {
 
-  // Make the object of Terminal UI herexxxc
-
   private TerminalUI terminalUI;
-
-  // private TerminalUI Terminal = new TerminalUI(); //(Example)
 
   // Private Instances of Individual Temporary Data Storage
   private CurrentWeatherAPIData CurrentWeather = new CurrentWeatherAPIData();
@@ -46,13 +42,11 @@ public class TUIFiller {
         APIcall.SearchByCity(cityName, CurrentWeather);
       }
       WeatherDataTxtStorage.storeCurrentWeatherData(CurrentWeather);
-    }
-    else
-    {
+    } else {
       if (latitude != 0 && longitude != 0) {
         cache.fetchCurrentWeatherData(CurrentWeather, latitude, longitude);
       } else if (cityName != null && !cityName.isEmpty()) {
-        cache.fetchCurrentWeatherData(CurrentWeather,cityName);
+        cache.fetchCurrentWeatherData(CurrentWeather, cityName);
       }
     }
     terminalUI.RetriveCurrentWeatherData(CurrentWeather);
@@ -67,13 +61,12 @@ public class TUIFiller {
         WeatherAPIcall.SearchByCity(cityName, Forecast);
       }
       WeatherDataTxtStorage.storeWeatherForecastData(Forecast);
-    }
-    else{
-      
+    } else {
+
       if (latitude != 0 && longitude != 0) {
         cache.fetchWeatherForecastData(Forecast, latitude, longitude);
       } else if (cityName != null && !cityName.isEmpty()) {
-        cache.fetchWeatherForecastData(Forecast,cityName);
+        cache.fetchWeatherForecastData(Forecast, cityName);
       }
     }
     terminalUI.RetriveWeatherForecastData(Forecast);
@@ -117,49 +110,6 @@ public class TUIFiller {
 
   }
 
-  // Write Methods for getting data through txt and fill the CurrentWeather,
-  // Forecast, AirPoll Objects
-
-  public void getDataFromDB() {
-    // Use this function if needed for txt storage
-  }
-
-  public void DataPresent() {
-
-    // Populate the UI by accessing the DB (txtFile) and filling the Objects by
-    // calling their
-    // setters (Send the Objects of CurrentWeather,Forecast, AirPoll to DB
-    // functions)
-
-  }
-
-  public void DataNotPresent() {
-
-    // if by coord then call SearchByCoord and populate the Terminal UI Object by
-    // the
-    // individual variables of CurrentWeather, Forecast, AirPoll
-
-    // if by City then call SearchByCity and populate the Terminal UI Object by the
-    // individual variables of CurrentWeather, Forecast, AirPoll
-  }
-
-  public void Flow(String city) {
-
-    // boolean DataExist = cache.checkData(city);
-    // if (!DataExist) {
-    // cache.FetchData("CurrentWeatherData.txt", 34, 56);
-    // }
-    // Check For Data
-    // getDataFromDB
-
-    // ifNotPresent
-    // this.DataNotPresent();
-
-    // ifPresent
-    // this.DataPresent();
-
-  }
-
   public static void main(String[] args) {
     TUIFiller tuiFiller = new TUIFiller();
 
@@ -169,11 +119,10 @@ public class TUIFiller {
     String cityName = "";
 
     // Call the method to get air pollution data
-    //tuiFiller.getAirPollution(latitude, longitude, cityName);
-    tuiFiller.getWeatherForecast(latitude, longitude,cityName);
-    //tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-    //tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-
+    // tuiFiller.getAirPollution(latitude, longitude, cityName);
+    tuiFiller.getWeatherForecast(latitude, longitude, cityName);
+    // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
+    // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
 
     // Print or handle the air pollution data as needed
     // System.out.println("Air Pollution Data: " + airPollutionData.getCo());

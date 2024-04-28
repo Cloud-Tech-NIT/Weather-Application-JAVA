@@ -3,7 +3,6 @@ package Src.OpenWeatherAPI;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,10 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
-
-import Src.BusinessLogic.DisplayData;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
-import Src.WeatherDataStorage.WeatherDataTxtStorage;
 
 public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
@@ -24,7 +20,6 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     JsonObject coordObject = jsonObject.getAsJsonObject("coord");
     float lat = coordObject.get("lat").getAsFloat();
     float lon = coordObject.get("lon").getAsFloat();
-    //System.out.println("coordinates: (" + lat + ", " + lon + ")");
     JsonArray listArray = jsonObject.getAsJsonArray("list");
     JsonObject firstItem = listArray.get(0).getAsJsonObject();
     int dt = firstItem.get("dt").getAsInt(); // date and time
@@ -40,17 +35,6 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     float pm10 = components.get("pm10").getAsFloat();
     float nh3 = components.get("nh3").getAsFloat();
 
-    // System.out.println("dt: " + dt);
-    // System.out.println("aqi: " + aqi);
-    // System.out.println("co: " + co);
-    // System.out.println("no: " + no);
-    // System.out.println("no2: " + no2);
-    // System.out.println("o3: " + o3);
-    // System.out.println("so2: " + so2);
-    // System.out.println("pm2.5: " + pm2_5);
-    // System.out.println("pm10: " + pm10);
-    // System.out.println("nh3: " + nh3);
-
     obj.setLocId(1);
     obj.setLatitude(lat);
     obj.setLongitude(lon);
@@ -65,63 +49,12 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
     obj.setPm25(pm2_5);
     obj.setNh3(nh3);
     obj.setCityName(CityName);
+
     // if (aqi > POOR_AIR_QUALITY_THRESHOLD) {
-    //   generateNotification(aqi);
+    // generateNotification(aqi);
     // }
 
-    //System.out.println("lat: "+lat+" lon :"+lon);
-    
   }
-
-  // Old Method
-
-  // @Override
-  // public void APIcall(double latitude, double longitude) {
-  // try {
-  // String apiUrl = "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
-  // latitude +
-  // "&lon=" +
-  // longitude +
-  // "&appid=" +
-  // APIkey +
-  // "&units=" +
-  // units;
-
-  // // Create URL object
-  // URL url = new URL(apiUrl);
-
-  // // Create HttpURLConnection
-  // HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-  // conn.setRequestMethod("GET");
-
-  // // Get the response code
-  // int responseCode = conn.getResponseCode();
-
-  // if (responseCode == HttpURLConnection.HTTP_OK) { // Success
-  // // Read response
-  // BufferedReader in = new BufferedReader(
-  // new InputStreamReader(conn.getInputStream()));
-  // String inputLine;
-  // StringBuilder response = new StringBuilder();
-
-  // while ((inputLine = in.readLine()) != null) {
-  // response.append(inputLine);
-  // }
-  // in.close();
-
-  // // Parse JSON using Gson
-  // JsonParser parser = new JsonParser();
-  // JsonObject jsonObject = parser
-  // .parse(response.toString())
-  // .getAsJsonObject();
-  // parseJSON(jsonObject);
-  // } else {
-  // System.out.println("GET request not worked");
-  // }
-  // } catch (Exception e) {
-  // e.printStackTrace();
-  // }
-  // }
 
   @Override
   public URL APIcall(double latitude, double longitude) {
@@ -139,12 +72,10 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
               units);
       return apiUrl;
     } catch (MalformedURLException e) {
-      // Handle the MalformedURLException appropriately
       System.err.println("Malformed URL: " + e.getMessage());
       // Return null or throw an exception based on your application logic
-      return null; // For example, returning null here
+      return null;
     } catch (Exception e) {
-      // Handle other exceptions if necessary
       e.printStackTrace();
       // Stop execution by throwing a RuntimeException
       throw new RuntimeException("Exception occurred while creating API URL");
@@ -156,7 +87,6 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
       HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
       connection.setRequestMethod("GET");
       int responseCode = connection.getResponseCode();
-      System.out.println("Response Code: " + responseCode);
 
       BufferedReader in = new BufferedReader(
           new InputStreamReader(connection.getInputStream()));
@@ -174,7 +104,6 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
       connection.disconnect();
       return jsonObject;
     } catch (IOException e) {
-      // Handle the IOException appropriately
       e.printStackTrace();
       return null; // Return null or throw a more specific exception depending on your
                    // application's logic
@@ -192,12 +121,10 @@ public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
               APIkey);
       return apiUrl;
     } catch (MalformedURLException e) {
-      // Handle the MalformedURLException appropriately
       System.err.println("Malformed URL: " + e.getMessage());
       // Return null or throw an exception based on your application logic
-      return null; // For example, returning null here
+      return null;
     } catch (Exception e) {
-      // Handle other exceptions if necessary
       e.printStackTrace();
       // Stop execution by throwing a RuntimeException
       throw new RuntimeException("Exception occurred while creating API URL");

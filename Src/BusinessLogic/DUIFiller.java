@@ -1,7 +1,5 @@
 package Src.BusinessLogic;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
@@ -9,7 +7,6 @@ import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.DBCurrWeather;
-//import Src.WeatherDataStorage.DBweatherFrcst;
 import Src.WeatherDataStorage.DBAirPollDat;
 import Src.WeatherDataStorage.DBFrcst5Day;
 import Src.AppUI.mainscreenController;
@@ -67,9 +64,6 @@ public class DUIFiller {
     PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
   }
 
-  // Write Methods for getting data through DB and fill the CurrentWeather,
-  // Forecast, AirPoll
-  // method to get and store for curr Weather
   private void showAlert(String title, String message) {
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.setTitle(title);
@@ -89,7 +83,6 @@ public class DUIFiller {
         controller.updateUI(controller, CurrentWeather);
         curr.insertWeatherData(CurrentWeather);
       } else {
-        // Handle API call error (e.g., display error message)
       }
     }
   }
@@ -106,7 +99,6 @@ public class DUIFiller {
         controller.updateUI(controller, CurrentWeather);
         curr.insertWeatherData(CurrentWeather);
       } else {
-        // Handle API call error (e.g., display error message)
       }
     }
   }
@@ -189,31 +181,6 @@ public class DUIFiller {
   public void Flow(double lat, double longi) {
     CheckCurrWeatherCoord(lat, longi);
     CheckForecastCoord(lat, longi);
-  }
-
-  // (TEHREEM) ---
-
-  public void getDataFromDB() {
-    // Use this function if needed
-  }
-
-  public void DataPresent() {
-
-    // Populate the UI by accessing the DB and filling the Objects by calling their
-    // setters (Send the Objects of CurrentWeather,Forecast, AirPoll to DB
-    // functions)
-
-  }
-
-  // ----
-
-  public void DataNotPresent() {
-
-    // if by coord then call SearchByCoord and populate the Desktop UI Object by the
-    // individual variables of CurrentWeather, Forecast, AirPoll
-
-    // if by City then call SearchByCity and populate the Desktop UI Object by the
-    // individual variables of CurrentWeather, Forecast, AirPoll
   }
 
   public static void main(String[] args) {
