@@ -1,4 +1,4 @@
-CREATE TABLE WeatherDatas (
+CREATE TABLE Current_Weather_Data (
     loc_id INT PRIMARY KEY,
     city_name VARCHAR(255),
     latitude Float,
