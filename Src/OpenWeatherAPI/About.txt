@@ -7,3 +7,5 @@
 CurrenWeatherAPI.java is the Class for calling the API for Current Weather Conditions
 
 WeatherForecast5Days.java is the Class for calling the API for 5 day Weather Forecast
+
+AirPollutionAPI.java is the class responsible for calling the Airpollution API
