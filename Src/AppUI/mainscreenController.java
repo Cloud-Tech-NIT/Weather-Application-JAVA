@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-public class mainscreenController {
+public class mainscreenController implements WeatherControllerInterfacemain {
 
     private final DUIFiller executeflow;
 
