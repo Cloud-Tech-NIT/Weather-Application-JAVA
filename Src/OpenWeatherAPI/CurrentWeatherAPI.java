@@ -3,7 +3,6 @@ package Src.OpenWeatherAPI;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,8 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
-import Src.WeatherDataStorage.WeatherDataTxtStorage;
-import Src.BusinessLogic.DisplayData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
