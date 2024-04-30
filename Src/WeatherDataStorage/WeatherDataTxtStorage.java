@@ -14,14 +14,14 @@ import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-public class WeatherDataTxtStorage {
+public class WeatherDataTxtStorage implements StoreTxt{
 
     public static void main(String[] args) {
         // Call the deleteOldData function
         deleteOldData();
     }
-
-    public static void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
+    @Override
+    public void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
         // Extract data from the AirPollutionAPIData object
         float lat = airPollutionData.getLatitude();
         float lon = airPollutionData.getLongitude();
@@ -56,8 +56,8 @@ public class WeatherDataTxtStorage {
             }
         }
     }
-
-    public static void storeCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
+    @Override
+    public void storeCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
         // Extract data from the CurrentWeatherAPIData object
         double lat = currentWeatherData.getLatitude();
         double lon = currentWeatherData.getLongitude();
@@ -107,8 +107,8 @@ public class WeatherDataTxtStorage {
             System.out.println("Data already exists for the provided coordinates.");
         }
     }
-
-    public static void storeWeatherForecastData(WeatherForecastAPIData data) {
+    @Override
+    public void storeWeatherForecastData(WeatherForecastAPIData data) {
 
         double[][] forecastData = data.getData();
         String[] iconUrls = data.getIconUrls();
@@ -147,8 +147,8 @@ public class WeatherDataTxtStorage {
             }
         }
     }
-
-    public static void deleteOldData() {
+    @Override
+    public void deleteOldData() {
         String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt", "WeatherForecastData.txt" };
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 
