@@ -1,8 +1,10 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.dataHandling;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import Src.WeatherDataStorage.CacheManager;
 
 public class DataHandlingTxT implements CacheManager {
     Boolean found = false;

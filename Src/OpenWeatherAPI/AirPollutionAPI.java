@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 
 import Src.BusinessLogic.DisplayData;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
-import Src.WeatherDataStorage.WeatherDataTxtStorage;
+import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
 public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
