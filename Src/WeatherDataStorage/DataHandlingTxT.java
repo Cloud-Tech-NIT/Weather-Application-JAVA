@@ -9,7 +9,6 @@ import java.util.List;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import Src.OpenWeatherAPI.CurrentWeatherAPI;
 
 public class DataHandlingTxT implements CacheManager {
     Boolean found = false;

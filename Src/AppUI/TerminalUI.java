@@ -3,17 +3,14 @@ package Src.AppUI;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
-import Src.BusinessLogic.DisplayData;
+import Src.BusinessLogic.TUI;
 import Src.BusinessLogic.TUIFiller;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import Src.OpenWeatherAPI.AirPollutionAPI;
-import Src.OpenWeatherAPI.CurrentWeatherAPI;
-import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.OpenWeatherAPI.notificationInterface;
-import Src.OpenWeatherAPI.InterfaceAPI;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
@@ -23,14 +20,12 @@ import java.time.format.DateTimeFormatter;
 
 public class TerminalUI implements DisplayData {
     private static Scanner scanner = new Scanner(System.in);
-    private static InterfaceAPI currentWeatherService;
-    private static InterfaceAPI weatherForecastService;
-    private static InterfaceAPI airPollutionService;
     private static double latitude;
     private static double longitude;
     private static String city;
-    private static TUIFiller TUI;
-
+    private static TUI TUI = new TUIFiller();
+    private notificationInterface notificationInterface;
+    
     public double getLatitude() {
         return latitude;
     }
@@ -54,13 +49,12 @@ public class TerminalUI implements DisplayData {
     // public void setCity(String city) {
     // this.city = city;
     // }
-    public TerminalUI(TUIFiller TUI) {
-        TerminalUI.TUI = TUI;
+    public TerminalUI() {
+        //TerminalUI.TUI = TUI;
     }
 
     public static void main(String[] args) {
-        TUIFiller tuiFiller = new TUIFiller();
-        TerminalUI terminalUI = new TerminalUI(tuiFiller);
+        TerminalUI terminalUI = new TerminalUI();
         terminalUI.RunF();
     }
 
@@ -208,10 +202,9 @@ public class TerminalUI implements DisplayData {
             System.out.println("Error fetching air pollution data: " + e.getMessage());
         }
     }
-
+    @Override
     public void RetriveAirPollutionData(AirPollutionAPIData AirPoll) {
         // Retrieve air pollution data...
-        DisplayData displayData = new TerminalUI(TUI);
         // Extract data from AirPoll object
         double lat = AirPoll.getLatitude();
         double lon = AirPoll.getLongitude();
@@ -227,11 +220,13 @@ public class TerminalUI implements DisplayData {
         double nh3 = AirPoll.getNh3();
         // String city = AirPoll.getCityName();
         // Pass data to displayAirPollutionData method in the callback interface
+        displayAirPollutionData(city, lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
 
-        displayData.displayAirPollutionData(city, lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
+        notificationInterface.generateNotification(aqi);
+
+
     }
 
-    @Override
     public void displayAirPollutionData(String city, double lat, double lon, long dt, int aqi,
             double co, double no, double no2,
             double o3, double so2, double pm2_5,
@@ -260,8 +255,6 @@ public class TerminalUI implements DisplayData {
 
     public void RetriveCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
         // Retrieve current weather data
-        DisplayData displayData = new TerminalUI(TUI);
-
         // Extract data from CurrentWeatherAPIData object
         double lat = currentWeatherData.getLatitude();
         double lon = currentWeatherData.getLongitude();
@@ -286,12 +279,12 @@ public class TerminalUI implements DisplayData {
         String cityName = currentWeatherData.getCityName();
 
         // Pass data to displayCurrentWeatherData method in the callback interface
-        displayData.displayCurrentWeatherData(lat, lon, weatherID, weatherMain, weatherDescription,
+        displayCurrentWeatherData(lat, lon, weatherID, weatherMain, weatherDescription,
                 temp, feelsLike, tempMin, tempMax, pressure, humidity, visibility,
                 windSpeed, windDeg, cloudsAll, dt, country, sunrise, sunset, timezone, cityName);
     }
 
-    @Override
+
     public void displayCurrentWeatherData(double lat, double lon, int weatherID, String weatherMain,
             String weatherDescription, double temp, double feelsLike,
             double tempMin, double tempMax, int pressure, int humidity,
@@ -345,9 +338,8 @@ public class TerminalUI implements DisplayData {
         System.out.println("Data Time: " + DT);
         System.out.println("Timezone: " + Timezone);
     }
-
+    @Override
     public void RetriveWeatherForecastData(WeatherForecastAPIData weatherForecastData) {
-        DisplayData displayData = new TerminalUI(TUI);
         // Extract data from weatherForecastData object
         double lat = weatherForecastData.getLatitude();
         double lon = weatherForecastData.getLongitude();
@@ -356,10 +348,10 @@ public class TerminalUI implements DisplayData {
         String cityName = weatherForecastData.getCityName();
 
         // Call the displayWeatherForecast method in the terminalUI variable
-        displayData.displayWeatherForecast(data, lat, lon, cityName, weatherConditions);
+        displayWeatherForecast(data, lat, lon, cityName, weatherConditions);
     }
 
-    @Override
+
     public void displayWeatherForecast(double[][] data, double lat,
             double lon, String cityName, String[] weatherConditions) {
         // Display weather forecast information in the terminal
