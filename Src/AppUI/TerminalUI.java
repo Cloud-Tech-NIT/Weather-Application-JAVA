@@ -11,8 +11,8 @@ import Src.BusinessLogic.TerminalUI.TUI_Txt;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import Src.OpenWeatherAPI.notificationInterface;
 
+import java.beans.Visibility;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -25,8 +25,8 @@ public class TerminalUI implements DisplayData {
     private static double longitude;
     private static String city;
     private static TUI TUI;
-    //private notificationInterface notificationInterface;
-    
+    // private notificationInterface notificationInterface;
+
     public double getLatitude() {
         return latitude;
     }
@@ -55,8 +55,8 @@ public class TerminalUI implements DisplayData {
     }
 
     public static void main(String[] args) {
-        //TerminalUI terminalUI = new TerminalUI();
-        //terminalUI.RunF();
+        // TerminalUI terminalUI = new TerminalUI();
+        // terminalUI.RunF();
     }
 
     public int RunF() {
@@ -109,8 +109,8 @@ public class TerminalUI implements DisplayData {
 
         System.out.print("Enter city name: ");
         city = scanner.nextLine().trim();
-        latitude=0.0;
-        longitude=0.0;
+        latitude = 0.0;
+        longitude = 0.0;
         if (!city.isEmpty()) {
             System.out.println("Location added successfully.");
             // TUI.SearchByCity(city);
@@ -150,7 +150,7 @@ public class TerminalUI implements DisplayData {
             }
         }
     }
-    
+
     public static void showCurrentWeather() {
         try {
             TUI.getCurrentWeather(latitude, longitude, city);
@@ -177,6 +177,7 @@ public class TerminalUI implements DisplayData {
             System.out.println("Error fetching air pollution data: " + e.getMessage());
         }
     }
+
     @Override
     public void RetriveAirPollutionData(AirPollutionAPIData AirPoll) {
         // Retrieve air pollution data...
@@ -198,9 +199,7 @@ public class TerminalUI implements DisplayData {
         // Pass data to displayAirPollutionData method in the callback interface
         displayAirPollutionData(city, lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
 
-        //notificationInterface.generateNotification(aqi);
-
-
+        // notificationInterface.generateNotification(aqi);
 
     }
 
@@ -210,6 +209,11 @@ public class TerminalUI implements DisplayData {
             double pm10, double nh3) {
         String Lat = String.format("%.2f", lat) + "°";
         String Lon = String.format("%.2f", lon) + "°";
+
+        if (aqi > 7) {
+            System.err.println("\n\n\n POOR AQI INDEX . AQI IS GREATER THAN 7  \n\n\n");
+        }
+
         // Format date
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(dt), ZoneOffset.UTC);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -261,7 +265,6 @@ public class TerminalUI implements DisplayData {
                 windSpeed, windDeg, cloudsAll, dt, country, sunrise, sunset, timezone, cityName);
     }
 
-
     public void displayCurrentWeatherData(double lat, double lon, int weatherID, String weatherMain,
             String weatherDescription, double temp, double feelsLike,
             double tempMin, double tempMax, int pressure, int humidity,
@@ -292,6 +295,10 @@ public class TerminalUI implements DisplayData {
         String DT = dtTime.format(formatter);
         String Timezone = timezoneTime.format(formatter);
 
+        if (visibility < 5000) {
+            System.err.println("\n \n \n POOR WEATHER QUALITY . VISIBILITY IS LESS THAN 5000  \n\n\n");
+        }
+
         // Format numerical values to two decimal places
         DecimalFormat df = new DecimalFormat("0.00");
         System.out.println("Latitude: " + df.format(lat) + "°");
@@ -315,6 +322,7 @@ public class TerminalUI implements DisplayData {
         System.out.println("Data Time: " + DT);
         System.out.println("Timezone: " + Timezone);
     }
+
     @Override
     public void RetriveWeatherForecastData(WeatherForecastAPIData weatherForecastData) {
         // Extract data from weatherForecastData object
@@ -327,7 +335,6 @@ public class TerminalUI implements DisplayData {
         // Call the displayWeatherForecast method in the terminalUI variable
         displayWeatherForecast(data, lat, lon, cityName, weatherConditions);
     }
-
 
     public void displayWeatherForecast(double[][] data, double lat,
             double lon, String cityName, String[] weatherConditions) {
