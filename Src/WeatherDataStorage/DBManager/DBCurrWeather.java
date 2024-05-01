@@ -1,25 +1,45 @@
 package Src.WeatherDataStorage.DBManager;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.WeatherDataStorage.jdbcDriver.MySQLConnection;
+import Src.WeatherDataStorage.DBManager.interfaces.CurrWeatherCache;
 
-public class DBCurrWeather {
+public class DBCurrWeather implements CurrWeatherCache {
     private MySQLConnection Connection = new MySQLConnection();
     private CurrentWeatherAPIData obj = new CurrentWeatherAPIData();
 
     private int locationIdCounter = 0;
 
+    // Implementing interface methods
+    @Override
+    public Boolean checkCurrentWeatherData(double latitude, double longitude) {
+        return isDataPresentByLatLon(latitude, longitude);
+    }
+
+    @Override
+    public Boolean checkCurrentWeatherData(String cityName) {
+        return isDataPresentByCityName(cityName);
+    }
+
+    @Override
+    public void fetchCurrentWeatherData(CurrentWeatherAPIData currentWeather, double latitude, double longitude) {
+        currentWeather = displayDataFromDatabaseByLatLon(latitude, longitude);
+    }
+
+    @Override
+    public void fetchCurrentWeatherData(CurrentWeatherAPIData currentWeather, String cityName) {
+        currentWeather = displayDataFromDatabaseByCityName(cityName);
+    }
     public void insertWeatherData(CurrentWeatherAPIData jsonObject) {
         try (Connection connection = MySQLConnection.getConnection()) {
             // Query to get the last location ID

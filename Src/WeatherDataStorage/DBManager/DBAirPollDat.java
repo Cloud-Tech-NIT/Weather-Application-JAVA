@@ -13,12 +13,34 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
+import Src.WeatherDataStorage.DBManager.interfaces.AirpollCache;
 import Src.WeatherDataStorage.jdbcDriver.MySQLConnection;
 
-public class DBAirPollDat {
+public class DBAirPollDat implements AirpollCache {
     public AirPollutionAPIData obj = new AirPollutionAPIData();
 
-    public DBAirPollDat() {
+    public DBAirPollDat() 
+    {
+        
+    }
+    @Override
+    public Boolean checkAirPollutionData(double latitude, double longitude) {
+        return isDataPresentCoord(latitude, longitude);
+    }
+
+    @Override
+    public Boolean checkAirPollutionData(String cityName) {
+        return isDataPresentByCityName(cityName);
+    }
+
+    @Override
+    public void fetchAirPollutionData(AirPollutionAPIData AirPoll, double latitude, double longitude) {
+        AirPoll = displayDataFromDatabaseByLatLon(latitude, longitude);
+    }
+
+    @Override
+    public void fetchAirPollutionData(AirPollutionAPIData AirPoll, String cityName) {
+        AirPoll = displayDataFromDatabaseByCityName(cityName);
     }
 
     public void insertWeatherData(AirPollutionAPIData jsonObject) {
@@ -102,7 +124,8 @@ public class DBAirPollDat {
         }
     }
 
-    public boolean isDataPresentCoord(double latitude, double longitude) {
+    public boolean isDataPresentCoord(double latitude, double longitude)
+     {
         DBAirPollDat fetcher = new DBAirPollDat();
         boolean present = false;
         String selectSql = "SELECT COUNT(*) FROM Air_Pollution_Data WHERE latitude = ? AND longitude = ?";
