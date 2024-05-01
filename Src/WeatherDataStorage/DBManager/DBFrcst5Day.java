@@ -1,4 +1,4 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.DBManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import Src.WeatherDataStorage.MySQLConnection;
+import Src.WeatherDataStorage.jdbcDriver.MySQLConnection;
 
 public class DBFrcst5Day {
     private MySQLConnection Connection = new MySQLConnection();

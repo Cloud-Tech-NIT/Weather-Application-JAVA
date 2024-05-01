@@ -1,4 +1,4 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.dataHandling;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,6 +13,7 @@ import java.util.Date;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
+import Src.WeatherDataStorage.StoreTxt;
 
 public class WeatherDataTxtStorage implements StoreTxt{
 
@@ -44,8 +45,8 @@ public class WeatherDataTxtStorage implements StoreTxt{
             String timestamp = dateFormat.format(new Date());
 
             // Format the data string
-            String data = lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
-                    + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3 + "_"+city;
+            String data = city + "_" +  lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
+                    + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3;
 
             // Write data to the file
             try (FileWriter writer = new FileWriter("AirPollutionCo.txt", true)) {
@@ -163,11 +164,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
                     String[] parts = line.split("_");
                     if (parts.length >= 4) {
                         String timestampString = "";
-                        if (filePath.equals("AirPollutionCo.txt")) {
-                            timestampString = parts[2] + "_" + parts[3];
-                        } else {
-                            timestampString = parts[3] + "_" + parts[4];
-                        }
+                        timestampString = parts[3] + "_" + parts[4];
                         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
                         Date timestamp = format.parse(timestampString);
                         long difference = System.currentTimeMillis() - timestamp.getTime();

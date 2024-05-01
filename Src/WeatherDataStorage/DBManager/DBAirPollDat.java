@@ -1,4 +1,4 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.DBManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,9 +11,9 @@ import java.time.Instant;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import Src.WeatherDataStorage.MySQLConnection;
+
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
-import Src.WeatherDataStorage.MySQLConnection;
+import Src.WeatherDataStorage.jdbcDriver.MySQLConnection;
 
 public class DBAirPollDat {
     public AirPollutionAPIData obj = new AirPollutionAPIData();

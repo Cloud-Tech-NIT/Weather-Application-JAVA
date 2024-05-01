@@ -12,6 +12,7 @@ import java.net.URL;
 
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
+
 public class WeatherForecast5Days implements InterfaceAPI {
 
   public void parseJSON(JsonObject jsonObject, WeatherForecastAPIData obj, float latitude, float longitude) {
