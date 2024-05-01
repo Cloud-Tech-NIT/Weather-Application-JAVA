@@ -15,12 +15,13 @@ import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 import Src.WeatherDataStorage.StoreTxt;
 
-public class WeatherDataTxtStorage implements StoreTxt{
+public class WeatherDataTxtStorage implements StoreTxt {
 
     public static void main(String[] args) {
         // Call the deleteOldData function
-        //deleteOldData();
+        // deleteOldData();
     }
+
     @Override
     public void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
         // Extract data from the AirPollutionAPIData object
@@ -45,7 +46,8 @@ public class WeatherDataTxtStorage implements StoreTxt{
             String timestamp = dateFormat.format(new Date());
 
             // Format the data string
-            String data = city + "_" +  lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
+            String data = city + "_" + lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no
+                    + "_" + no2
                     + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3;
 
             // Write data to the file
@@ -57,6 +59,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
             }
         }
     }
+
     @Override
     public void storeCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
         // Extract data from the CurrentWeatherAPIData object
@@ -81,7 +84,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
         int sunset = currentWeatherData.getSunset();
         int timezone = currentWeatherData.getTimezone();
         String cityName = currentWeatherData.getCityName();
-        String icon =  currentWeatherData.getWeatherIcon();
+        String icon = currentWeatherData.getWeatherIcon();
 
         DataHandlingTxT cache = new DataHandlingTxT();
         boolean dataExists = cache.checkData("CurrentWeatherData.txt", lat, lon);
@@ -96,8 +99,9 @@ public class WeatherDataTxtStorage implements StoreTxt{
                     temp + "_" + feelsLike + "_" + tempMin + "_" + tempMax + "_" +
                     pressure + "_" + humidity + "_" + visibility + "_" + windSpeed + "_" +
                     windDeg + "_" + cloudsAll + "_" + dt + "_" + country + "_" +
-                    sunrise + "_" + sunset + "_" + timezone +"_"+ icon;
+                    sunrise + "_" + sunset + "_" + timezone + "_" + icon;
 
+            System.out.println("inserting data in txt file");
             // Write data to the file
             try (FileWriter writer = new FileWriter("CurrentWeatherData.txt", true)) {
                 // Append data to the file
@@ -109,6 +113,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
             System.out.println("Data already exists for the provided coordinates.");
         }
     }
+
     @Override
     public void storeWeatherForecastData(WeatherForecastAPIData data) {
 
@@ -149,6 +154,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
             }
         }
     }
+
     @Override
     public void deleteOldData() {
         String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt", "WeatherForecastData.txt" };

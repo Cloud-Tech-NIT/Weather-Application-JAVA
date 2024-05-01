@@ -27,22 +27,24 @@ import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-public class mainscreenController implements WeatherControllerInterfacemain {
+public class mainscreen2controller {
 
     // private final DUIFiller executeflow;
-    public String database_used = "SQL";
+    public String database_used = "Txt";
 
     private DUI_DB executeflow_sql;
     private DUI_Txt executeflow_txt;
 
     public void setdb(String db) {
-        this.database_used = db;
+        this.database_used = "Txt";
     }
 
-    public mainscreenController(String db) {
-        this.database_used = db;
+    public mainscreen2controller(String db) {
+        this.database_used = "Txt";
+        System.out.println(database_used);
 
         if ("SQL".equals(database_used)) {
+            System.out.println(database_used);
 
             executeflow_sql = new DUI_DB(this);
 
@@ -55,8 +57,11 @@ public class mainscreenController implements WeatherControllerInterfacemain {
 
     @FXML
     void initialize() {
+        System.out.println(database_used);
+        System.out.println("initialser in");
 
         if ("SQL".equals(database_used)) {
+            System.out.println("ezza");
 
             executeflow_sql = new DUI_DB(this);
             executeflow_sql.Flow("Lahore");
@@ -76,7 +81,7 @@ public class mainscreenController implements WeatherControllerInterfacemain {
         tfDayAndDate.setText(dayOfWeek + ", " + date);
     }
 
-    public mainscreenController() {
+    public mainscreen2controller() {
         // Default constructor
     }
 
@@ -260,9 +265,9 @@ public class mainscreenController implements WeatherControllerInterfacemain {
     void SearchWeatherButton(ActionEvent event) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/weatherui.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/weatherui2.fxml"));
             Parent root = loader.load();
-            UiController controller = loader.getController();
+            Ui2controller controller = loader.getController();
 
             Stage stage = new Stage();
             stage.setTitle("Search Weather");
@@ -279,7 +284,7 @@ public class mainscreenController implements WeatherControllerInterfacemain {
 
     }
 
-    public void updateUI(mainscreenController controller, CurrentWeatherAPIData jsonObject) {
+    public void updateUI(mainscreen2controller controller, CurrentWeatherAPIData jsonObject) {
         // Convert temperature units from Kelvin to Celsius
         double lat = jsonObject.getLatitude();
         double lon = jsonObject.getLongitude();
@@ -309,9 +314,12 @@ public class mainscreenController implements WeatherControllerInterfacemain {
         controller.tfCityAndCountryName.setText(cityName + ", " + countryName);
         controller.tfCurrentTemp.setText(formattedTemperature + " °C");
         controller.tfCurrentWeatherConditon.setText(weatherCondition);
-        if (weatherIconURL != null && !weatherIconURL.isEmpty()) {
+        try {
             Image image = new Image(weatherIconURL);
             controller.tfCurrentWeatherIcon.setImage(image);
+        } catch (Exception e) {
+            System.err.println("Error loading image from URL: " + weatherIconURL);
+            e.printStackTrace();
         }
         controller.tfLatitude.setText(Double.toString(lat));
         controller.tfLongitude.setText(Double.toString(lon));
