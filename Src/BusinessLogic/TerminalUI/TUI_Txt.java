@@ -22,7 +22,7 @@ public class TUI_Txt implements TUI {
   // Make the object of Terminal UI herexxxc
 
   // private TerminalUI terminalUI;
-  DisplayData retrieve = new TerminalUI();
+  DisplayData retrieve;
   // private TerminalUI Terminal = new TerminalUI(); //(Example)
 
   // Private Instances of Individual Temporary Data Storage
@@ -40,7 +40,7 @@ public class TUI_Txt implements TUI {
   private StoreTxt store = new WeatherDataTxtStorage();
 
   public TUI_Txt() {
-    // terminalUI = new TerminalUI();
+    this.retrieve = new TerminalUI(this);
     store.deleteOldData();
 
   }

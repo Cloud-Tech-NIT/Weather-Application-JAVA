@@ -15,8 +15,7 @@ import Src.WeatherDataStorage.DBManager.DBFrcst5Day;
 
 public class TUI_DB implements TUI {
 
-    DisplayData retrieve = new TerminalUI();
-
+    DisplayData retrieve;
     // Private Instances of Individual Temporary Data Storage
     private CurrentWeatherAPIData CurrentWeather = new CurrentWeatherAPIData();
     private WeatherForecastAPIData Forecast = new WeatherForecastAPIData();
@@ -31,6 +30,10 @@ public class TUI_DB implements TUI {
     private DBAirPollDat airpol = new DBAirPollDat();
     private DBFrcst5Day frcst = new DBFrcst5Day();
     private DBCurrWeather curr = new DBCurrWeather();
+
+    public TUI_DB() {
+        this.retrieve = new TerminalUI(this);
+      }
 
     // check Weather by coordinates
     public void CheckCurrWeatherCoord(double lat, double lon) {
@@ -81,7 +84,9 @@ public class TUI_DB implements TUI {
             retrieve.RetriveAirPollutionData(AirPoll);
 
         } else {
-            PollutionAPIcall.searchAirPollution(lat, lon, null, AirPoll);
+            APIcall.SearchByCoord(lat,lon,CurrentWeather);
+            String city = CurrentWeather.getCityName();
+            PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
             if (AirPoll != null) {
                 retrieve.RetriveAirPollutionData(AirPoll);
                 airpol.insertWeatherData(AirPoll);
@@ -126,7 +131,7 @@ public class TUI_DB implements TUI {
             retrieve.RetriveWeatherForecastData(Forecast);
 
         } else {
-            WeatherAPIcall.SearchByCoord(0, 0, Forecast);
+            WeatherAPIcall.SearchByCoord(lat, lon, Forecast);
             if (Forecast != null) {
                 retrieve.RetriveWeatherForecastData(Forecast);
                 frcst.insertWeatherData(Forecast);
