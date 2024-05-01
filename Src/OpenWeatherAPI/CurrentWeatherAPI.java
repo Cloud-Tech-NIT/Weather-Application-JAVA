@@ -1,5 +1,4 @@
 package Src.OpenWeatherAPI;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -11,16 +10,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
 
-
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
-
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
   public void parseJSON(JsonObject jsonObject, CurrentWeatherAPIData obj) {
     // This module Parses the JSON string returned by the API
 
-    String country = "US";
+    String country = "US"; // Default country name
+    String cityName = "New York"; // Default city name
 
     // Coordinates Section
     JsonObject coord = jsonObject.getAsJsonObject("coord");
@@ -30,14 +28,14 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     // Weather Section
     JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
     JsonObject weather = weatherArray.get(0).getAsJsonObject();
-    int WeatherID = weather.get("id").getAsInt();
-    String weatherMain = weather.get("main").getAsString(); // Rain, Snow etc
+    int weatherId = weather.get("id").getAsInt();
+    String weatherMain = weather.get("main").getAsString(); // Rain, Snow, etc.
     String weatherDescription = weather.get("description").getAsString();
 
     // Icon Section
     String iconCode = weather.get("icon").getAsString(); // Icon of current weather
-    String baseIconUrl = "https://openweathermap.org/img/wn/"; // url for the icons
-    String iconUrl = baseIconUrl + iconCode + "@2x.png"; // final url for icon
+    String baseIconUrl = "https://openweathermap.org/img/wn/"; // URL for the icons
+    String iconUrl = baseIconUrl + iconCode + "@2x.png"; // Final URL for icon
 
     // Main section
     JsonObject main = jsonObject.getAsJsonObject("main");
@@ -50,7 +48,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int visibility = jsonObject.get("visibility").getAsInt();
     JsonObject wind = jsonObject.getAsJsonObject("wind");
     float windSpeed = wind.get("speed").getAsFloat();
-    int WindDeg = wind.get("deg").getAsInt();
+    int windDeg = wind.get("deg").getAsInt();
     JsonObject rainP = jsonObject.getAsJsonObject("rain");
     float rain1h = 0.0f; // Default value for rain1h
     if (rainP != null && rainP.has("1h")) {
@@ -62,25 +60,21 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int dt = jsonObject.get("dt").getAsInt(); // Time of data calculation
     JsonObject sys = jsonObject.getAsJsonObject("sys");
 
-    if (sys.has("country") && !sys.get("country").isJsonNull()) {
-      country = sys.get("country").getAsString();
+    // Check if "name" field exists and is not empty
+    if (jsonObject.has("name") && !jsonObject.get("name").getAsString().isEmpty()) {
+      cityName = jsonObject.get("name").getAsString(); // Update city name if valid
     }
+
     int sunrise = sys.get("sunrise").getAsInt(); // Sunrise Time
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
-    String CityName = jsonObject.get("name").getAsString();
 
-    // // generating notifications on the basis of poor_weather
-
-    // if (visibility > POOR_WEATHER_THRESHOLD) {
-    // generateNotification(visibility);
-    // }
-
+    // Setting values in the object
     obj.setLocId(1);
-    obj.setCityName(CityName);
+    obj.setCityName(cityName);
     obj.setLatitude(lat);
     obj.setLongitude(lon);
-    obj.setWeatherID(WeatherID);
+    obj.setWeatherID(weatherId);
     obj.setWeatherDescription(weatherDescription);
     obj.setWeatherIcon(iconUrl);
     obj.setWeatherMain(weatherMain);
@@ -92,11 +86,11 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     obj.setHumidity(humidity);
     obj.setVisibility(visibility);
     obj.setWindSpeed(windSpeed);
-    obj.setWindDeg(WindDeg);
+    obj.setWindDeg(windDeg);
     obj.setRain(rain1h);
     obj.setCloudsAll(cloudsAll);
     obj.setDt(dt);
-    obj.setCountry(country);
+    obj.setCountry(country); // Set the country name
     obj.setSunrise(sunrise);
     obj.setSunset(sunset);
     obj.setTimezone(timezone);
