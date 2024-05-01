@@ -30,22 +30,22 @@ public class WeatherAppRunner {
     terminal.RunF();
     System.out.println("TUI_TXT");
   }
+
   public void RunTUI_SQL() {
     DBType = "SQL";
     TUI_DB db = new TUI_DB();
     TerminalUI terminal = new TerminalUI(db);
     terminal.RunF();
   }
+
   public void RunDUI_TXT() {
 
-    
     DBType = "txt";
 
   }
 
   public void RunDUI_SQL() {
-    
-    
+
     DBType = "SQL";
   }
 
