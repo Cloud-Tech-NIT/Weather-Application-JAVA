@@ -10,9 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import Src.BusinessLogic.DisplayData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
+
 
 public class WeatherForecast5Days implements InterfaceAPI {
 

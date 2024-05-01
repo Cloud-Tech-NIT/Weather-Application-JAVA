@@ -9,9 +9,11 @@ import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.CacheManager;
-import Src.WeatherDataStorage.DataHandlingTxT;
+
 import Src.WeatherDataStorage.StoreTxt;
-import Src.WeatherDataStorage.WeatherDataTxtStorage;
+import Src.WeatherDataStorage.dataHandling.DataHandlingTxT;
+import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
+
 
 public class TUIFiller implements TUI {
 
