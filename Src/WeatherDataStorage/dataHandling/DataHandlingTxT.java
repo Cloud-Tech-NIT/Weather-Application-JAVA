@@ -68,20 +68,21 @@ public class DataHandlingTxT implements CacheManager {
 
     private void populateAirPollutionData(AirPollutionAPIData airPollutionData, String data) {
         String[] parts = data.split("_");
-        if (parts.length >= 15) {
-            airPollutionData.setLatitude(Float.parseFloat(parts[0]));
-            airPollutionData.setLongitude(Float.parseFloat(parts[1]));
-            airPollutionData.setDt(Integer.parseInt(parts[4]));
-            airPollutionData.setAqi(Integer.parseInt(parts[5]));
-            airPollutionData.setCo(Float.parseFloat(parts[6]));
-            airPollutionData.setNo(Float.parseFloat(parts[7]));
-            airPollutionData.setNo2(Float.parseFloat(parts[8]));
-            airPollutionData.setO3(Float.parseFloat(parts[9]));
-            airPollutionData.setSo2(Float.parseFloat(parts[10]));
-            airPollutionData.setPm25(Float.parseFloat(parts[11]));
-            airPollutionData.setPm10(Float.parseFloat(parts[12]));
-            airPollutionData.setNh3(Float.parseFloat(parts[13]));
-            airPollutionData.setCityName(parts[14]);
+        if (parts.length >= 14) {
+            airPollutionData.setCityName(parts[0]);
+            airPollutionData.setLatitude(Float.parseFloat(parts[1]));
+            airPollutionData.setLongitude(Float.parseFloat(parts[2]));
+            //String timestamp = parts[3] + parts[4];
+            airPollutionData.setDt(Integer.parseInt(parts[5]));
+            airPollutionData.setAqi(Integer.parseInt(parts[6]));
+            airPollutionData.setCo(Float.parseFloat(parts[7]));
+            airPollutionData.setNo(Float.parseFloat(parts[8]));
+            airPollutionData.setNo2(Float.parseFloat(parts[9]));
+            airPollutionData.setO3(Float.parseFloat(parts[10]));
+            airPollutionData.setSo2(Float.parseFloat(parts[11]));
+            airPollutionData.setPm25(Float.parseFloat(parts[12]));
+            airPollutionData.setPm10(Float.parseFloat(parts[13]));
+            airPollutionData.setNh3(Float.parseFloat(parts[14]));
 
         }
     }
@@ -206,17 +207,8 @@ public class DataHandlingTxT implements CacheManager {
                 String[] parts = line.split("_");
                 double lat = 0.0, lon = 0.0;
 
-                if (filename == "AirPollutionCo.txt")
-
-                {
-                    lat = Double.parseDouble(parts[0]);
-                    lon = Double.parseDouble(parts[1]);
-
-                } else {
-                    lat = Double.parseDouble(parts[1]);
-                    lon = Double.parseDouble(parts[2]);
-
-                }
+                lat = Double.parseDouble(parts[1]);
+                lon = Double.parseDouble(parts[2]);
 
                 lat = Math.round(lat * 100.0) / 100.0;
                 lon = Math.round(lon * 100.0) / 100.0;
@@ -259,18 +251,9 @@ public class DataHandlingTxT implements CacheManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("_");
                 double lat = 0.0, lon = 0.0;
-                if (filename == "AirPollutionCo.txt")
+                lat = Double.parseDouble(parts[1]);
+                lon = Double.parseDouble(parts[2]);
 
-                {
-                    lat = Double.parseDouble(parts[0]);
-                    lon = Double.parseDouble(parts[1]);
-
-                } else {
-
-                    lat = Double.parseDouble(parts[1]);
-                    lon = Double.parseDouble(parts[2]);
-
-                }
                 lat = Math.round(lat * 100.0) / 100.0;
                 lon = Math.round(lon * 100.0) / 100.0;
 
@@ -295,12 +278,8 @@ public class DataHandlingTxT implements CacheManager {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("_");
                 String city = "";
-                if (filename == "AirPollutionCo.txt") {
-                    city = parts[14];
-                } else {
-                    city = parts[0];
-                }
 
+                city = parts[0];
                 if (city.equalsIgnoreCase(cityName)) {
                     response.append(line).append("\n");
                 }
@@ -327,7 +306,7 @@ public class DataHandlingTxT implements CacheManager {
         // Test fetchAirPollutionData method
         double latitude = 31.5;
         double longitude = 74.35;
-        dataHandler.fetchAirPollutionData(airPollutionData,"Model Town");
+        dataHandler.fetchAirPollutionData(airPollutionData, "Lahore");
 
         // Print the fetched air pollution data
         System.out.println("Air Pollution Data:");
