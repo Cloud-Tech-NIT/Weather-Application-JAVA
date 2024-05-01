@@ -1,7 +1,9 @@
-package Src.BusinessLogic;
+
+package Src.BusinessLogic.TerminalUI;
 
 import Src.AppUI.DisplayData;
 import Src.AppUI.TerminalUI;
+import Src.BusinessLogic.TUI;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
@@ -15,12 +17,12 @@ import Src.WeatherDataStorage.dataHandling.DataHandlingTxT;
 import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
 
-public class TUIFiller implements TUI {
+public class TUI_Txt implements TUI {
 
   // Make the object of Terminal UI herexxxc
 
   // private TerminalUI terminalUI;
-  DisplayData retrieve = new TerminalUI();
+  DisplayData retrieve;
   // private TerminalUI Terminal = new TerminalUI(); //(Example)
 
   // Private Instances of Individual Temporary Data Storage
@@ -37,8 +39,8 @@ public class TUIFiller implements TUI {
   private CacheManager cache = new DataHandlingTxT();
   private StoreTxt store = new WeatherDataTxtStorage();
 
-  public TUIFiller() {
-    // terminalUI = new TerminalUI();
+  public TUI_Txt() {
+    this.retrieve = new TerminalUI(this);
     store.deleteOldData();
 
   }
@@ -180,7 +182,7 @@ public class TUIFiller implements TUI {
   }
 
   public static void main(String[] args) {
-    TUIFiller tuiFiller = new TUIFiller();
+    TUI_Txt tuiFiller = new TUI_Txt();
 
     // Specify the latitude, longitude, and city name
     double latitude = 0.0;
