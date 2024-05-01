@@ -13,6 +13,7 @@ import java.util.Date;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
+import Src.WeatherDataStorage.StoreTxt;
 
 public class WeatherDataTxtStorage implements StoreTxt{
 
