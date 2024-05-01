@@ -1,4 +1,5 @@
 package Src.OpenWeatherAPI;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -59,6 +60,11 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int cloudsAll = clouds.get("all").getAsInt(); // Cloudiness
     int dt = jsonObject.get("dt").getAsInt(); // Time of data calculation
     JsonObject sys = jsonObject.getAsJsonObject("sys");
+
+    // Check if "country" field exists and is not empty
+    if (sys.has("country") && !sys.get("country").getAsString().isEmpty()) {
+      country = sys.get("country").getAsString(); // Update country if valid
+    }
 
     // Check if "name" field exists and is not empty
     if (jsonObject.has("name") && !jsonObject.get("name").getAsString().isEmpty()) {
