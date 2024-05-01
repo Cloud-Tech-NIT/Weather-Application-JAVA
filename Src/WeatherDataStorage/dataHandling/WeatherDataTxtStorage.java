@@ -1,4 +1,4 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.dataHandling;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,15 +13,16 @@ import java.util.Date;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
+import Src.WeatherDataStorage.StoreTxt;
 
-public class WeatherDataTxtStorage {
+public class WeatherDataTxtStorage implements StoreTxt{
 
     public static void main(String[] args) {
         // Call the deleteOldData function
-        deleteOldData();
+        //deleteOldData();
     }
-
-    public static void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
+    @Override
+    public void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
         // Extract data from the AirPollutionAPIData object
         float lat = airPollutionData.getLatitude();
         float lon = airPollutionData.getLongitude();
@@ -35,7 +36,7 @@ public class WeatherDataTxtStorage {
         float pm2_5 = airPollutionData.getPm25();
         float pm10 = airPollutionData.getPm10();
         float nh3 = airPollutionData.getNh3();
-
+        String city = airPollutionData.getCityName();
         DataHandlingTxT cache = new DataHandlingTxT();
         boolean dataExists = cache.checkData("AirPollutionCo.txt", lat, lon);
 
@@ -44,7 +45,7 @@ public class WeatherDataTxtStorage {
             String timestamp = dateFormat.format(new Date());
 
             // Format the data string
-            String data = lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
+            String data = city + "_" +  lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
                     + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3;
 
             // Write data to the file
@@ -56,8 +57,8 @@ public class WeatherDataTxtStorage {
             }
         }
     }
-
-    public static void storeCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
+    @Override
+    public void storeCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
         // Extract data from the CurrentWeatherAPIData object
         double lat = currentWeatherData.getLatitude();
         double lon = currentWeatherData.getLongitude();
@@ -107,8 +108,8 @@ public class WeatherDataTxtStorage {
             System.out.println("Data already exists for the provided coordinates.");
         }
     }
-
-    public static void storeWeatherForecastData(WeatherForecastAPIData data) {
+    @Override
+    public void storeWeatherForecastData(WeatherForecastAPIData data) {
 
         double[][] forecastData = data.getData();
         String[] iconUrls = data.getIconUrls();
@@ -147,8 +148,8 @@ public class WeatherDataTxtStorage {
             }
         }
     }
-
-    public static void deleteOldData() {
+    @Override
+    public void deleteOldData() {
         String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt", "WeatherForecastData.txt" };
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 
@@ -163,11 +164,7 @@ public class WeatherDataTxtStorage {
                     String[] parts = line.split("_");
                     if (parts.length >= 4) {
                         String timestampString = "";
-                        if (filePath.equals("AirPollutionCo.txt")) {
-                            timestampString = parts[2] + "_" + parts[3];
-                        } else {
-                            timestampString = parts[3] + "_" + parts[4];
-                        }
+                        timestampString = parts[3] + "_" + parts[4];
                         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss");
                         Date timestamp = format.parse(timestampString);
                         long difference = System.currentTimeMillis() - timestamp.getTime();

@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.DUIFiller;
 
-public class Screen3Controller {
+public class Screen3Controller  implements screen3interface {
     private final DUIFiller executeflow;
 
     public Screen3Controller() {

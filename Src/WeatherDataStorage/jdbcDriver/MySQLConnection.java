@@ -1,4 +1,4 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.jdbcDriver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
