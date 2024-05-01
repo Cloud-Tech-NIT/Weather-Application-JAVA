@@ -109,7 +109,7 @@ public class DataHandlingTxT implements CacheManager {
 
     private void populateCurrentWeatherData(CurrentWeatherAPIData currentWeather, String data) {
         String[] parts = data.split("_");
-        if (parts.length >= 23) { // Ensure all necessary parts are present
+        if (parts.length >= 24) { // Ensure all necessary parts are present
             currentWeather.setCityName(parts[0]);
             currentWeather.setLatitude(Float.parseFloat(parts[1]));
             currentWeather.setLongitude(Float.parseFloat(parts[2]));
@@ -132,6 +132,7 @@ public class DataHandlingTxT implements CacheManager {
             currentWeather.setSunset(Integer.parseInt(parts[21]));
             // currentWeather.setTimezone(Integer.parseInt(parts[22]));
             currentWeather.setTimezone(Integer.parseInt(parts[22].trim()));
+            currentWeather.setWeatherIcon(parts[23]);
         }
     }
 
