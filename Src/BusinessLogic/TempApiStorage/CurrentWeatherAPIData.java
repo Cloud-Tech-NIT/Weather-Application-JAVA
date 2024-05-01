@@ -18,6 +18,8 @@ public class CurrentWeatherAPIData extends APIdataStorage {
   private int sunrise;
   private int sunset;
   private int timezone;
+  private int weatherID;
+  private int windDeg;
 
   public String getWeatherMain() {
     return weatherMain;
@@ -153,5 +155,21 @@ public class CurrentWeatherAPIData extends APIdataStorage {
 
   public void setTimezone(int timezone) {
     this.timezone = timezone;
+  }
+
+  public int getWeatherID() {
+    return weatherID;
+  }
+
+  public void setWeatherID(int weatherID) {
+    this.weatherID = weatherID;
+  }
+
+  public int getWindDeg() {
+    return windDeg;
+  }
+
+  public void setWindDeg(int windDeg) {
+    this.windDeg = windDeg;
   }
 }

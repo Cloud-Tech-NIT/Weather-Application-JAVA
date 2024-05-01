@@ -3,7 +3,6 @@ package Src.OpenWeatherAPI;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,7 +26,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     JsonObject coord = jsonObject.getAsJsonObject("coord");
     float lon = coord.get("lon").getAsFloat();
     float lat = coord.get("lat").getAsFloat();
-    System.out.println("lat = " + lat);
 
     // Weather Section
     JsonArray weatherArray = jsonObject.getAsJsonArray("weather");
@@ -72,17 +70,17 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
     String CityName = jsonObject.get("name").getAsString();
 
-    // generating notifications on the basis of poor_weather
-    if (visibility > POOR_WEATHER_THRESHOLD) {
-      generateNotification(visibility);
-    }
-    System.out.println("MAX TEMPERATURE: " + tempMax);
-    System.out.println("MIN TEMPERATURE: " + tempMin);
+    // // generating notifications on the basis of poor_weather
+
+    // if (visibility > POOR_WEATHER_THRESHOLD) {
+    // generateNotification(visibility);
+    // }
 
     obj.setLocId(1);
     obj.setCityName(CityName);
     obj.setLatitude(lat);
     obj.setLongitude(lon);
+    obj.setWeatherID(WeatherID);
     obj.setWeatherDescription(weatherDescription);
     obj.setWeatherIcon(iconUrl);
     obj.setWeatherMain(weatherMain);
@@ -94,6 +92,7 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     obj.setHumidity(humidity);
     obj.setVisibility(visibility);
     obj.setWindSpeed(windSpeed);
+    obj.setWindDeg(WindDeg);
     obj.setRain(rain1h);
     obj.setCloudsAll(cloudsAll);
     obj.setDt(dt);
@@ -101,30 +100,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
     obj.setSunrise(sunrise);
     obj.setSunset(sunset);
     obj.setTimezone(timezone);
-
-    System.out.println("Location ID: " + obj.getLocId() +
-        ", City Name: " + obj.getCityName() +
-        ", Latitude: " + obj.getLatitude() +
-        ", Longitude: " + obj.getLongitude() +
-        ", Weather Description: " + obj.getWeatherDescription() +
-        ", Weather Icon URL: " + obj.getWeatherIcon() +
-        ", Weather Main: " + obj.getWeatherMain() +
-        ", Temperature: " + obj.getTemperature() +
-        ", Feels Like: " + obj.getFeelsLike() +
-        ", Maximum Temperature: " + obj.getTempMax() +
-        ", Minimum Temperature: " + obj.getTempMin() +
-        ", Pressure: " + obj.getPressure() +
-        ", Humidity: " + obj.getHumidity() +
-        ", Visibility: " + obj.getVisibility() +
-        ", Wind Speed: " + obj.getWindSpeed() +
-        ", Rain (1 hour): " + obj.getRain() +
-        ", Cloudiness: " + obj.getCloudsAll() +
-        ", Datetime: " + obj.getDt() +
-        ", Country: " + obj.getCountry() +
-        ", Sunrise: " + obj.getSunrise() +
-        ", Sunset: " + obj.getSunset() +
-        ", Timezone: " + obj.getTimezone());
-
   }
 
   @Override
@@ -143,12 +118,9 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
               units);
       return apiUrl;
     } catch (MalformedURLException e) {
-      // Handle the MalformedURLException appropriately
       System.err.println("Malformed URL: " + e.getMessage());
-      // Return null or throw an exception based on your application logic
-      return null; // For example, returning null here
+      return null;
     } catch (Exception e) {
-      // Handle other exceptions if necessary
       e.printStackTrace();
       // Stop execution by throwing a RuntimeException
       throw new RuntimeException("Exception occurred while creating API URL");
@@ -168,12 +140,9 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
               units);
       return apiUrl;
     } catch (MalformedURLException e) {
-      // Handle the MalformedURLException appropriately
       System.err.println("Malformed URL: " + e.getMessage());
-      // Return null or throw an exception based on your application logic
-      return null; // For example, returning null here
+      return null;
     } catch (Exception e) {
-      // Handle other exceptions if necessary
       e.printStackTrace();
       // Stop execution by throwing a RuntimeException
       throw new RuntimeException("Exception occurred while creating API URL");
@@ -203,10 +172,8 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
       connection.disconnect();
       return jsonObject;
     } catch (IOException e) {
-      // Handle the IOException appropriately
       e.printStackTrace();
-      return null; // Return null or throw a more specific exception depending on your
-                   // application's logic
+      return null;
     }
   }
 

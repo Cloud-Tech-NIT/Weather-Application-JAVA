@@ -1,11 +1,8 @@
 package Src.OpenWeatherAPI;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,12 +15,6 @@ import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
 public class WeatherForecast5Days implements InterfaceAPI {
-
-  private DisplayData callback; // Callback reference variable
-
-  public void setCallback(DisplayData displayData) {
-    this.callback = displayData;
-  }
 
   public void parseJSON(JsonObject jsonObject, WeatherForecastAPIData obj, float latitude, float longitude) {
 
@@ -72,36 +63,9 @@ public class WeatherForecast5Days implements InterfaceAPI {
         dayIndex++;
       }
     }
-
-    // // Printing the Data of Each of 5 Days
-    // for (int i = 0; i < numDays; i++) {
-    // System.out.println("DAY " + (i + 1));
-    // for (double value : data[i]) {
-    // System.out.print(value + " ");
-    // }
-    //
-    // // Print the icon URL for the day
-    // System.out.println("Icon URL: " + iconUrls[i]);
-    // System.out.println("WeatherCondition: " + weatherCondition[i]);
-    // System.out.println();
-    // }
-
-    if (callback != null) {
-      callback.displayWeatherForecast(data, iconUrls, weatherCondition, lat, lon,
-          cityName);
-    }
-
     obj.setData(data);
     obj.setIconUrls(iconUrls);
     obj.setWeatherCondition(weatherCondition);
-
-    System.out.println("THIS IS 5 DAY DATA\n");
-
-    System.out.println(
-        "Latitude: " + obj.getLatitude() + ", Longitude: " + obj.getLongitude() + ", City Name: " + obj.getCityName());
-
-    obj.printData();
-
   }
 
   public void parseJSON(JsonObject jsonObject, WeatherForecastAPIData obj) {
@@ -151,65 +115,10 @@ public class WeatherForecast5Days implements InterfaceAPI {
         dayIndex++;
       }
     }
-
-    // // Printing the Data of Each of 5 Days
-    // for (int i = 0; i < numDays; i++) {
-    // System.out.println("DAY " + (i + 1));
-    // for (double value : data[i]) {
-    // System.out.print(value + " ");
-    // }
-    //
-    // // Print the icon URL for the day
-    // System.out.println("Icon URL: " + iconUrls[i]);
-    // System.out.println("WeatherCondition: " + weatherCondition[i]);
-    // System.out.println();
-    // }
-
-    if (callback != null) {
-      callback.displayWeatherForecast(data, iconUrls, weatherCondition, lat, lon,
-          cityName);
-    }
-
     obj.setData(data);
     obj.setIconUrls(iconUrls);
     obj.setWeatherCondition(weatherCondition);
-
-    System.out.println("THIS IS 5 DAY DATA\n");
-
-    System.out.println(
-        "Latitude: " + obj.getLatitude() + ", Longitude: " + obj.getLongitude() + ", City Name: " + obj.getCityName());
-
-    obj.printData();
-
   }
-
-  // @Override
-  // public URL APIcall(double latitude, double longitude) {
-  // try {
-  // String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-  // latitude +
-  // "&lon=" +
-  // longitude +
-  // "&appid=" +
-  // APIkey +
-  // "&units=" +
-  // units;
-
-  // // Create URL object
-  // @SuppressWarnings("deprecation")
-  // URL url = new URL(apiUrl);
-
-  // // Create HttpURLConnection
-  // HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-  // conn.setRequestMethod("GET");
-
-  // // Get the response code
-  // int responseCode = conn.getResponseCode();
-  // performAPICall(url);
-  // } catch (Exception e) {
-  // e.printStackTrace();
-  // }
-  // }
 
   @Override
   public URL APIcall(double latitude, double longitude) {
@@ -227,32 +136,14 @@ public class WeatherForecast5Days implements InterfaceAPI {
               units);
       return apiUrl;
     } catch (MalformedURLException e) {
-      // Handle the MalformedURLException appropriately
       System.err.println("Malformed URL: " + e.getMessage());
-      // Return null or throw an exception based on your application logic
-      return null; // For example, returning null here
+      return null;
     } catch (Exception e) {
-      // Handle other exceptions if necessary
       e.printStackTrace();
       // Stop execution by throwing a RuntimeException
       throw new RuntimeException("Exception occurred while creating API URL");
     }
   }
-
-  // @Override
-  // public void APIcall(String cityName) {
-  // try {
-  // @SuppressWarnings("deprecation")
-  // URL apiUrl = new URL(
-  // "https://api.openweathermap.org/data/2.5/forecast?q=" +
-  // cityName +
-  // "&appid=" +
-  // APIkey);
-  // performAPICall(apiUrl);
-  // } catch (Exception e) {
-  // e.printStackTrace();
-  // }
-  // }
 
   @Override
   public URL APIcall(String cityName) {
@@ -267,49 +158,20 @@ public class WeatherForecast5Days implements InterfaceAPI {
               units);
       return apiUrl;
     } catch (MalformedURLException e) {
-      // Handle the MalformedURLException appropriately
       System.err.println("Malformed URL: " + e.getMessage());
-      // Return null or throw an exception based on your application logic
-      return null; // For example, returning null here
+      return null;
     } catch (Exception e) {
-      // Handle other exceptions if necessary
       e.printStackTrace();
       // Stop execution by throwing a RuntimeException
       throw new RuntimeException("Exception occurred while creating API URL");
     }
   }
 
-  // private void performAPICall(URL apiUrl) throws IOException {
-  // HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-  // connection.setRequestMethod("GET");
-  // int responseCode = connection.getResponseCode();
-  // System.out.println("Response Code: " + responseCode);
-
-  // BufferedReader in = new BufferedReader(
-  // new InputStreamReader(connection.getInputStream()));
-  // String inputLine;
-  // StringBuilder response = new StringBuilder();
-  // while ((inputLine = in.readLine()) != null) {
-  // response.append(inputLine);
-  // }
-  // in.close();
-
-  // Gson gson = new Gson();
-  // JsonObject jsonObject = gson.fromJson(
-  // response.toString(),
-  // JsonObject.class);
-  // parseJSON(jsonObject);
-  // // System.out.println(jsonObject);
-
-  // connection.disconnect();
-  // }
-
   public JsonObject performAPICall(URL apiUrl) {
     try {
       HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
       connection.setRequestMethod("GET");
       int responseCode = connection.getResponseCode();
-      System.out.println("Response Code: " + responseCode);
 
       BufferedReader in = new BufferedReader(
           new InputStreamReader(connection.getInputStream()));
@@ -327,10 +189,8 @@ public class WeatherForecast5Days implements InterfaceAPI {
       connection.disconnect();
       return jsonObject;
     } catch (IOException e) {
-      // Handle the IOException appropriately
       e.printStackTrace();
-      return null; // Return null or throw a more specific exception depending on your
-                   // application's logic
+      return null;
     }
   }
 

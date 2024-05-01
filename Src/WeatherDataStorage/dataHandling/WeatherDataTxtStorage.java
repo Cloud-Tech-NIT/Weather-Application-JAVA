@@ -10,29 +10,42 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class WeatherDataTxtStorage {
+import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
+import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
+import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
+
+public class WeatherDataTxtStorage implements StoreTxt{
 
     public static void main(String[] args) {
         // Call the deleteOldData function
-        deleteOldData();
+        //deleteOldData();
     }
-
-    public static void storeAirPollutionData(
-            double lat, double lon, long dt, int aqi, double co, double no, double no2,
-            double o3, double so2, double pm2_5, double pm10, double nh3) {
-
+    @Override
+    public void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
+        // Extract data from the AirPollutionAPIData object
+        float lat = airPollutionData.getLatitude();
+        float lon = airPollutionData.getLongitude();
+        int dt = airPollutionData.getDt();
+        int aqi = airPollutionData.getAqi();
+        float co = airPollutionData.getCo();
+        float no = airPollutionData.getNo();
+        float no2 = airPollutionData.getNo2();
+        float o3 = airPollutionData.getO3();
+        float so2 = airPollutionData.getSo2();
+        float pm2_5 = airPollutionData.getPm25();
+        float pm10 = airPollutionData.getPm10();
+        float nh3 = airPollutionData.getNh3();
+        String city = airPollutionData.getCityName();
         DataHandlingTxT cache = new DataHandlingTxT();
         boolean dataExists = cache.checkData("AirPollutionCo.txt", lat, lon);
-        // if data already present it will not store//
 
         if (!dataExists) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String timestamp = dateFormat.format(new Date());
 
             // Format the data string
-            String data = lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" +
-                    co + "_" + no + "_" + no2 + "_" + o3 + "_" + so2 + "_" +
-                    pm2_5 + "_" + pm10 + "_" + nh3;
+            String data = lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
+                    + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3 + "_"+city;
 
             // Write data to the file
             try (FileWriter writer = new FileWriter("AirPollutionCo.txt", true)) {
@@ -43,27 +56,44 @@ public class WeatherDataTxtStorage {
             }
         }
     }
-
-    public static void storeCurrentWeatherData(
-            double lat, double lon, int WeatherID, String weatherMain, String weatherDescription,
-            double temp, double feelsLike, double tempMin, double tempMax, int pressure, int humidity,
-            int visibility, double windSpeed, int WindDeg, int cloudsAll, int dt, String country,
-            int sunrise, int sunset, int timezone, String CityName) {
+    @Override
+    public void storeCurrentWeatherData(CurrentWeatherAPIData currentWeatherData) {
+        // Extract data from the CurrentWeatherAPIData object
+        double lat = currentWeatherData.getLatitude();
+        double lon = currentWeatherData.getLongitude();
+        int weatherID = currentWeatherData.getWeatherID();
+        String weatherMain = currentWeatherData.getWeatherMain();
+        String weatherDescription = currentWeatherData.getWeatherDescription();
+        double temp = currentWeatherData.getTemperature();
+        double feelsLike = currentWeatherData.getFeelsLike();
+        double tempMin = currentWeatherData.getTempMin();
+        double tempMax = currentWeatherData.getTempMax();
+        int pressure = currentWeatherData.getPressure();
+        int humidity = currentWeatherData.getHumidity();
+        int visibility = currentWeatherData.getVisibility();
+        double windSpeed = currentWeatherData.getWindSpeed();
+        int windDeg = currentWeatherData.getWindDeg();
+        int cloudsAll = currentWeatherData.getCloudsAll();
+        int dt = currentWeatherData.getDt();
+        String country = currentWeatherData.getCountry();
+        int sunrise = currentWeatherData.getSunrise();
+        int sunset = currentWeatherData.getSunset();
+        int timezone = currentWeatherData.getTimezone();
+        String cityName = currentWeatherData.getCityName();
 
         DataHandlingTxT cache = new DataHandlingTxT();
         boolean dataExists = cache.checkData("CurrentWeatherData.txt", lat, lon);
-        // if data already present it will not store//
 
         if (!dataExists) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String timestamp = dateFormat.format(new Date());
 
             // Format the data string
-            String data = CityName + "_" + lat + "_" + lon + "_" + timestamp + "_" +
-                    WeatherID + "_" + weatherMain + "_" + weatherDescription + "_" +
+            String data = cityName + "_" + lat + "_" + lon + "_" + timestamp + "_" +
+                    weatherID + "_" + weatherMain + "_" + weatherDescription + "_" +
                     temp + "_" + feelsLike + "_" + tempMin + "_" + tempMax + "_" +
                     pressure + "_" + humidity + "_" + visibility + "_" + windSpeed + "_" +
-                    WindDeg + "_" + cloudsAll + "_" + dt + "_" + country + "_" +
+                    windDeg + "_" + cloudsAll + "_" + dt + "_" + country + "_" +
                     sunrise + "_" + sunset + "_" + timezone;
 
             // Write data to the file
@@ -74,17 +104,23 @@ public class WeatherDataTxtStorage {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("Already Exists");
+            System.out.println("Data already exists for the provided coordinates.");
         }
     }
+    @Override
+    public void storeWeatherForecastData(WeatherForecastAPIData data) {
 
-    public static void storeWeatherForecastData(double[][] data, double lat, double lon, String cityName) {
+        double[][] forecastData = data.getData();
+        String[] iconUrls = data.getIconUrls();
+        String[] weatherConditions = data.getWeatherCondition();
+        double lat = data.getLatitude();
+        double lon = data.getLongitude();
+        String cityName = data.getCityName();
 
         DataHandlingTxT cache = new DataHandlingTxT();
-        boolean dataExists = cache.checkData("AirPollutionCo.txt", lat, lon);
-        // if data already present it will not store//
-        if (!dataExists) {
+        boolean dataExists = cache.checkData("WeatherForecastData.txt", lat, lon);
 
+        if (!dataExists) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
             String timestamp = dateFormat.format(new Date());
 
@@ -94,12 +130,13 @@ public class WeatherDataTxtStorage {
             dataLine.append(cityName).append("_").append(lat).append("_").append(lon).append("_").append(timestamp)
                     .append("_");
 
-            // Append data for each day
-            for (int i = 0; i < data.length; i++) {
+            // Append forecast data for each day
+            for (int i = 0; i < forecastData.length; i++) {
                 dataLine.append("#_");
-                for (int j = 0; j < data[i].length; j++) {
-                    dataLine.append(data[i][j]).append("_");
+                for (int j = 0; j < forecastData[i].length; j++) {
+                    dataLine.append(forecastData[i][j]).append("_");
                 }
+                dataLine.append(iconUrls[i]).append("_").append(weatherConditions[i]).append("_");
             }
 
             // Write data to the file
@@ -108,11 +145,10 @@ public class WeatherDataTxtStorage {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
-
-    public static void deleteOldData() {
+    @Override
+    public void deleteOldData() {
         String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt", "WeatherForecastData.txt" };
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 

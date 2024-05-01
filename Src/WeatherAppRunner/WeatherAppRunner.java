@@ -1,17 +1,18 @@
 package Src.WeatherAppRunner;
 
 import Src.AppUI.App;
+import Src.AppUI.TerminalUI;
 import Src.BusinessLogic.DUIFiller;
 import Src.BusinessLogic.TUIFiller;
 
 public class WeatherAppRunner {
   public static void main(String[] args) {
-    // IF TerminalUI
-    char input = 'D';
+    char input = 'T';
 
     if (input == 'T') {
       TUIFiller TUI = new TUIFiller();
-      // TUI.RunTerminal();
+      TerminalUI terminal = new TerminalUI();
+      terminal.RunF();
     } else if (input == 'D') {
       launchAppUI();
     } else {
