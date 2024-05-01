@@ -11,15 +11,13 @@ import Src.OpenWeatherAPI.AirPollutionAPI;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import Src.OpenWeatherAPI.WeatherForecast5Days;
 import Src.WeatherDataStorage.CacheManager;
-
 import Src.WeatherDataStorage.StoreTxt;
 import Src.WeatherDataStorage.dataHandling.DataHandlingTxT;
 import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
-
 public class TUI_Txt implements TUI {
 
-  // Make the object of Terminal UI herexxxc
+  // Make the object of Terminal UI here
 
   // private TerminalUI terminalUI;
   DisplayData retrieve;
