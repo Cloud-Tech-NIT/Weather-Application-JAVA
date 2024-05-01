@@ -12,16 +12,17 @@ import java.net.URL;
 
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-
 public class WeatherForecast5Days implements InterfaceAPI {
 
   public void parseJSON(JsonObject jsonObject, WeatherForecastAPIData obj, float latitude, float longitude) {
 
     JsonObject city = jsonObject.getAsJsonObject("city");
+    String cityName = "New Tork";
     float lat = latitude;
     float lon = longitude;
-    String cityName = city.get("name").getAsString();
-
+    if (city.has("name") && !city.get("name").getAsString().isEmpty()) {
+      cityName = city.get("name").getAsString();
+    }
     obj.setLatitude(lat);
     obj.setLongitude(lon);
     obj.setCityName(cityName);
