@@ -10,7 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
+
+import Src.BusinessLogic.DisplayData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
+import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
 public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
 
