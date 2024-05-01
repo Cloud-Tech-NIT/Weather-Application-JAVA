@@ -14,16 +14,41 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.DUIFiller;
+import Src.BusinessLogic.DesktopUI.DUI_DB;
+import Src.BusinessLogic.DesktopUI.DUI_Txt;
 
-public class Screen3Controller  implements screen3interface {
-    private final DUIFiller executeflow;
+public class Screen3Controller implements screen3interface {
+    // public String database_used = "Txt";
+
+    // private DUI_DB executeflow_sql;
+    // private DUI_Txt executeflow_txt;
+
+    // public void setdb(String db) {
+    // this.database_used = db;
+    // }
+
+    // public Screen3Controller(String db) {
+    // this.database_used = db;
+    // if ("SQL".equals(database_used)) {
+    // this.executeflow_sql = new DUI_DB(this);
+    // } else if ("Txt".equals(database_used)) {
+    // this.executeflow_txt = new DUI_Txt(this);
+    // }
+    // }
 
     public Screen3Controller() {
-        this.executeflow = new DUIFiller(this);
+
     }
 
-    public void initialize(double latitude, double longitude) {
-        executeflow.CheckAirPollCoord(latitude, longitude);
+    public void initialize(double latitude, double longitude, String db, DUI_DB executeflow_sql,
+            DUI_Txt executeflow_txt) {
+        if ("SQL".equals(db) && executeflow_sql != null) {
+            executeflow_sql.setscreen3controller(this);
+            executeflow_sql.CheckAirPollCoord(latitude, longitude);
+        } else if ("Txt".equals(db) && executeflow_txt != null) {
+            executeflow_txt.setscreen3controller(this);
+            executeflow_txt.getAirPollution(latitude, longitude, null);
+        }
 
     }
 
