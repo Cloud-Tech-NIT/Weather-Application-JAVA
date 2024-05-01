@@ -18,7 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class UiController {
+public class Ui2controller {
 
     @FXML
     private ListView<String> locationList;
@@ -43,9 +43,9 @@ public class UiController {
         String cityName = tfcityname.getText();
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen2.fxml"));
             Parent root = loader.load();
-            mainscreenController controller = loader.getController();
+            mainscreen2controller controller = loader.getController();
             controller.initialize(cityName); // Pass city name to Screen2Controller
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -64,9 +64,9 @@ public class UiController {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen2.fxml"));
             Parent root = loader.load();
-            mainscreenController controller = loader.getController();
+            mainscreen2controller controller = loader.getController();
             controller.initialize(tflatitude.getText(), tflongitude.getText()); // Pass city name to
                                                                                 // Screen2Controller
             Stage stage = new Stage();

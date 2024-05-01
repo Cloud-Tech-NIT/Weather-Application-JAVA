@@ -1,10 +1,13 @@
 package Src.WeatherAppRunner;
 
 import Src.AppUI.TerminalUI;
-import Src.BusinessLogic.DUIFiller;
 import Src.BusinessLogic.TerminalUI.TUI_DB;
 import Src.BusinessLogic.TerminalUI.TUI_Txt;
+import Src.AppUI.Screen3Controller;
+import Src.AppUI.mainscreenController;
+import Src.AppUI.mainscreen2controller;
 import Src.AppUI.App;
+import Src.AppUI.App2;
 
 public class WeatherAppRunner {
 
@@ -19,6 +22,9 @@ public class WeatherAppRunner {
     } else if (cmd.equals("DUI_TXT")) {
       this.RunDUI_TXT();
     }
+  }
+
+  WeatherAppRunner() {
   }
 
   private String DBType;
@@ -39,20 +45,26 @@ public class WeatherAppRunner {
   }
 
   public void RunDUI_TXT() {
-
-    DBType = "txt";
-
+    DBType = "Txt";
+    mainscreen2controller c1 = new mainscreen2controller(DBType);
+    // c1.setdb(DBType);
+    App2 app = new App2();
+    app.startWithController(DBType, c1);
   }
 
   public void RunDUI_SQL() {
-
     DBType = "SQL";
+    mainscreenController c1 = new mainscreenController(DBType);
+    // c1.setdb(DBType);
+    App app = new App();
+    app.startWithController(DBType, c1);
   }
 
   public static void main(String[] args) {
 
-    WeatherAppRunner AppRunner = new WeatherAppRunner(args[0]);
-    // AppRunner.RunDUI_TXT();
+    WeatherAppRunner AppRunner = new WeatherAppRunner();
+    // AppRunner.RunDUI_SQL();
+    AppRunner.RunDUI_TXT();
     // AppRunner.RunTUI_TXT();
     // AppRunner.RunTUI_SQL();
   }

@@ -187,9 +187,9 @@ public class TUI_Txt implements TUI {
     double longitude = 0.0;
     String cityName = "Karachi";
     // Call the method to get air pollution data
-    tuiFiller.getAirPollution(latitude, longitude, cityName);
+    //tuiFiller.getAirPollution(latitude, longitude, cityName);
     // tuiFiller.getWeatherForecast(latitude, longitude,cityName);
-    // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
+     tuiFiller.getCurrentWeather(latitude,longitude,cityName);
     // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
 
     // Print or handle the air pollution data as needed
