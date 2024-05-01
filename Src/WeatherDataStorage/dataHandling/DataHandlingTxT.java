@@ -72,7 +72,7 @@ public class DataHandlingTxT implements CacheManager {
             airPollutionData.setCityName(parts[0]);
             airPollutionData.setLatitude(Float.parseFloat(parts[1]));
             airPollutionData.setLongitude(Float.parseFloat(parts[2]));
-            //String timestamp = parts[3] + parts[4];
+            // String timestamp = parts[3] + parts[4];
             airPollutionData.setDt(Integer.parseInt(parts[5]));
             airPollutionData.setAqi(Integer.parseInt(parts[6]));
             airPollutionData.setCo(Float.parseFloat(parts[7]));
@@ -93,7 +93,6 @@ public class DataHandlingTxT implements CacheManager {
         if (data != null && !data.isEmpty()) {
             populateCurrentWeatherData(CurrentWeather, data);
         }
-        System.out.println("city I am here");
 
     }
 
@@ -142,7 +141,6 @@ public class DataHandlingTxT implements CacheManager {
         if (data != null && !data.isEmpty()) {
             populateWeatherForecastData(Forecast, data);
         }
-        System.out.println("city I am here");
 
     }
 
@@ -153,7 +151,6 @@ public class DataHandlingTxT implements CacheManager {
             populateWeatherForecastData(Forecast, data);
 
         }
-        System.out.println("I am here");
 
     }
 

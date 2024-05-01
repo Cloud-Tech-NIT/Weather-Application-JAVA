@@ -41,10 +41,8 @@ public class mainscreen2controller {
 
     public mainscreen2controller(String db) {
         this.database_used = "Txt";
-        System.out.println(database_used);
 
         if ("SQL".equals(database_used)) {
-            System.out.println(database_used);
 
             executeflow_sql = new DUI_DB(this);
 
@@ -57,11 +55,8 @@ public class mainscreen2controller {
 
     @FXML
     void initialize() {
-        System.out.println(database_used);
-        System.out.println("initialser in");
 
         if ("SQL".equals(database_used)) {
-            System.out.println("ezza");
 
             executeflow_sql = new DUI_DB(this);
             executeflow_sql.Flow("Lahore");
