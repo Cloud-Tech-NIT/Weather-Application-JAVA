@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import Src.BusinessLogic.TUI;
-import Src.BusinessLogic.TUIFiller;
+import Src.BusinessLogic.TerminalUI.TUI_Txt;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
@@ -23,7 +23,7 @@ public class TerminalUI implements DisplayData {
     private static double latitude;
     private static double longitude;
     private static String city;
-    private static TUI TUI = new TUIFiller();
+    private static TUI TUI = new TUI_Txt();
     //private notificationInterface notificationInterface;
     
     public double getLatitude() {

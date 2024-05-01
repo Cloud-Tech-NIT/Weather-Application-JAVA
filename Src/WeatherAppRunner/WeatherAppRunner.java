@@ -3,14 +3,14 @@ package Src.WeatherAppRunner;
 import Src.AppUI.App;
 import Src.AppUI.TerminalUI;
 import Src.BusinessLogic.DUIFiller;
-import Src.BusinessLogic.TUIFiller;
+import Src.BusinessLogic.TerminalUI.TUI_Txt;
 
 public class WeatherAppRunner {
   public static void main(String[] args) {
     char input = 'D';
 
     if (input == 'T') {
-      TUIFiller TUI = new TUIFiller();
+      TUI_Txt TUI = new TUI_Txt();
       TerminalUI terminal = new TerminalUI();
       terminal.RunF();
     } else if (input == 'D') {
