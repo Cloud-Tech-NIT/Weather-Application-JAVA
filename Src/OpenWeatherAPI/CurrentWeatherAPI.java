@@ -13,8 +13,7 @@ import javax.swing.JOptionPane;
 
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 
-public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
-
+public class CurrentWeatherAPI implements InterfaceAPI {
   public void parseJSON(JsonObject jsonObject, CurrentWeatherAPIData obj) {
     // This module Parses the JSON string returned by the API
 
@@ -175,16 +174,6 @@ public class CurrentWeatherAPI implements InterfaceAPI, notificationInterface {
       e.printStackTrace();
       return null;
     }
-  }
-
-  // made notification interface function for poor weather quality
-  @Override
-  public void generateNotification(int visibility) {
-    JOptionPane.showMessageDialog(
-        null,
-        "There is poor weather poor condition in " +
-            " with visibility = " +
-            visibility);
   }
 
   public void SearchByCity(String CityName, CurrentWeatherAPIData obj) {

@@ -1,5 +1,4 @@
 package Src.OpenWeatherAPI;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -13,7 +12,7 @@ import javax.swing.JOptionPane;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
-public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
+public class AirPollutionAPI implements InterfaceAPI {
 
   public void parseJSON(JsonObject jsonObject, AirPollutionAPIData obj, String CityName) {
 
