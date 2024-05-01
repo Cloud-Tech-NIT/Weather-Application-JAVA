@@ -42,6 +42,11 @@ public class DataHandlingTxT implements CacheManager {
     }
 
     @Override
+    public Boolean checkAirPollutionData(String cityName) {
+        return checkData(WEATHER_FORECAST_FILE, cityName);
+    }
+
+    @Override
     public void fetchAirPollutionData(AirPollutionAPIData AirPoll, double latitude, double longitude) {
         String data = FetchData(AIR_POLLUTION_FILE, latitude, longitude);
         if (data != null && !data.isEmpty()) {
@@ -49,9 +54,19 @@ public class DataHandlingTxT implements CacheManager {
         }
     }
 
+    @Override
+    public void fetchAirPollutionData(AirPollutionAPIData AirPoll, String cityName) {
+        String data = FetchData(AIR_POLLUTION_FILE, cityName);
+        if (data != null && !data.isEmpty()) {
+            populateAirPollutionData(AirPoll, data);
+
+        }
+
+    }
+
     private void populateAirPollutionData(AirPollutionAPIData airPollutionData, String data) {
         String[] parts = data.split("_");
-        if (parts.length >= 13) {
+        if (parts.length >= 15) {
             airPollutionData.setLatitude(Float.parseFloat(parts[0]));
             airPollutionData.setLongitude(Float.parseFloat(parts[1]));
             airPollutionData.setDt(Integer.parseInt(parts[4]));
@@ -64,6 +79,7 @@ public class DataHandlingTxT implements CacheManager {
             airPollutionData.setPm25(Float.parseFloat(parts[11]));
             airPollutionData.setPm10(Float.parseFloat(parts[12]));
             airPollutionData.setNh3(Float.parseFloat(parts[13]));
+            airPollutionData.setCityName(parts[14]);
 
         }
     }
@@ -138,48 +154,47 @@ public class DataHandlingTxT implements CacheManager {
     }
 
     public void populateWeatherForecastData(WeatherForecastAPIData forecast, String data) {
-    String[] parts = data.split("_");
-    int index = 0;
-    String cityName = parts[index++];
-    float lat = Float.parseFloat(parts[index++]);
-    float lon = Float.parseFloat(parts[index++]);
-    int timestamp = Integer.parseInt(parts[index++]);
-    index++;
-    forecast.setCityName(cityName);
-    forecast.setLatitude(lat);
-    forecast.setLongitude(lon);
-    forecast.setDt(timestamp);
+        String[] parts = data.split("_");
+        int index = 0;
+        String cityName = parts[index++];
+        float lat = Float.parseFloat(parts[index++]);
+        float lon = Float.parseFloat(parts[index++]);
+        int timestamp = Integer.parseInt(parts[index++]);
+        index++;
+        forecast.setCityName(cityName);
+        forecast.setLatitude(lat);
+        forecast.setLongitude(lon);
+        forecast.setDt(timestamp);
 
-    List<double[]> forecastDataList = new ArrayList<>();
-    List<String> iconUrlsList = new ArrayList<>();
-    List<String> weatherConditionsList = new ArrayList<>();
+        List<double[]> forecastDataList = new ArrayList<>();
+        List<String> iconUrlsList = new ArrayList<>();
+        List<String> weatherConditionsList = new ArrayList<>();
 
-    while (index < parts.length) {
-        if (parts[index].equals("#")) {
-            index++; // Skip the '#' separator
-            double[] dayForecastData = new double[5];
-            int j = 0;
-            while (j < 5 && !parts[index].isEmpty()) {
-                dayForecastData[j++] = Double.parseDouble(parts[index++]);
+        while (index < parts.length) {
+            if (parts[index].equals("#")) {
+                index++; // Skip the '#' separator
+                double[] dayForecastData = new double[5];
+                int j = 0;
+                while (j < 5 && !parts[index].isEmpty()) {
+                    dayForecastData[j++] = Double.parseDouble(parts[index++]);
+                }
+                forecastDataList.add(dayForecastData);
+                String iconUrl = parts[index++];
+                iconUrlsList.add(iconUrl);
+                String weatherCondition = parts[index++];
+                weatherConditionsList.add(weatherCondition);
+            } else {
+                index++;
             }
-            forecastDataList.add(dayForecastData);
-            String iconUrl = parts[index++];
-            iconUrlsList.add(iconUrl);
-            String weatherCondition = parts[index++];
-            weatherConditionsList.add(weatherCondition);
-        } else {
-            index++;
         }
-    }
 
+        double[][] forecastData = forecastDataList.toArray(new double[forecastDataList.size()][]);
+        String[] iconUrls = iconUrlsList.toArray(new String[iconUrlsList.size()]);
+        String[] weatherConditions = weatherConditionsList.toArray(new String[weatherConditionsList.size()]);
 
-    double[][] forecastData = forecastDataList.toArray(new double[forecastDataList.size()][]);
-    String[] iconUrls = iconUrlsList.toArray(new String[iconUrlsList.size()]);
-    String[] weatherConditions = weatherConditionsList.toArray(new String[weatherConditionsList.size()]);
-
-    forecast.setData(forecastData);
-    forecast.setIconUrls(iconUrls);
-    forecast.setWeatherCondition(weatherConditions);
+        forecast.setData(forecastData);
+        forecast.setIconUrls(iconUrls);
+        forecast.setWeatherCondition(weatherConditions);
     }
 
     public Boolean checkData(String filename, double latitude, double longitude) {
@@ -277,7 +292,13 @@ public class DataHandlingTxT implements CacheManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("_");
-                String city = parts[0];
+                String city = "";
+                if (filename == "AirPollutionCo.txt") {
+                    city = parts[14];
+                } else {
+                    city = parts[0];
+                }
+
                 if (city.equalsIgnoreCase(cityName)) {
                     response.append(line).append("\n");
                 }
@@ -302,9 +323,9 @@ public class DataHandlingTxT implements CacheManager {
         AirPollutionAPIData airPollutionData = new AirPollutionAPIData();
 
         // Test fetchAirPollutionData method
-        double latitude = 34.0;
-        double longitude = 75.0;
-        dataHandler.fetchAirPollutionData(airPollutionData, latitude, longitude);
+        double latitude = 31.5;
+        double longitude = 74.35;
+        dataHandler.fetchAirPollutionData(airPollutionData,"Model Town");
 
         // Print the fetched air pollution data
         System.out.println("Air Pollution Data:");
@@ -317,6 +338,7 @@ public class DataHandlingTxT implements CacheManager {
         System.out.println("PM2.5: " + airPollutionData.getPm25());
         System.out.println("PM10: " + airPollutionData.getPm10());
         System.out.println("NH3: " + airPollutionData.getNh3());
+        System.out.println("City: " + airPollutionData.getCityName());
 
     }
 }

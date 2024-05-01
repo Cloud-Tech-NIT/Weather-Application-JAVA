@@ -18,7 +18,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
 
     public static void main(String[] args) {
         // Call the deleteOldData function
-        deleteOldData();
+        //deleteOldData();
     }
     @Override
     public void storeAirPollutionData(AirPollutionAPIData airPollutionData) {
@@ -35,7 +35,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
         float pm2_5 = airPollutionData.getPm25();
         float pm10 = airPollutionData.getPm10();
         float nh3 = airPollutionData.getNh3();
-
+        String city = airPollutionData.getCityName();
         DataHandlingTxT cache = new DataHandlingTxT();
         boolean dataExists = cache.checkData("AirPollutionCo.txt", lat, lon);
 
@@ -45,7 +45,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
 
             // Format the data string
             String data = lat + "_" + lon + "_" + timestamp + "_" + dt + "_" + aqi + "_" + co + "_" + no + "_" + no2
-                    + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3;
+                    + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3 + "_"+city;
 
             // Write data to the file
             try (FileWriter writer = new FileWriter("AirPollutionCo.txt", true)) {

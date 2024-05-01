@@ -18,6 +18,7 @@ public interface CacheManager {
   public Boolean checkCurrentWeatherData(String cityName);
 
   public Boolean checkWeatherForecastData(String cityName);
+  public Boolean checkAirPollutionData(String cityName);
 
   public void fetchAirPollutionData(AirPollutionAPIData AirPoll, double latitude, double longitude);
 
@@ -28,5 +29,7 @@ public interface CacheManager {
   public void fetchCurrentWeatherData(CurrentWeatherAPIData CurrentWeather, String cityName);
 
   public void fetchWeatherForecastData(WeatherForecastAPIData Forecast,String cityName);
+  public void fetchAirPollutionData(AirPollutionAPIData AirPoll,String cityName);
+
 
 }
