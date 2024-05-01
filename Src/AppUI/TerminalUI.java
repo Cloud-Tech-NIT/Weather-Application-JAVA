@@ -112,7 +112,7 @@ public class TerminalUI implements DisplayData {
         if (!city.isEmpty()) {
             System.out.println("Location added successfully.");
             // TUI.SearchByCity(city);
-            displayWeatherOptionsbyCity();
+            displayWeatherOptions();
         } else {
             System.out.println("Error: Unable to add location. Please check the city name and country code.");
         }
@@ -148,34 +148,7 @@ public class TerminalUI implements DisplayData {
             }
         }
     }
-
-    public static void displayWeatherOptionsbyCity() {
-
-        while (true) {
-            System.out.println("\nWeather Options:");
-            System.out.println("1. Show Current Weather");
-            System.out.println("2. Show Weather Forecast");
-            System.out.println("3. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            switch (choice) {
-                case 1:
-                    showCurrentWeather();
-                    break;
-                case 2:
-                    showWeatherForecast();
-                    break;
-                case 3:
-                    System.out.println("Exiting...");
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-        }
-    }
-
+    
     public static void showCurrentWeather() {
         try {
             TUI.getCurrentWeather(latitude, longitude, city);
@@ -208,6 +181,7 @@ public class TerminalUI implements DisplayData {
         // Extract data from AirPoll object
         double lat = AirPoll.getLatitude();
         double lon = AirPoll.getLongitude();
+        String city = AirPoll.getCityName();
         long dt = AirPoll.getDt();
         int aqi = AirPoll.getAqi();
         double co = AirPoll.getCo();
@@ -239,7 +213,7 @@ public class TerminalUI implements DisplayData {
         String Date = dateTime.format(formatter);
         System.out.println("Latitude: " + Lat);
         System.out.println("Longitude: " + Lon);
-        // System.out.println("City: " + city);
+        System.out.println("City: " + city);
         System.out.println("Date Time: " + Date);
         System.out.println("Air Quality Index: " + aqi);
         System.out.println("Percentage of Polluting Gases:");

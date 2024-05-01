@@ -1,6 +1,5 @@
 package Src.BusinessLogic;
 
-
 import Src.AppUI.DisplayData;
 import Src.AppUI.TerminalUI;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
@@ -18,7 +17,7 @@ public class TUIFiller implements TUI {
 
   // Make the object of Terminal UI herexxxc
 
-  //private TerminalUI terminalUI;
+  // private TerminalUI terminalUI;
   DisplayData retrieve = new TerminalUI();
   // private TerminalUI Terminal = new TerminalUI(); //(Example)
 
@@ -37,14 +36,14 @@ public class TUIFiller implements TUI {
   private StoreTxt store = new WeatherDataTxtStorage();
 
   public TUIFiller() {
-    //terminalUI = new TerminalUI();
+    // terminalUI = new TerminalUI();
     store.deleteOldData();
 
   }
 
   @Override
   public void getCurrentWeather(double latitude, double longitude, String cityName) {
-    
+
     if (!(cache.checkCurrentWeatherData(latitude, longitude) || cache.checkCurrentWeatherData(cityName))) {
       if (latitude != 0 && longitude != 0) {
         APIcall.SearchByCoord(latitude, longitude, CurrentWeather);
@@ -52,14 +51,12 @@ public class TUIFiller implements TUI {
         APIcall.SearchByCity(cityName, CurrentWeather);
       }
       store.storeCurrentWeatherData(CurrentWeather);
-    }
-    else
-    {
+    } else {
 
       if (latitude != 0 && longitude != 0) {
         cache.fetchCurrentWeatherData(CurrentWeather, latitude, longitude);
       } else if (cityName != null && !cityName.isEmpty()) {
-        cache.fetchCurrentWeatherData(CurrentWeather,cityName);
+        cache.fetchCurrentWeatherData(CurrentWeather, cityName);
       }
     }
     retrieve.RetriveCurrentWeatherData(CurrentWeather);
@@ -68,35 +65,46 @@ public class TUIFiller implements TUI {
   // Method to fetch weather forecast data
   @Override
   public void getWeatherForecast(double latitude, double longitude, String cityName) {
-   if (!(cache.checkWeatherForecastData(latitude, longitude) || cache.checkWeatherForecastData(cityName))) {
+    if (!(cache.checkWeatherForecastData(latitude, longitude) || cache.checkWeatherForecastData(cityName))) {
       if (latitude != 0 && longitude != 0) {
         WeatherAPIcall.SearchByCoord(latitude, longitude, Forecast);
       } else if (cityName != null && !cityName.isEmpty()) {
         WeatherAPIcall.SearchByCity(cityName, Forecast);
       }
       store.storeWeatherForecastData(Forecast);
-    }
-    else{
-      
+    } else {
+
       if (latitude != 0 && longitude != 0) {
         cache.fetchWeatherForecastData(Forecast, latitude, longitude);
       } else if (cityName != null && !cityName.isEmpty()) {
-        cache.fetchWeatherForecastData(Forecast,cityName);
+        cache.fetchWeatherForecastData(Forecast, cityName);
       }
     }
     retrieve.RetriveWeatherForecastData(Forecast);
 
   }
+
   @Override
   public void getAirPollution(double latitude, double longitude, String cityName) {
-    if (!cache.checkAirPollutionData(latitude, longitude)) {
+    if (!(cache.checkAirPollutionData(latitude, longitude) || cache.checkAirPollutionData(cityName))) {
       if (latitude != 0 && longitude != 0) {
-        PollutionAPIcall.searchAirPollution(latitude, longitude, cityName, AirPoll);
-        store.storeAirPollutionData(AirPoll);
-
+        APIcall.SearchByCoord(latitude, longitude, CurrentWeather);
+        String city = CurrentWeather.getCityName();
+        PollutionAPIcall.searchAirPollution(latitude, longitude, city, AirPoll);
+      } else if (cityName != null && !cityName.isEmpty()) {
+        APIcall.SearchByCity(cityName, CurrentWeather);
+        float lat = CurrentWeather.getLatitude();
+        float lon = CurrentWeather.getLongitude();
+        PollutionAPIcall.searchAirPollution(lat, lon, cityName, AirPoll);
       }
+      store.storeAirPollutionData(AirPoll);
+
     } else {
-      cache.fetchAirPollutionData(AirPoll, latitude, longitude);
+      if (latitude != 0 && longitude != 0) {
+        cache.fetchAirPollutionData(AirPoll, latitude, longitude);
+      } else if (cityName != null && !cityName.isEmpty()) {
+        cache.fetchAirPollutionData(AirPoll, cityName);
+      }
     }
     // Use TerminalUI variable to call retrieve function and pass the data
     retrieve.RetriveAirPollutionData(AirPoll);
@@ -168,20 +176,18 @@ public class TUIFiller implements TUI {
 
   }
 
-
   public static void main(String[] args) {
     TUIFiller tuiFiller = new TUIFiller();
 
     // Specify the latitude, longitude, and city name
-    double latitude = 22.75;
-    double longitude = 70.35;
-    String cityName = "";
+    double latitude = 0.0;
+    double longitude = 0.0;
+    String cityName = "Lahore";
     // Call the method to get air pollution data
     tuiFiller.getAirPollution(latitude, longitude, cityName);
-    //tuiFiller.getWeatherForecast(latitude, longitude,cityName);
-    //tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-    //tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-
+    // tuiFiller.getWeatherForecast(latitude, longitude,cityName);
+    // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
+    // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
 
     // Print or handle the air pollution data as needed
     // System.out.println("Air Pollution Data: " + airPollutionData.getCo());
