@@ -1,29 +1,35 @@
 package Src.WeatherAppRunner;
 
-import Src.AppUI.App;
-import Src.AppUI.TerminalUI;
-import Src.BusinessLogic.DUIFiller;
-import Src.BusinessLogic.TUIFiller;
-
 public class WeatherAppRunner {
+
+  WeatherAppRunner() {
+  }
+
+  private String DBType;
+
+  public void RunTUI_TXT() {
+    DBType = "txt";
+  }
+
+  public void RunTUI_SQL() {
+    DBType = "SQL";
+  }
+
+  public void RunDUI_TXT() {
+    DBType = "txt";
+  }
+
+  public void RunDUI_SQL() {
+    DBType = "SQL";
+  }
+
   public static void main(String[] args) {
-    char input = 'D';
 
-    if (input == 'T') {
-      TUIFiller TUI = new TUIFiller();
-      TerminalUI terminal = new TerminalUI();
-      terminal.RunF();
-    } else if (input == 'D') {
-      launchAppUI();
-    } else {
-      System.out.println("Invalid input. Please enter 'T' or 'D'.");
-    }
+    WeatherAppRunner AppRunner = new WeatherAppRunner();
 
+    AppRunner.RunDUI_SQL();
+    AppRunner.RunDUI_TXT();
+    AppRunner.RunTUI_TXT();
+    AppRunner.RunTUI_SQL();
   }
-
-  private static void launchAppUI() {
-    // Launch JavaFX Application (AppUI)
-    App.launch(App.class);
-  }
-
 }
