@@ -91,6 +91,7 @@ public class TUIFiller implements TUI {
         APIcall.SearchByCoord(latitude, longitude, CurrentWeather);
         String city = CurrentWeather.getCityName();
         PollutionAPIcall.searchAirPollution(latitude, longitude, city, AirPoll);
+
       } else if (cityName != null && !cityName.isEmpty()) {
         APIcall.SearchByCity(cityName, CurrentWeather);
         float lat = CurrentWeather.getLatitude();
@@ -182,7 +183,7 @@ public class TUIFiller implements TUI {
     // Specify the latitude, longitude, and city name
     double latitude = 0.0;
     double longitude = 0.0;
-    String cityName = "Lahore";
+    String cityName = "Karachi";
     // Call the method to get air pollution data
     tuiFiller.getAirPollution(latitude, longitude, cityName);
     // tuiFiller.getWeatherForecast(latitude, longitude,cityName);

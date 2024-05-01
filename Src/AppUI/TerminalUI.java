@@ -24,7 +24,7 @@ public class TerminalUI implements DisplayData {
     private static double longitude;
     private static String city;
     private static TUI TUI = new TUIFiller();
-    private notificationInterface notificationInterface;
+    //private notificationInterface notificationInterface;
     
     public double getLatitude() {
         return latitude;
@@ -94,11 +94,11 @@ public class TerminalUI implements DisplayData {
     public static void addLocationByCoordinates() {
         System.out.print("Enter latitude: ");
         latitude = scanner.nextDouble();
-
         System.out.print("Enter longitude: ");
         longitude = scanner.nextDouble();
         System.out.println("Location added successfully.");
 
+        city = null;
         // TUI.SearchByCoord(latitude, longitude);
         // Pass the terminalUI object to the displayWeatherOptions method
         displayWeatherOptions();
@@ -108,7 +108,8 @@ public class TerminalUI implements DisplayData {
 
         System.out.print("Enter city name: ");
         city = scanner.nextLine().trim();
-
+        latitude=0.0;
+        longitude=0.0;
         if (!city.isEmpty()) {
             System.out.println("Location added successfully.");
             // TUI.SearchByCity(city);
@@ -196,7 +197,8 @@ public class TerminalUI implements DisplayData {
         // Pass data to displayAirPollutionData method in the callback interface
         displayAirPollutionData(city, lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
 
-        notificationInterface.generateNotification(aqi);
+        //notificationInterface.generateNotification(aqi);
+
 
 
     }
@@ -209,7 +211,7 @@ public class TerminalUI implements DisplayData {
         String Lon = String.format("%.2f", lon) + "°";
         // Format date
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(dt), ZoneOffset.UTC);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String Date = dateTime.format(formatter);
         System.out.println("Latitude: " + Lat);
         System.out.println("Longitude: " + Lon);
