@@ -1,4 +1,4 @@
-package Src.WeatherDataStorage;
+package Src.WeatherDataStorage.dataHandling;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

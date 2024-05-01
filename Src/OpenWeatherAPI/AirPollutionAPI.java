@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JOptionPane;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
+import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
 public class AirPollutionAPI implements InterfaceAPI, notificationInterface {
 
