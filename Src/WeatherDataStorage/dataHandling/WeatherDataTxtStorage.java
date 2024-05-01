@@ -81,6 +81,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
         int sunset = currentWeatherData.getSunset();
         int timezone = currentWeatherData.getTimezone();
         String cityName = currentWeatherData.getCityName();
+        String icon =  currentWeatherData.getWeatherIcon();
 
         DataHandlingTxT cache = new DataHandlingTxT();
         boolean dataExists = cache.checkData("CurrentWeatherData.txt", lat, lon);
@@ -95,7 +96,7 @@ public class WeatherDataTxtStorage implements StoreTxt{
                     temp + "_" + feelsLike + "_" + tempMin + "_" + tempMax + "_" +
                     pressure + "_" + humidity + "_" + visibility + "_" + windSpeed + "_" +
                     windDeg + "_" + cloudsAll + "_" + dt + "_" + country + "_" +
-                    sunrise + "_" + sunset + "_" + timezone;
+                    sunrise + "_" + sunset + "_" + timezone +"_"+ icon;
 
             // Write data to the file
             try (FileWriter writer = new FileWriter("CurrentWeatherData.txt", true)) {
