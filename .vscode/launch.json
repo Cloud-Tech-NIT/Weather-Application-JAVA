@@ -9,6 +9,13 @@
       "name": "WeatherAppRunner",
       "request": "launch",
       "mainClass": "Src.WeatherAppRunner.WeatherAppRunner",
+      "projectName": "Weather-Application_4d79eac9"
+    },
+    {
+      "type": "java",
+      "name": "WeatherAppRunner",
+      "request": "launch",
+      "mainClass": "Src.WeatherAppRunner.WeatherAppRunner",
       "projectName": "Weather-Application_bddd53ca"
     },
     {

@@ -7,7 +7,7 @@ import Src.BusinessLogic.TUIFiller;
 
 public class WeatherAppRunner {
   public static void main(String[] args) {
-    char input = 'T';
+    char input = 'D';
 
     if (input == 'T') {
       TUIFiller TUI = new TUIFiller();
