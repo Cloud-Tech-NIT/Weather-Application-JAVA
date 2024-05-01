@@ -33,6 +33,9 @@ public class TUI_DB implements TUI {
 
     public TUI_DB() {
         this.retrieve = new TerminalUI(this);
+        curr.deleteOldData();
+        frcst.deleteOldData();
+        airpol.deleteOldData();
       }
 
     // check Weather by coordinates
