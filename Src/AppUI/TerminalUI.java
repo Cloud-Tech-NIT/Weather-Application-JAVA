@@ -92,17 +92,53 @@ public class TerminalUI implements DisplayData {
 
     }
 
-    public static void addLocationByCoordinates() {
-        System.out.print("Enter latitude: ");
-        latitude = scanner.nextDouble();
-        System.out.print("Enter longitude: ");
-        longitude = scanner.nextDouble();
-        System.out.println("Location added successfully.");
+    // public static void addLocationByCoordinates() {
+    // System.out.print("Enter latitude: ");
+    // latitude = scanner.nextDouble();
+    // System.out.print("Enter longitude: ");
+    // longitude = scanner.nextDouble();
+    // System.out.println("Location added successfully.");
 
+    // city = null;
+    // // TUI.SearchByCoord(latitude, longitude);
+    // // Pass the terminalUI object to the displayWeatherOptions method
+    // displayWeatherOptions();
+    // }
+    public static void addLocationByCoordinates() {
+        Scanner scanner = new Scanner(System.in);
+        double lat = 0.0;
+        double lon = 0.0;
+        // Get latitude and longitude from user input
+        System.out.print("Enter latitude: ");
+        lat = scanner.nextDouble();
+
+        // Validate latitude
+        if (lat < -90 || lat > 90) {
+            System.out.println("Latitude must be between -90 and 90 degrees.");
+            addLocationByCoordinates(); // Call the method again to get valid input
+            return; // Exit the method
+        }
+
+        System.out.print("Enter longitude: ");
+        lon = scanner.nextDouble();
+
+        // Validate longitude
+        if (lon < -180 || lon > 180) {
+            System.out.println("Longitude must be between -180 and 180 degrees.");
+            addLocationByCoordinates(); // Call the method again to get valid input
+            return; // Exit the method
+        }
+
+        // If latitude and longitude are valid, proceed
+        System.out.println("Location added successfully.");
+        // Reset city variable
+        latitude = lat;
+        longitude = lon;
         city = null;
-        // TUI.SearchByCoord(latitude, longitude);
-        // Pass the terminalUI object to the displayWeatherOptions method
+        // Call displayWeatherOptions method
         displayWeatherOptions();
+
+        scanner.close(); // Close scanner to prevent resource leak
     }
 
     public static void addLocationByCityName() {

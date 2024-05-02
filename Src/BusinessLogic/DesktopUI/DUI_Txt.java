@@ -17,7 +17,7 @@ import Src.WeatherDataStorage.StoreTxt;
 import Src.WeatherDataStorage.dataHandling.DataHandlingTxT;
 import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 
-public class DUI_Txt {
+public class DUI_Txt implements DUIInterface {
 
     // objects of Desktop UI
     private mainscreenController controller;
@@ -129,6 +129,7 @@ public class DUI_Txt {
     }
 
     // Method For Searching By City
+    @Override
     public void SearchByCity(String CityName) {
         float lat;
         float lon;
@@ -140,6 +141,7 @@ public class DUI_Txt {
 
     }
 
+    @Override
     // Method for Searching By Coord
     public void SearchByCoord(double lat, double lon) {
         String city;
@@ -151,11 +153,13 @@ public class DUI_Txt {
 
     }
 
+    @Override
     public void Flow(String city) {
         getCurrentWeather(0, 0, city);
         getWeatherForecast(0, 0, city);
     }
 
+    @Override
     public void Flow(double lat, double longi) {
         getCurrentWeather(lat, longi, null);
         getWeatherForecast(lat, longi, null);

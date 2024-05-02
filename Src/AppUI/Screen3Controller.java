@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
-import Src.BusinessLogic.DUIFiller;
 import Src.BusinessLogic.DesktopUI.DUI_DB;
 import Src.BusinessLogic.DesktopUI.DUI_Txt;
 
