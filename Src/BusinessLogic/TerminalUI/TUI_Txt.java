@@ -136,64 +136,8 @@ public class TUI_Txt implements TUI {
 
   }
 
-  // Write Methods for getting data through txt and fill the CurrentWeather,
-  // Forecast, AirPoll Objects
-
-  public void getDataFromDB() {
-    // Use this function if needed for txt storage
-  }
-
-  public void DataPresent() {
-
-    // Populate the UI by accessing the DB (txtFile) and filling the Objects by
-    // calling their
-    // setters (Send the Objects of CurrentWeather,Forecast, AirPoll to DB
-    // functions)
-
-  }
-
-  public void DataNotPresent() {
-
-    // if by coord then call SearchByCoord and populate the Terminal UI Object by
-    // the
-    // individual variables of CurrentWeather, Forecast, AirPoll
-
-    // if by City then call SearchByCity and populate the Terminal UI Object by the
-    // individual variables of CurrentWeather, Forecast, AirPoll
-  }
-
-  public void Flow(String city) {
-
-    // boolean DataExist = cache.checkData(city);
-    // if (!DataExist) {
-    // cache.FetchData("CurrentWeatherData.txt", 34, 56);
-    // }
-    // Check For Data
-    // getDataFromDB
-
-    // ifNotPresent
-    // this.DataNotPresent();
-
-    // ifPresent
-    // this.DataPresent();
-
-  }
-
   public static void main(String[] args) {
-    TUI_Txt tuiFiller = new TUI_Txt();
 
-    // Specify the latitude, longitude, and city name
-    double latitude = 0.0;
-    double longitude = 0.0;
-    String cityName = "Karachi";
-    // Call the method to get air pollution data
-    //tuiFiller.getAirPollution(latitude, longitude, cityName);
-    // tuiFiller.getWeatherForecast(latitude, longitude,cityName);
-     tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-    // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-
-    // Print or handle the air pollution data as needed
-    // System.out.println("Air Pollution Data: " + airPollutionData.getCo());
   }
 
 }

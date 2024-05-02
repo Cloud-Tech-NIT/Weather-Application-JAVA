@@ -14,9 +14,9 @@ import Src.WeatherDataStorage.CacheManager;
 
 public class DataHandlingTxT implements CacheManager {
     Boolean found = false;
-    private static final String AIR_POLLUTION_FILE = "AirPollutionCo.txt";
-    private static final String CURRENT_WEATHER_FILE = "CurrentWeatherData.txt";
-    private static final String WEATHER_FORECAST_FILE = "WeatherForecastData.txt";
+    private static final String AIR_POLLUTION_FILE = "Src/WeatherDataStorage/TxtStorage/AirPollutionCo.txt";
+    private static final String CURRENT_WEATHER_FILE = "Src/WeatherDataStorage/TxtStorage/CurrentWeatherData.txt";
+    private static final String WEATHER_FORECAST_FILE = "Src/WeatherDataStorage/TxtStorage/WeatherForecastData.txt";
 
     @Override
     public Boolean checkAirPollutionData(double latitude, double longitude) {
@@ -290,13 +290,6 @@ public class DataHandlingTxT implements CacheManager {
     }
 
     public static void main(String[] args) {
-        // DataHandlingTxT dataHandler = new DataHandlingTxT();
-        // // Test checkData
-        // if (dataHandler.checkAirPollutionData(34, 75)) {
-        // System.out.println("Data found in AirPollutionCo.txt ");
-        // } else {
-        // System.out.println("Data not found in AirPollutionCo.txt ");
-        // }
 
         DataHandlingTxT dataHandler = new DataHandlingTxT();
         AirPollutionAPIData airPollutionData = new AirPollutionAPIData();

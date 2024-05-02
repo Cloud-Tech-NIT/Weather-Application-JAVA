@@ -39,7 +39,7 @@ public class WeatherDataTxtStorage implements StoreTxt {
         float nh3 = airPollutionData.getNh3();
         String city = airPollutionData.getCityName();
         DataHandlingTxT cache = new DataHandlingTxT();
-        boolean dataExists = cache.checkData("AirPollutionCo.txt", lat, lon);
+        boolean dataExists = cache.checkData("Src/WeatherDataStorage/TxtStorage/AirPollutionCo.txt", lat, lon);
 
         if (!dataExists) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -51,7 +51,7 @@ public class WeatherDataTxtStorage implements StoreTxt {
                     + "_" + o3 + "_" + so2 + "_" + pm2_5 + "_" + pm10 + "_" + nh3;
 
             // Write data to the file
-            try (FileWriter writer = new FileWriter("AirPollutionCo.txt", true)) {
+            try (FileWriter writer = new FileWriter("Src/WeatherDataStorage/TxtStorage/AirPollutionCo.txt", true)) {
                 // Append data to the file
                 writer.write(data + "\n");
             } catch (IOException e) {
@@ -87,7 +87,7 @@ public class WeatherDataTxtStorage implements StoreTxt {
         String icon = currentWeatherData.getWeatherIcon();
 
         DataHandlingTxT cache = new DataHandlingTxT();
-        boolean dataExists = cache.checkData("CurrentWeatherData.txt", lat, lon);
+        boolean dataExists = cache.checkData("Src/WeatherDataStorage/TxtStorage/CurrentWeatherData.txt", lat, lon);
 
         if (!dataExists) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -102,7 +102,7 @@ public class WeatherDataTxtStorage implements StoreTxt {
                     sunrise + "_" + sunset + "_" + timezone + "_" + icon;
 
             // Write data to the file
-            try (FileWriter writer = new FileWriter("CurrentWeatherData.txt", true)) {
+            try (FileWriter writer = new FileWriter("Src/WeatherDataStorage/TxtStorage/CurrentWeatherData.txt", true)) {
                 // Append data to the file
                 writer.write(data + "\n");
             } catch (IOException e) {
@@ -124,7 +124,7 @@ public class WeatherDataTxtStorage implements StoreTxt {
         String cityName = data.getCityName();
 
         DataHandlingTxT cache = new DataHandlingTxT();
-        boolean dataExists = cache.checkData("WeatherForecastData.txt", lat, lon);
+        boolean dataExists = cache.checkData("Src/WeatherDataStorage/TxtStorage/WeatherForecastData.txt", lat, lon);
 
         if (!dataExists) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
@@ -146,7 +146,8 @@ public class WeatherDataTxtStorage implements StoreTxt {
             }
 
             // Write data to the file
-            try (FileWriter writer = new FileWriter("WeatherForecastData.txt", true)) {
+            try (FileWriter writer = new FileWriter("Src/WeatherDataStorage/TxtStorage/WeatherForecastData.txt",
+                    true)) {
                 writer.write(dataLine.toString() + "\n");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -156,7 +157,9 @@ public class WeatherDataTxtStorage implements StoreTxt {
 
     @Override
     public void deleteOldData() {
-        String[] filesToDeleteFrom = { "AirPollutionCo.txt", "CurrentWeatherData.txt", "WeatherForecastData.txt" };
+        String[] filesToDeleteFrom = { "Src/WeatherDataStorage/TxtStorage/AirPollutionCo.txt",
+                "Src/WeatherDataStorage/TxtStorage/CurrentWeatherData.txt",
+                "Src/WeatherDataStorage/TxtStorage/WeatherForecastData.txt" };
         long fiveHoursInMillis = 5 * 60 * 60 * 1000;
 
         for (String filePath : filesToDeleteFrom) {
