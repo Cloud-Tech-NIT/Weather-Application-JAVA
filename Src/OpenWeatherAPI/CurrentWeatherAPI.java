@@ -153,7 +153,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
       HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
       connection.setRequestMethod("GET");
       int responseCode = connection.getResponseCode();
-      System.out.println("Response Code: " + responseCode);
 
       BufferedReader in = new BufferedReader(
           new InputStreamReader(connection.getInputStream()));

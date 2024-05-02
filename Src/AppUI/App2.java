@@ -12,11 +12,9 @@ public class App2 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.println("im in start");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/mainscreen2.fxml"));
         Parent root = loader.load();
-        System.out.println("im in start");
         controller = loader.getController();
         controller.setdb("Txt");
         controller.setMainWindow(primaryStage);

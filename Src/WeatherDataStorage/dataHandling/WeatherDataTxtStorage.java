@@ -101,7 +101,6 @@ public class WeatherDataTxtStorage implements StoreTxt {
                     windDeg + "_" + cloudsAll + "_" + dt + "_" + country + "_" +
                     sunrise + "_" + sunset + "_" + timezone + "_" + icon;
 
-            System.out.println("inserting data in txt file");
             // Write data to the file
             try (FileWriter writer = new FileWriter("CurrentWeatherData.txt", true)) {
                 // Append data to the file
