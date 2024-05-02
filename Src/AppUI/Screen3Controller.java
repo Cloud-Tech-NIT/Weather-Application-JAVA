@@ -51,7 +51,7 @@ public class Screen3Controller implements screen3interface, NotificationInterfac
         }
 
     }
-    
+
     @Override
     public void showNotification(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);

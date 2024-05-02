@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-public class mainscreenController implements WeatherControllerInterfacemain, NotificationInterface {
+public class mainscreenController implements WeatherControllerInterfacemain,NotificationInterface {
 
     @Override
     public void showNotification(String title, String message, AlertType alertType) {
