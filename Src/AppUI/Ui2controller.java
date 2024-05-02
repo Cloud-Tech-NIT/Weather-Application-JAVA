@@ -7,7 +7,6 @@ import java.io.IOException;
 // import com.google.gson.JsonObject;
 // import com.google.gson.JsonParser;
 
-import Src.BusinessLogic.DUIFiller;
 import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

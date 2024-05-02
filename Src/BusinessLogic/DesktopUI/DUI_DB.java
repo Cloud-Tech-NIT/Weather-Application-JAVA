@@ -16,7 +16,7 @@ import Src.AppUI.App;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class DUI_DB {
+public class DUI_DB implements DUIInterface {
 
     // objects of Desktop UI
     private mainscreenController controller;
@@ -58,6 +58,7 @@ public class DUI_DB {
     private DBFrcst5Day frcst = new DBFrcst5Day();
     private DBCurrWeather curr = new DBCurrWeather();
 
+    @Override
     // Method For Searching By City
     public void SearchByCity(String CityName) {
         float lat;
@@ -69,6 +70,7 @@ public class DUI_DB {
         PollutionAPIcall.searchAirPollution(lat, lon, CityName, AirPoll);
     }
 
+    @Override
     // Method for Searching By Coord
     public void SearchByCoord(double lat, double lon) {
         String city;
@@ -187,11 +189,13 @@ public class DUI_DB {
         App.main(args);
     }
 
+    @Override
     public void Flow(String city) {
         CheckCurrWeatherCity(city);
         CheckForecastCity(city);
     }
 
+    @Override
     public void Flow(double lat, double longi) {
         CheckCurrWeatherCoord(lat, longi);
         CheckForecastCoord(lat, longi);

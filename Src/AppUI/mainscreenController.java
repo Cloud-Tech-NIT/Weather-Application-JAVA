@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
-import Src.BusinessLogic.DUIFiller;
 import Src.BusinessLogic.DesktopUI.DUI_DB;
 import Src.BusinessLogic.DesktopUI.DUI_Txt;
 import javafx.event.ActionEvent;
@@ -27,7 +26,7 @@ import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-public class mainscreenController implements WeatherControllerInterfacemain,NotificationInterface {
+public class mainscreenController implements WeatherControllerInterfacemain, NotificationInterface {
 
     @Override
     public void showNotification(String title, String message, AlertType alertType) {
@@ -99,6 +98,16 @@ public class mainscreenController implements WeatherControllerInterfacemain,Noti
     public void initialize(String lat, String lon) {
         double latitude = Double.parseDouble(lat);
         double longitude = Double.parseDouble(lon);
+        if ((latitude < -90 || latitude > 90) || (longitude < -180 || longitude > 180)) {
+            // Latitude or longitude is out of range
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    "Latitude and longitude values must be within the range (-90 to 90) and (-180 to 180) respectively.");
+            alert.showAndWait();
+            return; // Return to prevent further execution
+        }
         if ("SQL".equals(database_used)) {
             executeflow_sql.Flow(latitude, longitude);
         } else if ("Txt".equals(database_used)) {
@@ -289,6 +298,7 @@ public class mainscreenController implements WeatherControllerInterfacemain,Noti
     }
 
     public void updateUI(mainscreenController controller, CurrentWeatherAPIData jsonObject) {
+
         // Convert temperature units from Kelvin to Celsius
         double lat = jsonObject.getLatitude();
         double lon = jsonObject.getLongitude();
