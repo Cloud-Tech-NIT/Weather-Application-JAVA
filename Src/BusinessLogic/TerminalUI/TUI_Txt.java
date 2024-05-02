@@ -3,7 +3,6 @@ package Src.BusinessLogic.TerminalUI;
 
 import Src.AppUI.DisplayData;
 import Src.AppUI.TerminalUI;
-import Src.BusinessLogic.TUI;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;

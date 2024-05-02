@@ -2,7 +2,6 @@ package Src.BusinessLogic.TerminalUI;
 
 import Src.AppUI.DisplayData;
 import Src.AppUI.TerminalUI;
-import Src.BusinessLogic.TUI;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
@@ -36,7 +35,7 @@ public class TUI_DB implements TUI {
         curr.deleteOldData();
         frcst.deleteOldData();
         airpol.deleteOldData();
-      }
+    }
 
     // check Weather by coordinates
     public void CheckCurrWeatherCoord(double lat, double lon) {
@@ -87,7 +86,7 @@ public class TUI_DB implements TUI {
             retrieve.RetriveAirPollutionData(AirPoll);
 
         } else {
-            APIcall.SearchByCoord(lat,lon,CurrentWeather);
+            APIcall.SearchByCoord(lat, lon, CurrentWeather);
             String city = CurrentWeather.getCityName();
             PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
             if (AirPoll != null) {

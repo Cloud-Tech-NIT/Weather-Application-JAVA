@@ -289,6 +289,7 @@ public class DataHandlingTxT implements CacheManager {
         return response.toString();
     }
 
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
 
         DataHandlingTxT dataHandler = new DataHandlingTxT();

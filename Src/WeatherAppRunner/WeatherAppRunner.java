@@ -3,7 +3,6 @@ package Src.WeatherAppRunner;
 import Src.AppUI.TerminalUI;
 import Src.BusinessLogic.TerminalUI.TUI_DB;
 import Src.BusinessLogic.TerminalUI.TUI_Txt;
-import Src.AppUI.Screen3Controller;
 import Src.AppUI.mainscreenController;
 import Src.AppUI.mainscreen2controller;
 import Src.AppUI.App;
@@ -61,6 +60,7 @@ public class WeatherAppRunner {
   }
 
   public static void main(String[] args) {
+    @SuppressWarnings("unused")
     WeatherAppRunner AppRunner = new WeatherAppRunner(args[0]);
   }
 }

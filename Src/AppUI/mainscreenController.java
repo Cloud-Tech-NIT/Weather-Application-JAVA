@@ -88,6 +88,7 @@ public class mainscreenController implements WeatherControllerInterfacemain, Not
         // Default constructor
     }
 
+    @SuppressWarnings("unused")
     private Stage mainWindow;
 
     public void setMainWindow(Stage mainwindow) {
@@ -280,6 +281,7 @@ public class mainscreenController implements WeatherControllerInterfacemain, Not
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/weatherui.fxml"));
             Parent root = loader.load();
+            @SuppressWarnings("unused")
             UiController controller = loader.getController();
 
             Stage stage = new Stage();

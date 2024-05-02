@@ -1,12 +1,6 @@
 package Src.AppUI;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
-import Src.OpenWeatherAPI.AirPollutionAPI;
 import javafx.fxml.FXML;
-import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -17,23 +11,6 @@ import Src.BusinessLogic.DesktopUI.DUI_DB;
 import Src.BusinessLogic.DesktopUI.DUI_Txt;
 
 public class Screen3Controller implements screen3interface, NotificationInterface {
-    // public String database_used = "Txt";
-
-    // private DUI_DB executeflow_sql;
-    // private DUI_Txt executeflow_txt;
-
-    // public void setdb(String db) {
-    // this.database_used = db;
-    // }
-
-    // public Screen3Controller(String db) {
-    // this.database_used = db;
-    // if ("SQL".equals(database_used)) {
-    // this.executeflow_sql = new DUI_DB(this);
-    // } else if ("Txt".equals(database_used)) {
-    // this.executeflow_txt = new DUI_Txt(this);
-    // }
-    // }
 
     public Screen3Controller() {
 

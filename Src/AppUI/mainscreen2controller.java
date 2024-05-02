@@ -25,8 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class mainscreen2controller implements NotificationInterface {
 
@@ -81,6 +79,7 @@ public class mainscreen2controller implements NotificationInterface {
         // Default constructor
     }
 
+    @SuppressWarnings("unused")
     private Stage mainWindow;
 
     public void setMainWindow(Stage mainwindow) {
@@ -273,6 +272,7 @@ public class mainscreen2controller implements NotificationInterface {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Src/AppUI/weatherui2.fxml"));
             Parent root = loader.load();
+            @SuppressWarnings("unused")
             Ui2controller controller = loader.getController();
 
             Stage stage = new Stage();

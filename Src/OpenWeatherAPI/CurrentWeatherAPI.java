@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.swing.JOptionPane;
 
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 
@@ -104,7 +103,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
   @Override
   public URL APIcall(double latitude, double longitude) {
     try {
-      @SuppressWarnings("deprecation")
       // Create URL with latitude, longitude, and API key
       URL apiUrl = new URL(
           "https://api.openweathermap.org/data/2.5/weather?lat=" +
@@ -129,7 +127,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
   @Override
   public URL APIcall(String cityName) {
     try {
-      @SuppressWarnings("deprecation")
       URL apiUrl = new URL(
           "https://api.openweathermap.org/data/2.5/weather?q=" +
               cityName +
@@ -152,7 +149,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     try {
       HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
       connection.setRequestMethod("GET");
-      int responseCode = connection.getResponseCode();
 
       BufferedReader in = new BufferedReader(
           new InputStreamReader(connection.getInputStream()));

@@ -21,6 +21,7 @@ public class DUI_DB implements DUIInterface {
     // objects of Desktop UI
     private mainscreenController controller;
     private Screen3Controller airpoll_controller;
+    @SuppressWarnings("unused")
     private mainscreen2controller controller2;
 
     public DUI_DB(mainscreenController controller) {
@@ -35,9 +36,6 @@ public class DUI_DB implements DUIInterface {
     public DUI_DB() {
 
     }
-    // public DUI_DB(Screen3Controller controller) {
-    // this.airpoll_controller = controller;
-    // }
 
     public void setscreen3controller(Screen3Controller controller) {
         this.airpoll_controller = controller;
@@ -80,6 +78,7 @@ public class DUI_DB implements DUIInterface {
         PollutionAPIcall.searchAirPollution(lat, lon, city, AirPoll);
     }
 
+    @SuppressWarnings("unused")
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -202,10 +201,6 @@ public class DUI_DB implements DUIInterface {
     }
 
     public static void main(String[] args) {
-        // DUIFiller DUI = new DUIFiller();
-        // // DUI.SearchByCoord(20.23, 19.34);
-        // // DUI.SearchByCity("lahore");
-        // DUI.runGUI();
     }
 
 }

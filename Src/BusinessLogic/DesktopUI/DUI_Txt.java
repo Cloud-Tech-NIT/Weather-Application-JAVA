@@ -1,8 +1,6 @@
 package Src.BusinessLogic.DesktopUI;
 
-import Src.AppUI.DisplayData;
 import Src.AppUI.Screen3Controller;
-import Src.AppUI.TerminalUI;
 import Src.AppUI.mainscreen2controller;
 import Src.AppUI.mainscreenController;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
@@ -20,6 +18,7 @@ import Src.WeatherDataStorage.dataHandling.WeatherDataTxtStorage;
 public class DUI_Txt implements DUIInterface {
 
     // objects of Desktop UI
+    @SuppressWarnings("unused")
     private mainscreenController controller;
     private Screen3Controller airpoll_controller;
     private mainscreen2controller controller2;
@@ -166,19 +165,5 @@ public class DUI_Txt implements DUIInterface {
     }
 
     public static void main(String[] args) {
-        DUI_Txt tuiFiller = new DUI_Txt();
-
-        // Specify the latitude, longitude, and city name
-        double latitude = 0.0;
-        double longitude = 0.0;
-        String cityName = "Karachi";
-        // Call the method to get air pollution data
-        tuiFiller.getAirPollution(latitude, longitude, cityName);
-        // tuiFiller.getWeatherForecast(latitude, longitude,cityName);
-        // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-        // tuiFiller.getCurrentWeather(latitude,longitude,cityName);
-
-        // Print or handle the air pollution data as needed
-        // System.out.println("Air Pollution Data: " + airPollutionData.getCo());
     }
 }

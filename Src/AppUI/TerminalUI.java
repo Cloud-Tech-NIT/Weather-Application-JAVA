@@ -1,18 +1,10 @@
 package Src.AppUI;
 
 import java.util.Scanner;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
-import Src.BusinessLogic.TUI;
-import Src.BusinessLogic.TerminalUI.TUI_DB;
-import Src.BusinessLogic.TerminalUI.TUI_Txt;
+import Src.BusinessLogic.TerminalUI.TUI;
 import Src.BusinessLogic.TempApiStorage.AirPollutionAPIData;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
-
-import java.beans.Visibility;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -25,38 +17,25 @@ public class TerminalUI implements DisplayData {
     private static double longitude;
     private static String city;
     private static TUI TUI;
-    // private notificationInterface notificationInterface;
 
     public double getLatitude() {
         return latitude;
     }
 
-    // public void setLatitude(double latitude) {
-    // this.latitude = latitude;
-    // }
-
     public double getLongitude() {
         return longitude;
     }
-
-    // public void setLongitude(double longitude) {
-    // this.longitude = longitude;
-    // }
 
     public String getCity() {
         return city;
     }
 
-    // public void setCity(String city) {
-    // this.city = city;
-    // }
     public TerminalUI(TUI db) {
         TerminalUI.TUI = db;
     }
 
     public static void main(String[] args) {
-        // TerminalUI terminalUI = new TerminalUI();
-        // terminalUI.RunF();
+
     }
 
     public int RunF() {
@@ -92,18 +71,7 @@ public class TerminalUI implements DisplayData {
 
     }
 
-    // public static void addLocationByCoordinates() {
-    // System.out.print("Enter latitude: ");
-    // latitude = scanner.nextDouble();
-    // System.out.print("Enter longitude: ");
-    // longitude = scanner.nextDouble();
-    // System.out.println("Location added successfully.");
-
-    // city = null;
-    // // TUI.SearchByCoord(latitude, longitude);
-    // // Pass the terminalUI object to the displayWeatherOptions method
-    // displayWeatherOptions();
-    // }
+    @SuppressWarnings("resource")
     public static void addLocationByCoordinates() {
         Scanner scanner = new Scanner(System.in);
         double lat = 0.0;
@@ -231,11 +199,7 @@ public class TerminalUI implements DisplayData {
         double pm2_5 = AirPoll.getPm25();
         double pm10 = AirPoll.getPm10();
         double nh3 = AirPoll.getNh3();
-        // String city = AirPoll.getCityName();
-        // Pass data to displayAirPollutionData method in the callback interface
         displayAirPollutionData(city, lat, lon, dt, aqi, co, no, no2, o3, so2, pm2_5, pm10, nh3);
-
-        // notificationInterface.generateNotification(aqi);
 
     }
 

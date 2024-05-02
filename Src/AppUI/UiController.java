@@ -7,7 +7,6 @@ import java.io.IOException;
 // import com.google.gson.JsonObject;
 // import com.google.gson.JsonParser;
 
-import Src.OpenWeatherAPI.CurrentWeatherAPI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +30,7 @@ public class UiController {
     @FXML
     private TextField tflongitude;
 
+    @SuppressWarnings("unused")
     private Stage mainWindow;
 
     public void setMainWindow(Stage mainwindow) {
