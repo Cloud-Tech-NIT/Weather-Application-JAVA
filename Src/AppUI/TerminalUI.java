@@ -210,8 +210,8 @@ public class TerminalUI implements DisplayData {
         String Lat = String.format("%.2f", lat) + "°";
         String Lon = String.format("%.2f", lon) + "°";
 
-        if (aqi > 7) {
-            System.err.println("\n\n\n POOR AQI INDEX . AQI IS GREATER THAN 7  \n\n\n");
+        if (aqi > 4) {
+            System.err.println("\n\n\n POOR AQI INDEX . AQI IS GREATER THAN 4  \n\n\n");
         }
 
         // Format date
@@ -295,8 +295,8 @@ public class TerminalUI implements DisplayData {
         String DT = dtTime.format(formatter);
         String Timezone = timezoneTime.format(formatter);
 
-        if (visibility < 5000) {
-            System.err.println("\n \n \n POOR WEATHER QUALITY . VISIBILITY IS LESS THAN 5000  \n\n\n");
+        if (visibility < 8000) {
+            System.err.println("\n \n \n POOR WEATHER QUALITY . VISIBILITY IS LESS THAN 8000  \n\n\n");
         }
 
         // Format numerical values to two decimal places

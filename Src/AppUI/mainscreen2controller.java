@@ -26,8 +26,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
-public class mainscreen2controller {
+public class mainscreen2controller implements NotificationInterface {
 
     // private final DUIFiller executeflow;
     public String database_used = "Txt";
@@ -41,10 +43,8 @@ public class mainscreen2controller {
 
     public mainscreen2controller(String db) {
         this.database_used = "Txt";
-        System.out.println(database_used);
 
         if ("SQL".equals(database_used)) {
-            System.out.println(database_used);
 
             executeflow_sql = new DUI_DB(this);
 
@@ -57,11 +57,8 @@ public class mainscreen2controller {
 
     @FXML
     void initialize() {
-        System.out.println(database_used);
-        System.out.println("initialser in");
 
         if ("SQL".equals(database_used)) {
-            System.out.println("ezza");
 
             executeflow_sql = new DUI_DB(this);
             executeflow_sql.Flow("Lahore");
@@ -283,6 +280,15 @@ public class mainscreen2controller {
         }
 
     }
+    
+    @Override
+    public void showNotification(String title, String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
+    }
 
     public void updateUI(mainscreen2controller controller, CurrentWeatherAPIData jsonObject) {
         // Convert temperature units from Kelvin to Celsius
@@ -302,6 +308,7 @@ public class mainscreen2controller {
         int sunrise = jsonObject.getSunrise(); // Sunrise Time
         int sunset = jsonObject.getSunset();
         int timezone = jsonObject.getTimezone();
+        int visibility = jsonObject.getVisibility();
 
         // Format the temperature to have one digit after the decimal point
         String formattedTemperature = String.format("%.1f", currentTemp);
@@ -331,7 +338,17 @@ public class mainscreen2controller {
         controller.tfSunset.setText(formatTime(sunset, timezone));
         controller.tfPressure.setText(Integer.toString(pressure) + " hPa");
         controller.tfWindspeed.setText(formattedWindSpeed + " m/s");
+
+        if (visibility < visibilityThreshold) {
+            String message = "Low Visibility Alert: Visibility is " + visibility + " meters.";
+            showNotification("Low Visibility Alert ", message, AlertType.WARNING);
+        }
+
+        
     }
+
+    
+
 
     // Method to format time in hh:mm format
     private String formatTime(int timeInSeconds, int timezone) {

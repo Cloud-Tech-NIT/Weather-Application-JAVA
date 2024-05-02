@@ -17,7 +17,7 @@ import Src.BusinessLogic.DUIFiller;
 import Src.BusinessLogic.DesktopUI.DUI_DB;
 import Src.BusinessLogic.DesktopUI.DUI_Txt;
 
-public class Screen3Controller implements screen3interface {
+public class Screen3Controller implements screen3interface, NotificationInterface {
     // public String database_used = "Txt";
 
     // private DUI_DB executeflow_sql;
@@ -50,6 +50,15 @@ public class Screen3Controller implements screen3interface {
             executeflow_txt.getAirPollution(latitude, longitude, null);
         }
 
+    }
+
+    @Override
+    public void showNotification(String title, String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 
     @FXML
@@ -104,5 +113,10 @@ public class Screen3Controller implements screen3interface {
         tfPM10.setText(String.format("%.2f", pm10));
         tfPM2.setText(String.format("%.2f", pm2_5));
         tfSO2.setText(String.format("%.2f", so2));
+        if (aqi > aqiThreshold) {
+            String message = "High AQI Alert: AQI is " + aqi;
+            showNotification("High aqi alert ", message, AlertType.WARNING);
+        }
+
     }
 }

@@ -46,6 +46,7 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     int pressure = main.get("pressure").getAsInt();
     int humidity = main.get("humidity").getAsInt();
     int visibility = jsonObject.get("visibility").getAsInt();
+
     JsonObject wind = jsonObject.getAsJsonObject("wind");
     float windSpeed = wind.get("speed").getAsFloat();
     int windDeg = wind.get("deg").getAsInt();
@@ -69,7 +70,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
     if (jsonObject.has("name") && !jsonObject.get("name").getAsString().isEmpty()) {
       cityName = jsonObject.get("name").getAsString(); // Update city name if valid
     }
-
     int sunrise = sys.get("sunrise").getAsInt(); // Sunrise Time
     int sunset = sys.get("sunset").getAsInt(); // Sunset Time
     int timezone = jsonObject.get("timezone").getAsInt(); // TimeZone
@@ -153,7 +153,6 @@ public class CurrentWeatherAPI implements InterfaceAPI {
       HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
       connection.setRequestMethod("GET");
       int responseCode = connection.getResponseCode();
-      System.out.println("Response Code: " + responseCode);
 
       BufferedReader in = new BufferedReader(
           new InputStreamReader(connection.getInputStream()));

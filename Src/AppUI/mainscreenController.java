@@ -27,7 +27,16 @@ import javafx.stage.Stage;
 import Src.BusinessLogic.TempApiStorage.CurrentWeatherAPIData;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 
-public class mainscreenController implements WeatherControllerInterfacemain {
+public class mainscreenController implements WeatherControllerInterfacemain,NotificationInterface {
+
+    @Override
+    public void showNotification(String title, String message, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
+    }
 
     // private final DUIFiller executeflow;
     public String database_used = "SQL";
@@ -297,6 +306,7 @@ public class mainscreenController implements WeatherControllerInterfacemain {
         int sunrise = jsonObject.getSunrise(); // Sunrise Time
         int sunset = jsonObject.getSunset();
         int timezone = jsonObject.getTimezone();
+        int visibility = jsonObject.getVisibility();
 
         // Format the temperature to have one digit after the decimal point
         String formattedTemperature = String.format("%.1f", currentTemp);
@@ -323,6 +333,10 @@ public class mainscreenController implements WeatherControllerInterfacemain {
         controller.tfSunset.setText(formatTime(sunset, timezone));
         controller.tfPressure.setText(Integer.toString(pressure) + " hPa");
         controller.tfWindspeed.setText(formattedWindSpeed + " m/s");
+        if (visibility < visibilityThreshold) {
+            String message = "Low Visibility Alert: Visibility is " + visibility + " meters.";
+            showNotification("Low Visibility Alert ", message, AlertType.WARNING);
+        }
     }
 
     // Method to format time in hh:mm format
