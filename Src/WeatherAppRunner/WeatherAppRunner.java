@@ -61,13 +61,6 @@ public class WeatherAppRunner {
   }
 
   public static void main(String[] args) {
-
-    // WeatherAppRunner AppRunner = new WeatherAppRunner();
-    // // AppRunner.RunDUI_SQL();
-    // AppRunner.RunDUI_TXT();
-    // // AppRunner.RunTUI_TXT();
-    // // AppRunner.RunTUI_SQL();
-
     WeatherAppRunner AppRunner = new WeatherAppRunner(args[0]);
   }
 }
