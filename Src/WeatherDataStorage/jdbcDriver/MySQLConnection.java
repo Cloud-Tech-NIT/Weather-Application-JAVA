@@ -8,7 +8,7 @@ public class MySQLConnection {
     // JDBC URL, username, and password of MySQL server
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/weather_cache";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "abc_123";
+    private static final String PASSWORD = "4820";
 
     // Method to establish a connection to the MySQL database
     public static Connection getConnection() throws SQLException {
@@ -32,7 +32,7 @@ public class MySQLConnection {
             Connection connection = MySQLConnection.getConnection();
             if (connection != null) {
                 System.out.println("Connection successful!");
-                connection.close(); 
+                connection.close();
             } else {
                 System.out.println("Failed to establish connection!");
             }
@@ -41,4 +41,3 @@ public class MySQLConnection {
         }
     }
 }
-
