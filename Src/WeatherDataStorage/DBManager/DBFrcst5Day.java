@@ -14,10 +14,32 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import Src.BusinessLogic.TempApiStorage.WeatherForecastAPIData;
 import Src.WeatherDataStorage.jdbcDriver.MySQLConnection;
+import Src.WeatherDataStorage.DBManager.interfaces.ForecastCache;
 
-public class DBFrcst5Day {
+public class DBFrcst5Day implements ForecastCache{
     private MySQLConnection Connection = new MySQLConnection();
     WeatherForecastAPIData apiData = new WeatherForecastAPIData();
+
+    @Override
+    public Boolean checkWeatherForecastData(double latitude, double longitude) {
+        return isDataPresentByLatLon(latitude, longitude);
+    }
+
+    @Override
+    public Boolean checkWeatherForecastData(String cityName) {
+        return isDataPresentByCityName(cityName);
+    }
+
+    @Override
+    public void fetchWeatherForecastData(WeatherForecastAPIData forecast, double latitude, double longitude) {
+        forecast = displayDataFromDatabaseByLatLon(latitude, longitude);
+    }
+
+    @Override
+    public void fetchWeatherForecastData(WeatherForecastAPIData forecast, String cityName) {
+        forecast = displayDataFromDatabaseByCityName(cityName);
+    }
+
 
     public void insertWeatherData(WeatherForecastAPIData jsonObject) {
         try (Connection connection = MySQLConnection.getConnection()) {
